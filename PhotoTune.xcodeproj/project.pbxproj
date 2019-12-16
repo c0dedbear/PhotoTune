@@ -33,6 +33,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D04F2BAA23A7FF79002DE17E /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				E906D75923A7F7D10010CD54 /* ViewController.swift */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
 		E906D74923A7F7D00010CD54 = {
 			isa = PBXGroup;
 			children = (
@@ -52,8 +60,8 @@
 		E906D75423A7F7D10010CD54 /* PhotoTune */ = {
 			isa = PBXGroup;
 			children = (
+				D04F2BAA23A7FF79002DE17E /* Modules */,
 				E906D76A23A7F9080010CD54 /* Application */,
-				E906D75923A7F7D10010CD54 /* ViewController.swift */,
 				E906D76B23A7F9170010CD54 /* Resources */,
 			);
 			path = PhotoTune;
