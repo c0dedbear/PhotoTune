@@ -10,5 +10,5 @@ import UIKit
 
 final class SlidersView: UIView
 {
-
+//implement
 }
