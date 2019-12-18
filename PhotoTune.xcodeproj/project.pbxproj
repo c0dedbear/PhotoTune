@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906D75523A7F7D10010CD54 /* AppDelegate.swift */; };
-		E906D75A23A7F7D10010CD54 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906D75923A7F7D10010CD54 /* ViewController.swift */; };
 		E906D75F23A7F7D40010CD54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E906D75E23A7F7D40010CD54 /* Assets.xcassets */; };
 		E906D76223A7F7D40010CD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E906D76023A7F7D40010CD54 /* LaunchScreen.storyboard */; };
 		E93BA17423AA213200BD5656 /* EditingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BA17323AA213200BD5656 /* EditingScreenViewController.swift */; };
@@ -22,7 +21,6 @@
 /* Begin PBXFileReference section */
 		E906D75223A7F7D10010CD54 /* PhotoTune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTune.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E906D75523A7F7D10010CD54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		E906D75923A7F7D10010CD54 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E906D75E23A7F7D40010CD54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E906D76123A7F7D40010CD54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E906D76323A7F7D40010CD54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -49,7 +47,6 @@
 			isa = PBXGroup;
 			children = (
 				E93BA17223AA20D500BD5656 /* EditingScreen */,
-				E906D75923A7F7D10010CD54 /* ViewController.swift */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -216,7 +213,6 @@
 				E93BA17423AA213200BD5656 /* EditingScreenViewController.swift in Sources */,
 				E93BA17D23AA353900BD5656 /* SlidersView.swift in Sources */,
 				E93BA17B23AA34A000BD5656 /* FiltersCollectionView.swift in Sources */,
-				E906D75A23A7F7D10010CD54 /* ViewController.swift in Sources */,
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
 				E93BA17623AA261B00BD5656 /* EditingScreenPresenter.swift in Sources */,
 			);
