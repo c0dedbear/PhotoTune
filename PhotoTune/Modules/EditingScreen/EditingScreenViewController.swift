@@ -15,12 +15,19 @@ protocol IEditingScreen
 	func showFiltersCollection()
 	func showSlidersView()
 	func showRotationView()
+	func changeCurrentEditingType(with: EditingType)
 }
 
 final class EditingScreenViewController: UIViewController
 {
-	//MARK: Properties
+	// MARK: Properties
 	private let presenter: IEditingScreenPresenter
+
+	private var currentEditingType: EditingType = .filters {
+		didSet {
+			title = currentEditingType.rawValue
+		}
+	}
 
 	private var imageView = UIImageView()
 	private var filtersCollectionView: UICollectionView?
@@ -36,13 +43,13 @@ final class EditingScreenViewController: UIViewController
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	//MARK: VC Life Cycle Methods
+	// MARK: VC Life Cycle Methods
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupNavigationBar()
 		setupToolBar()
 	}
-	//MARK: Private Methods
+	// MARK: Private Methods
 	private func setupNavigationBar() {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
@@ -53,6 +60,8 @@ final class EditingScreenViewController: UIViewController
 			barButtonSystemItem: .done,
 			target: self,
 			action: #selector(doneTapped))
+
+		currentEditingType = .filters
 	}
 
 	private func setupToolBar() {
@@ -72,9 +81,14 @@ final class EditingScreenViewController: UIViewController
 	}
 }
 
-	//MARK: - IEditingScreen
+	// MARK: - IEditingScreen
 extension EditingScreenViewController: IEditingScreen
 {
+
+	func changeCurrentEditingType(with: EditingType) {
+		currentEditingType = with
+	}
+
 	func rotateImage() {
 		//implementation
 	}
