@@ -24,16 +24,17 @@ final class EditingScreenViewController: UIViewController
 	private let presenter: IEditingScreenPresenter
 
 	private var currentEditingType: EditingType = .filters {
-		didSet {
-			title = currentEditingType.rawValue
-		}
+		didSet { title = currentEditingType.rawValue }
 	}
+
+	private var toolBarButtons = [ToolBarButton]()
 
 	private var imageView = UIImageView()
 	private var filtersCollectionView: UICollectionView?
 	private var slidersView: UIView?
 	private var rotationView: UIView?
 
+	// MARK: Initialization
 	init(presenter: IEditingScreenPresenter) {
 		self.presenter = presenter
 		super.init(nibName: nil, bundle: nil)
@@ -43,12 +44,14 @@ final class EditingScreenViewController: UIViewController
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+
 	// MARK: VC Life Cycle Methods
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupNavigationBar()
 		setupToolBar()
 	}
+
 	// MARK: Private Methods
 	private func setupNavigationBar() {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
@@ -65,19 +68,48 @@ final class EditingScreenViewController: UIViewController
 	}
 
 	private func setupToolBar() {
-		let add = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: nil)
 		let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
-		toolbarItems = [spacer, add, spacer, add, spacer, add, spacer]
+
+		let filtersButton = ToolBarButton()
+		filtersButton.setImage(#imageLiteral(resourceName: "colormodeFilled"), for: .normal)
+		filtersButton.editingType = .filters
+		toolBarButtons.append(filtersButton)
+
+		let tuneButton = ToolBarButton()
+		tuneButton.setImage(#imageLiteral(resourceName: "tuneFilled"), for: .normal)
+		tuneButton.editingType = .tune
+		toolBarButtons.append(tuneButton)
+
+		let rotateButton = ToolBarButton()
+		rotateButton.setImage(#imageLiteral(resourceName: "rotateFilled"), for: .normal)
+		rotateButton.editingType = .rotation
+		toolBarButtons.append(rotateButton)
+
+		let filtersBarButton = UIBarButtonItem(customView: filtersButton)
+		let tuneBarButton = UIBarButtonItem(customView: tuneButton)
+		let rotateBarButton = UIBarButtonItem(customView: rotateButton)
+
+		toolbarItems = [spacer, filtersBarButton, spacer, tuneBarButton, spacer, rotateBarButton, spacer]
+
+		toolBarButtons.forEach { $0.addTarget(self, action: #selector(toolBarButtonTapped(_:)), for: .touchUpInside)
+		}
+
 		navigationController?.toolbar.tintColor = .black
 		navigationController?.setToolbarHidden(false, animated: false)
 	}
 
+	// MARK: Objc Methods
 	@objc private func cancelTapped() {
 		//dismiss VC
 	}
 
 	@objc private func doneTapped() {
 		//save edited image
+	}
+
+	@objc private func toolBarButtonTapped(_ sender: ToolBarButton) {
+		toolBarButtons.forEach { $0.isSelected = false }
+		sender.isSelected = true
 	}
 }
 
