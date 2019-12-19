@@ -74,6 +74,7 @@ final class EditingScreenViewController: UIViewController
 		let filtersButton = ToolBarButton()
 		filtersButton.setImage(#imageLiteral(resourceName: "colormodeFilled"), for: .normal)
 		filtersButton.editingType = .filters
+		filtersButton.isSelected = true
 		toolBarButtons.append(filtersButton)
 
 		let tuneButton = ToolBarButton()
