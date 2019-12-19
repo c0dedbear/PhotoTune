@@ -80,9 +80,9 @@
 		E906D75423A7F7D10010CD54 /* PhotoTune */ = {
 			isa = PBXGroup;
 			children = (
+				E906D76A23A7F9080010CD54 /* Application */,
 				D04F2BCD23A96077002DE17E /* BusinessLayer */,
 				D04F2BAA23A7FF79002DE17E /* Modules */,
-				E906D76A23A7F9080010CD54 /* Application */,
 				E906D76B23A7F9170010CD54 /* Resources */,
 			);
 			path = PhotoTune;
