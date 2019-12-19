@@ -13,6 +13,7 @@
 		E906D76223A7F7D40010CD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E906D76023A7F7D40010CD54 /* LaunchScreen.storyboard */; };
 		E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930355023ABADB900ADAF52 /* ModulesFactory.swift */; };
 		E930355423ABBB3500ADAF52 /* EditingType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930355323ABBB3400ADAF52 /* EditingType.swift */; };
+		E930355623ABC71C00ADAF52 /* ToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930355523ABC71C00ADAF52 /* ToolBarButton.swift */; };
 		E93BA17423AA213200BD5656 /* EditingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BA17323AA213200BD5656 /* EditingScreenViewController.swift */; };
 		E93BA17623AA261B00BD5656 /* EditingScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BA17523AA261B00BD5656 /* EditingScreenPresenter.swift */; };
 		E93BA17823AA263600BD5656 /* EditingScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E93BA17723AA263600BD5656 /* EditingScreenRouter.swift */; };
@@ -30,6 +31,7 @@
 		E906D76323A7F7D40010CD54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E930355023ABADB900ADAF52 /* ModulesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesFactory.swift; sourceTree = "<group>"; };
 		E930355323ABBB3400ADAF52 /* EditingType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingType.swift; sourceTree = "<group>"; };
+		E930355523ABC71C00ADAF52 /* ToolBarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarButton.swift; sourceTree = "<group>"; };
 		E93BA17323AA213200BD5656 /* EditingScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingScreenViewController.swift; sourceTree = "<group>"; };
 		E93BA17523AA261B00BD5656 /* EditingScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingScreenPresenter.swift; sourceTree = "<group>"; };
 		E93BA17723AA263600BD5656 /* EditingScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingScreenRouter.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				E93BA17A23AA34A000BD5656 /* FiltersCollectionView.swift */,
 				E93BA17C23AA353900BD5656 /* SlidersView.swift */,
 				E93BA17E23AA356E00BD5656 /* RotationView.swift */,
+				E930355523ABC71C00ADAF52 /* ToolBarButton.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -235,6 +238,7 @@
 			files = (
 				E93BA17F23AA356E00BD5656 /* RotationView.swift in Sources */,
 				E93BA17823AA263600BD5656 /* EditingScreenRouter.swift in Sources */,
+				E930355623ABC71C00ADAF52 /* ToolBarButton.swift in Sources */,
 				E93BA17423AA213200BD5656 /* EditingScreenViewController.swift in Sources */,
 				E93BA17D23AA353900BD5656 /* SlidersView.swift in Sources */,
 				E930355423ABBB3500ADAF52 /* EditingType.swift in Sources */,
