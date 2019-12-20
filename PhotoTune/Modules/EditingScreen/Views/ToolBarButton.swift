@@ -20,10 +20,10 @@ final class ToolBarButton: UIButton
 		}
 	}
 
-	init() {
+	init(toolBarHeight: CGFloat ) {
 		super.init(frame: .zero)
-		frame.size.width = 50
-		frame.size.height = 50
+		frame.size.width = toolBarHeight
+		frame.size.height = toolBarHeight
 	}
 
 	@available(*, unavailable)

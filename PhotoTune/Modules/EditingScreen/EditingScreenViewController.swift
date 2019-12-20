@@ -69,20 +69,21 @@ final class EditingScreenViewController: UIViewController
 	}
 
 	private func setupToolBar() {
+		guard let height = navigationController?.toolbar.bounds.height else { return }
 		let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
 
-		let filtersButton = ToolBarButton()
+		let filtersButton = ToolBarButton(toolBarHeight: height)
 		filtersButton.setImage(#imageLiteral(resourceName: "colormodeFilled"), for: .normal)
 		filtersButton.editingType = .filters
 		filtersButton.isSelected = true
 		toolBarButtons.append(filtersButton)
 
-		let tuneButton = ToolBarButton()
+		let tuneButton = ToolBarButton(toolBarHeight: height)
 		tuneButton.setImage(#imageLiteral(resourceName: "tuneFilled"), for: .normal)
 		tuneButton.editingType = .tune
 		toolBarButtons.append(tuneButton)
 
-		let rotateButton = ToolBarButton()
+		let rotateButton = ToolBarButton(toolBarHeight: height)
 		rotateButton.setImage(#imageLiteral(resourceName: "rotateFilled"), for: .normal)
 		rotateButton.editingType = .rotation
 		toolBarButtons.append(rotateButton)
