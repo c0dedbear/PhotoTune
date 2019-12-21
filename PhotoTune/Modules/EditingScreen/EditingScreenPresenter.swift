@@ -25,7 +25,7 @@ final class EditingScreenPresenter
 	private let router: IEditingScreenRouter
 	private let image: UIImage
 	private let imageProcessor: IImageProcessor
-	private var previews: [UIImage]
+	private let previews: [UIImage]
 
 	var editingScreen: IEditingScreen?
 
