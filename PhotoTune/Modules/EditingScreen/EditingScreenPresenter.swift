@@ -18,6 +18,7 @@ protocol IEditingScreenPresenter
 	func getFiltersCount() -> Int
 	func getFilterPreview(index: Int) -> UIImage
 	func getFilterTitle(index: Int) -> String
+	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage
 }
 
 final class EditingScreenPresenter
@@ -48,6 +49,13 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 			image: image,
 			with: imageProcessor.filterFor(index: filterIndex))
 		return filteredImage
+	}
+
+	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage {
+		imageProcessor.colorControls(image: image,
+									 brightness: brightness,
+									 saturation: saturation,
+									 contrast: contrast)
 	}
 
 	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
