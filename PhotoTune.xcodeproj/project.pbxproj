@@ -70,7 +70,6 @@
 		D04F2BAA23A7FF79002DE17E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				E902890F23AE75F100F28FBA /* UIExtensions */,
 				E93BA17223AA20D500BD5656 /* EditingScreen */,
 			);
 			path = Modules;
@@ -164,6 +163,7 @@
 				E906D76A23A7F9080010CD54 /* Application */,
 				D04F2BCD23A96077002DE17E /* BusinessLayer */,
 				D04F2BAA23A7FF79002DE17E /* Modules */,
+				E902890F23AE75F100F28FBA /* UIExtensions */,
 				E906D76B23A7F9170010CD54 /* Resources */,
 			);
 			path = PhotoTune;
