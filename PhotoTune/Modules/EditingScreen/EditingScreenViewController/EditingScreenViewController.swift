@@ -67,9 +67,9 @@ extension EditingScreenViewController
 	func hideAllToolsViews(except: EditingType) {
 		currentEditingView.subviews.forEach { $0.isHidden = true }
 		switch except {
-		case .filters: filtersCollectionView.isHidden = false
-		case .tune: tuneView.isHidden = false
-		case .rotation: rotationView.isHidden = false
+		case .filters: filtersCollectionView.animatedAppearing()
+		case .tune: tuneView.animatedAppearing()
+		case .rotation: rotationView.animatedAppearing()
 		}
 	}
 }
@@ -180,9 +180,15 @@ extension EditingScreenViewController
 		sender.isSelected = true
 
 		switch editingType {
-		case .filters: presenter.filtersToolPressed()
-		case .tune: presenter.tuneToolPressed()
-		case .rotation: presenter.rotationToolPressed()
+		case .filters:
+			presenter.filtersToolPressed()
+			currentEditingType = .filters
+		case .tune:
+			presenter.tuneToolPressed()
+			currentEditingType = .tune
+		case .rotation:
+			presenter.rotationToolPressed()
+			currentEditingType = .rotation
 		}
 	}
 }

@@ -17,8 +17,8 @@ final class ModulesFactory
 			let presenter = EditingScreenPresenter(image: image, imageProcessor: imageProcessor, router: router)
 			let editingScreenVC = EditingScreenViewController(presenter: presenter)
 			let navController = UINavigationController(rootViewController: editingScreenVC)
+			presenter.editingScreen = editingScreenVC
 			//fix
-//			presenter.editingScreen = editingScreenVC
 //			router.destinationViewController = EditedPhotoController()
 			return navController
 	}

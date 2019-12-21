@@ -24,9 +24,10 @@ final class EditingScreenPresenter
 {
 	private let router: IEditingScreenRouter
 	private let image: UIImage
-	private var editingScreen: IEditingScreen?
 	private let imageProcessor: IImageProcessor
 	private var previews: [UIImage]
+
+	var editingScreen: IEditingScreen?
 
 	init(image: UIImage, imageProcessor: IImageProcessor, router: IEditingScreenRouter) {
 		self.image = image
