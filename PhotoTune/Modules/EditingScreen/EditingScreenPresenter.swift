@@ -14,6 +14,10 @@ protocol IEditingScreenPresenter
 	func tuneToolPressed()
 	func rotationToolPressed()
 	func getImage() -> UIImage
+	func getImage(filterIndex: Int) -> UIImage
+	func getFiltersCount() -> Int
+	func getFilterPreview(index: Int) -> UIImage
+	func getFilterTitle(index: Int) -> String
 }
 
 final class EditingScreenPresenter
@@ -21,20 +25,44 @@ final class EditingScreenPresenter
 	private let router: IEditingScreenRouter
 	private let image: UIImage
 	private var editingScreen: IEditingScreen?
+	private let imageProcessor: IImageProcessor
+	private var previews: [UIImage]
 
-	init(image: UIImage, router: IEditingScreenRouter) {
-		self.router = router
+	init(image: UIImage, imageProcessor: IImageProcessor, router: IEditingScreenRouter) {
 		self.image = image
+		self.router = router
+		self.imageProcessor = imageProcessor
+		previews = imageProcessor.filtersPreviews(image: self.image)
 	}
 }
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
+	func getImage(filterIndex: Int) -> UIImage {
+		let filteredImage = imageProcessor.processed(
+			image: image,
+			with: imageProcessor.filters[filterIndex])
+		return filteredImage
+	}
 
-	func tuneToolPressed() { editingScreen?.showSlidersView() }
+	func getFilterPreview(index: Int) -> UIImage {
+		previews[index]
+	}
 
-	func rotationToolPressed() { editingScreen?.showRotationView() }
+	func getFilterTitle(index: Int) -> String {
+		guard previews.count == imageProcessor.filtersTitles.count else { return "" }
+		return imageProcessor.filtersTitles[index]
+	}
 
-	func getImage() -> UIImage { image }
+	func getFiltersCount() -> Int { imageProcessor.filters.count }
+
+	func filtersToolPressed() { editingScreen?.changeCurrentEditingType(with: .filters) }
+
+	func tuneToolPressed() { editingScreen?.changeCurrentEditingType(with: .tune) }
+
+	func rotationToolPressed() { editingScreen?.changeCurrentEditingType(with: .rotation) }
+
+	func getImage() -> UIImage {
+		image
+	}
 }
