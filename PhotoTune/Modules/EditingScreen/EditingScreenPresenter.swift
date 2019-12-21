@@ -39,25 +39,20 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func getFilterPreview(index: Int) -> UIImage { previews[index] }
+	func getFilterTitle(index: Int) -> String { imageProcessor.filterTitleFor(index: index) }
+	func getFiltersCount() -> Int { imageProcessor.filtersCount }
+
 	func getFilteredImageFor(filterIndex: Int) -> UIImage {
 		let filteredImage = imageProcessor.processed(
 			image: image,
-			with: imageProcessor.filters[filterIndex])
+			with: imageProcessor.filterFor(index: filterIndex))
 		return filteredImage
 	}
 
-	func getFilterPreview(index: Int) -> UIImage {
-		previews[index]
-	}
-
-	func getFilterTitle(index: Int) -> String {
-		guard previews.count == imageProcessor.filtersTitles.count else { return "" }
-		return imageProcessor.filtersTitles[index]
-	}
-
-	func getFiltersCount() -> Int { imageProcessor.filters.count }
 	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
 	func tuneToolPressed() { editingScreen?.showTuneView() }
 	func rotationToolPressed() { editingScreen?.showRotationView() }
+
 	func getImage() -> UIImage { image }
 }

@@ -12,32 +12,41 @@ import UIKit
 
 protocol IImageProcessor
 {
-	var filters: [String] { get }
-	var filtersTitles: [String] { get }
+	var filtersCount: Int { get }
 
 	func processed(image: UIImage, with filter: String) -> UIImage
 	func filtersPreviews(image: UIImage) -> [UIImage]
+	func filterTitleFor(index: Int) -> String
+	func filterFor(index: Int) -> String
 }
 
-final class ImageProcessor: IImageProcessor
+final class ImageProcessor
 {
 	private let context = CIContext()
 
-	let filters = [
+	private let filters = [
 		"", "CIPhotoEffectMono",
 		"CISepiaTone", "CIPhotoEffectNoir",
 		"CIPhotoEffectTransfer", "CIPhotoEffectChrome",
 		"CIPhotoEffectProcess", "CIPhotoEffectFade",
 		"CIPhotoEffectInstant", "CIColorMonochrome",
-	]
+		]
 
-	let filtersTitles = [
+	private let filtersTitles = [
 		"Normal", "B & W",
 		"Sepia", "Noir",
 		"Transfer", "Chrome",
 		"Pro", "Fade",
 		"Instant", "Mono",
 	]
+}
+
+extension ImageProcessor: IImageProcessor
+{
+	var filtersCount: Int { filters.count }
+
+	func filterTitleFor(index: Int) -> String { filtersTitles[index] }
+	func filterFor(index: Int) -> String { filters[index] }
 
 	func processed(image: UIImage, with filter: String) -> UIImage {
 		guard let filter = CIFilter(name: filter) else { return image }
