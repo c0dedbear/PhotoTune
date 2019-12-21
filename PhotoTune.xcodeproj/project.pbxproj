@@ -124,11 +124,11 @@
 		E90288F723AE75D400F28FBA /* Filters */ = {
 			isa = PBXGroup;
 			children = (
-				E90288F823AE75D400F28FBA /* EditingScreenViewController+UICollectionViewDelegateFlowLayout.swift */,
 				E90288F923AE75D400F28FBA /* FiltersCollectionViewCell.swift */,
+				E90288FC23AE75D400F28FBA /* FiltersCollectionView.swift */,
+				E90288F823AE75D400F28FBA /* EditingScreenViewController+UICollectionViewDelegateFlowLayout.swift */,
 				E90288FA23AE75D400F28FBA /* EditingScreenViewController+FiltersCollectionViewDataSource.swift */,
 				E90288FB23AE75D400F28FBA /* EditingScreenViewController+FiltersCollectionViewDelegate.swift */,
-				E90288FC23AE75D400F28FBA /* FiltersCollectionView.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
