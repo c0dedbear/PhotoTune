@@ -8,7 +8,7 @@
 
 import CoreGraphics
 
-enum EditinScreenMetrics
+enum EditingScreenMetrics
 {
 	static let filterCellCornerRadius: CGFloat = 20
 	static let collectionViewLeftInset: CGFloat = 10

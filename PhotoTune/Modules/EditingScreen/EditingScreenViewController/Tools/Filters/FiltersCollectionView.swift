@@ -22,9 +22,9 @@ final class FiltersCollectionView: UICollectionView
 		showsHorizontalScrollIndicator = false
 		contentInset = UIEdgeInsets(
 			top: 0,
-			left: EditinScreenMetrics.collectionViewLeftInset,
+			left: EditingScreenMetrics.collectionViewLeftInset,
 			bottom: 0,
-			right: EditinScreenMetrics.collectionViewRightInset)
+			right: EditingScreenMetrics.collectionViewRightInset)
 		register(FiltersCollectionViewCell.self, forCellWithReuseIdentifier: FiltersCollectionViewCell.identifier)
 	}
 

@@ -80,7 +80,7 @@ private extension EditingScreenViewController
 		view.backgroundColor = .white
 		imageView.clipsToBounds = true
 		imageView.contentMode = .scaleAspectFit
-		imageView.layer.cornerRadius = EditinScreenMetrics.filterCellCornerRadius
+		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		view.addSubview(imageView)
 		view.addSubview(currentEditingView)
 		setConstraints()

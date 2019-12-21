@@ -52,7 +52,7 @@ final class FiltersCollectionViewCell: UICollectionViewCell
 		filterImageView.backgroundColor = .lightGray
 		filterImageView.contentMode = .scaleToFill
 		filterImageView.clipsToBounds = true
-		filterImageView.layer.cornerRadius = EditinScreenMetrics.filterCellCornerRadius
+		filterImageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		addSubview(filterImageView)
 
 		title.textColor = .lightGray
