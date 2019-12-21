@@ -8,11 +8,6 @@
 
 import UIKit
 
-protocol IEditingScreen
-{
-	func changeCurrentEditingType(with: EditingType)
-}
-
 final class EditingScreenViewController: UIViewController
 {
 	// MARK: Private Properties
@@ -24,6 +19,7 @@ final class EditingScreenViewController: UIViewController
 	private var toolBarButtons = [ToolBarButton]()
 	private var imageView = UIImageView()
 	private var currentEditingView = UIView()
+
 	private lazy var filtersCollectionView = FiltersCollectionView()
 	private lazy var tuneView = TuneView()
 	private lazy var rotationView = RotationView()
@@ -50,20 +46,6 @@ final class EditingScreenViewController: UIViewController
 		setupFiltersCollectionView()
 	}
 }
-
-	// MARK: - IEditingScreen
-extension EditingScreenViewController: IEditingScreen
-{
-	func changeCurrentEditingType(with: EditingType) {
-		currentEditingType = with
-		switch currentEditingType {
-		case .filters: showFiltersCollection()
-		case .tune: showTuneView()
-		case .rotation: showRotationView()
-		}
-	}
-}
-
 	// MARK: - Internal methods and Properties
 extension EditingScreenViewController
 {
@@ -71,7 +53,7 @@ extension EditingScreenViewController
 	var filterCellHeight: CGFloat { imageView.bounds.height / 3 }
 
 	func setFilteredImage(of filterIndex: Int) {
-		imageView.image = presenter.getImage(filterIndex: filterIndex)
+		imageView.image = presenter.getFilteredImageFor(filterIndex: filterIndex)
 	}
 
 	func cellTitleFor(index: Int) -> String {
@@ -80,6 +62,15 @@ extension EditingScreenViewController
 
 	func cellImageFor(index: Int) -> UIImage {
 		presenter.getFilterPreview(index: index)
+	}
+
+	func hideAllToolsViews(except: EditingType) {
+		currentEditingView.subviews.forEach { $0.isHidden = true }
+		switch except {
+		case .filters: filtersCollectionView.isHidden = false
+		case .tune: tuneView.isHidden = false
+		case .rotation: rotationView.isHidden = false
+		}
 	}
 }
 	// MARK: - Private Methods
@@ -161,32 +152,12 @@ private extension EditingScreenViewController
 		navigationController?.setToolbarHidden(false, animated: false)
 	}
 
-	private func hideAllToolsViews() {
-		currentEditingView.subviews.forEach { $0.isHidden = true }
-	}
-
 	private func setupFiltersCollectionView() {
 		filtersCollectionView.delegate = self
 		filtersCollectionView.dataSource = self
 		currentEditingView.addSubview(filtersCollectionView)
 		filtersCollectionView.fillSuperview()
 		showFiltersCollection()
-	}
-	private func showFiltersCollection() {
-		hideAllToolsViews()
-		filtersCollectionView.isHidden = false
-	}
-
-	private func showTuneView() {
-		//implementation
-		hideAllToolsViews()
-		tuneView.isHidden = false
-	}
-
-	private func showRotationView() {
-		//implementation
-		hideAllToolsViews()
-		rotationView.isHidden = false
 	}
 }
 
@@ -204,9 +175,14 @@ extension EditingScreenViewController
 	@objc private func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }
 		guard editingType != currentEditingType else { return }
+
 		toolBarButtons.forEach { $0.isSelected = false }
-		hideAllToolsViews()
 		sender.isSelected = true
-		changeCurrentEditingType(with: editingType)
+
+		switch editingType {
+		case .filters: presenter.filtersToolPressed()
+		case .tune: presenter.tuneToolPressed()
+		case .rotation: presenter.rotationToolPressed()
+		}
 	}
 }

@@ -14,7 +14,7 @@ protocol IEditingScreenPresenter
 	func tuneToolPressed()
 	func rotationToolPressed()
 	func getImage() -> UIImage
-	func getImage(filterIndex: Int) -> UIImage
+	func getFilteredImageFor(filterIndex: Int) -> UIImage
 	func getFiltersCount() -> Int
 	func getFilterPreview(index: Int) -> UIImage
 	func getFilterTitle(index: Int) -> String
@@ -38,7 +38,7 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func getImage(filterIndex: Int) -> UIImage {
+	func getFilteredImageFor(filterIndex: Int) -> UIImage {
 		let filteredImage = imageProcessor.processed(
 			image: image,
 			with: imageProcessor.filters[filterIndex])
@@ -55,14 +55,8 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func getFiltersCount() -> Int { imageProcessor.filters.count }
-
-	func filtersToolPressed() { editingScreen?.changeCurrentEditingType(with: .filters) }
-
-	func tuneToolPressed() { editingScreen?.changeCurrentEditingType(with: .tune) }
-
-	func rotationToolPressed() { editingScreen?.changeCurrentEditingType(with: .rotation) }
-
-	func getImage() -> UIImage {
-		image
-	}
+	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
+	func tuneToolPressed() { editingScreen?.showTuneView() }
+	func rotationToolPressed() { editingScreen?.showRotationView() }
+	func getImage() -> UIImage { image }
 }

@@ -24,6 +24,7 @@
 		E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FF23AE75D400F28FBA /* ToolBarButton.swift */; };
 		E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902890023AE75D400F28FBA /* EditingScreenRouter.swift */; };
 		E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */; };
+		E902891323AE7F2600F28FBA /* EditingScreenViewController+IEditingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902891223AE7F2600F28FBA /* EditingScreenViewController+IEditingScreen.swift */; };
 		E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906D75523A7F7D10010CD54 /* AppDelegate.swift */; };
 		E906D75F23A7F7D40010CD54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E906D75E23A7F7D40010CD54 /* Assets.xcassets */; };
 		E906D76223A7F7D40010CD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E906D76023A7F7D40010CD54 /* LaunchScreen.storyboard */; };
@@ -48,6 +49,7 @@
 		E90288FF23AE75D400F28FBA /* ToolBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarButton.swift; sourceTree = "<group>"; };
 		E902890023AE75D400F28FBA /* EditingScreenRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenRouter.swift; sourceTree = "<group>"; };
 		E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+AnchorsExtension.swift"; sourceTree = "<group>"; };
+		E902891223AE7F2600F28FBA /* EditingScreenViewController+IEditingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenViewController+IEditingScreen.swift"; sourceTree = "<group>"; };
 		E906D75223A7F7D10010CD54 /* PhotoTune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTune.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E906D75523A7F7D10010CD54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E906D75E23A7F7D40010CD54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */,
+				E902891223AE7F2600F28FBA /* EditingScreenViewController+IEditingScreen.swift */,
 				E90288F623AE75D400F28FBA /* Tools */,
 			);
 			path = EditingScreenViewController;
@@ -310,6 +313,7 @@
 				D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */,
 				E902890623AE75D400F28FBA /* EditingScreenViewController+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				E902890823AE75D400F28FBA /* EditingScreenViewController+FiltersCollectionViewDataSource.swift in Sources */,
+				E902891323AE7F2600F28FBA /* EditingScreenViewController+IEditingScreen.swift in Sources */,
 				E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
