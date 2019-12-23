@@ -1,18 +1,17 @@
 //
-//  EditingScreenViewController+FiltersCollectionViewDataSource.swift
+//  EditingScreenMainView+UICollectionViewDataSource.swift
 //  PhotoTune
 //
-//  Created by Mikhail Medvedev on 21.12.2019.
+//  Created by Mikhail Medvedev on 23.12.2019.
 //  Copyright © 2019 Mikhail Medvedev. All rights reserved.
 //
 
 import UIKit
 
-// MARK: - FiltersCollectionViewDataSource
-extension EditingScreenViewController: UICollectionViewDataSource
+extension EditingScreenMainView: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return filtersCount
+		filtersCollectionViewDataSource?.filtersCount ?? 0
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -20,10 +19,10 @@ extension EditingScreenViewController: UICollectionViewDataSource
 			withReuseIdentifier: FiltersCollectionViewCell.identifier,
 			for: indexPath) as? FiltersCollectionViewCell else { return UICollectionViewCell() }
 
-		let title = cellTitleFor(index: indexPath.item)
-		let image = cellImageFor(index: indexPath.item)
+		let title = filtersCollectionViewDataSource?.cellTitleFor(index: indexPath.item)
+		let image = filtersCollectionViewDataSource?.cellImageFor(index: indexPath.item)
 
-		cell.setTitle(title)
+		cell.setTitle(title ?? "")
 		cell.setImage(image)
 
 		return cell

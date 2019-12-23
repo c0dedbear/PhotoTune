@@ -58,9 +58,9 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 									 contrast: contrast)
 	}
 
-	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
-	func tuneToolPressed() { editingScreen?.showTuneView() }
-	func rotationToolPressed() { editingScreen?.showRotationView() }
+	func filtersToolPressed() { editingScreen?.showFiltersTool() }
+	func tuneToolPressed() { editingScreen?.showTuneTools() }
+	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
 	func getImage() -> UIImage { image }
 }

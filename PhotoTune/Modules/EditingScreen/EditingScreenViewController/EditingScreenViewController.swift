@@ -8,6 +8,13 @@
 
 import UIKit
 
+protocol IEditingScreen
+{
+	func showFiltersTool()
+	func showTuneTools()
+	func showRotationTool()
+}
+
 final class EditingScreenViewController: UIViewController
 {
 	// MARK: Private Properties
@@ -16,12 +23,8 @@ final class EditingScreenViewController: UIViewController
 		didSet { title = currentEditingType.rawValue }
 	}
 
+	private let mainView = EditingScreenMainView()
 	private var toolBarButtons = [ToolBarButton]()
-	private var mainView = EditingScreenMainView()
-
-	private lazy var filtersCollectionView = FiltersCollectionView()
-	private lazy var tuneView = TuneView()
-	private lazy var rotationView = RotationView()
 
 	// MARK: Initialization
 	init(presenter: IEditingScreenPresenter) {
@@ -35,25 +38,31 @@ final class EditingScreenViewController: UIViewController
 	}
 
 	// MARK: ViewController Life Cycle Methods
+	override func loadView() {
+		view = mainView
+		mainView.filterCollectionViewDelegate = self
+		mainView.filtersCollectionViewDataSource = self
+	}
+
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
 		setupNavigationBar()
 		setupToolBar()
 		mainView.setImage(presenter.getImage())
-		setupFiltersCollectionView()
 	}
 }
-	// MARK: - Internal methods and Properties
-extension EditingScreenViewController
+	// MARK: - IFilterCollectionViewDelegate
+extension EditingScreenViewController: IFilterCollectionViewDelegate
+{
+	func imageWithFilter(index: Int) -> UIImage {
+		presenter.getFilteredImageFor(filterIndex: index)
+	}
+}
+	// MARK: - IFilterCollectionViewDataSource
+extension EditingScreenViewController: IFilterCollectionViewDataSource
 {
 	var filtersCount: Int { presenter.getFiltersCount() }
-
-	var filterCellHeight: CGFloat { mainView.heightForCell }
-
-	func setFilteredImage(of filterIndex: Int) {
-		mainView.setImage(presenter.getFilteredImageFor(filterIndex: filterIndex))
-	}
 
 	func cellTitleFor(index: Int) -> String {
 		presenter.getFilterTitle(index: index)
@@ -62,20 +71,11 @@ extension EditingScreenViewController
 	func cellImageFor(index: Int) -> UIImage {
 		presenter.getFilterPreview(index: index)
 	}
-
-	func hideAllToolsViews(except: EditingType) {
-		mainView.subviews.forEach { $0.isHidden = true }
-		switch except {
-		case .filters: filtersCollectionView.animatedAppearing()
-		case .tune: tuneView.animatedAppearing()
-		case .rotation: rotationView.animatedAppearing()
-		}
-	}
 }
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
-	private func setupNavigationBar() {
+	func setupNavigationBar() {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
 			target: self,
@@ -89,7 +89,7 @@ private extension EditingScreenViewController
 		currentEditingType = .filters
 	}
 
-	private func setupToolBar() {
+	func setupToolBar() {
 		guard let height = navigationController?.toolbar.bounds.height else { return }
 		let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
 
@@ -122,18 +122,7 @@ private extension EditingScreenViewController
 		navigationController?.setToolbarHidden(false, animated: false)
 	}
 
-	private func setupFiltersCollectionView() {
-		filtersCollectionView.delegate = self
-		filtersCollectionView.dataSource = self
-		mainView.addSubview(filtersCollectionView)
-		filtersCollectionView.fillSuperview()
-		showFiltersCollection()
-	}
-}
-
-// MARK: - Objc Handling Methods
-extension EditingScreenViewController
-{
+	// MARK: Objc Handling Methods
 	@objc private func cancelTapped() {
 		//dismiss VC
 	}
@@ -160,5 +149,20 @@ extension EditingScreenViewController
 			presenter.rotationToolPressed()
 			currentEditingType = .rotation
 		}
+	}
+}
+	// MARK: - IEditingScreen
+extension EditingScreenViewController: IEditingScreen
+{
+	func showFiltersTool() {
+		mainView.hideAllToolsViews(except: .filters)
+	}
+
+	func showTuneTools() {
+		mainView.hideAllToolsViews(except: .tune)
+	}
+
+	func showRotationTool() {
+		mainView.hideAllToolsViews(except: .rotation)
 	}
 }

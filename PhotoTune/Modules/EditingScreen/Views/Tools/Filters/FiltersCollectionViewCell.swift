@@ -89,7 +89,7 @@ final class FiltersCollectionViewCell: UICollectionViewCell
 		self.title.text = title
 	}
 
-	func setImage(_ image: UIImage) {
+	func setImage(_ image: UIImage?) {
 		filterImageView.image = image
 	}
 }
