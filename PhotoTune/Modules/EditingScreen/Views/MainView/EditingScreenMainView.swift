@@ -10,25 +10,26 @@ import UIKit
 
 protocol IFilterCollectionViewDelegate: AnyObject
 {
-	func imageWithFilter(index: Int) -> UIImage
+	func imageWithFilter(index: Int) -> UIImage?
 }
 
 protocol IFilterCollectionViewDataSource: AnyObject
 {
-	var filtersCount: Int { get }
+	var itemsCount: Int { get }
+	var currentEditingType: EditingType { get }
 
 	func cellTitleFor(index: Int) -> String
-	func cellImageFor(index: Int) -> UIImage
+	func cellImageFor(index: Int) -> UIImage?
 }
 
 final class EditingScreenMainView: UIView
 {
-	private var imageView = UIImageView()
-	private var currentEditingView = UIView()
+	private let imageView = UIImageView()
+	private let editingView = UIView()
 
-	private lazy var filtersTools = ToolsCollectionView()
-	private lazy var tuneTools = ToolsCollectionView()
-	private lazy var rotationTool = RotationView()
+	private let filtersTools = ToolsCollectionView()
+	private let tuneTools = ToolsCollectionView()
+	private let rotationTool = RotationView()
 
 	weak var filterCollectionViewDelegate: IFilterCollectionViewDelegate?
 	weak var filtersCollectionViewDataSource: IFilterCollectionViewDataSource?
@@ -39,6 +40,8 @@ final class EditingScreenMainView: UIView
 		super.init(frame: .zero)
 		filtersTools.delegate = self
 		filtersTools.dataSource = self
+		tuneTools.delegate = self
+		tuneTools.dataSource = self
 		setupView()
 		setConstraints()
 		addTools()
@@ -55,12 +58,12 @@ final class EditingScreenMainView: UIView
 		imageView.contentMode = .scaleAspectFit
 		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		addSubview(imageView)
-		addSubview(currentEditingView)
+		addSubview(editingView)
 	}
 
 	private func setConstraints() {
 		imageView.translatesAutoresizingMaskIntoConstraints = false
-		currentEditingView.translatesAutoresizingMaskIntoConstraints = false
+		editingView.translatesAutoresizingMaskIntoConstraints = false
 
 		imageView.anchor(top: safeAreaLayoutGuide.topAnchor,
 						 leading: leadingAnchor,
@@ -71,15 +74,17 @@ final class EditingScreenMainView: UIView
 			equalTo: safeAreaLayoutGuide.heightAnchor,
 			multiplier: 0.66).isActive = true
 
-		currentEditingView.anchor(top: imageView.bottomAnchor,
+		editingView.anchor(top: imageView.bottomAnchor,
 								  leading: leadingAnchor,
 								  bottom: safeAreaLayoutGuide.bottomAnchor,
 								  trailing: trailingAnchor)
 	}
 
 	private func addTools() {
-		currentEditingView.addSubview(filtersTools)
+		editingView.addSubview(filtersTools)
 		filtersTools.fillSuperview()
+		editingView.addSubview(tuneTools)
+		tuneTools.fillSuperview()
 		hideAllToolsViews(except: .filters)
 	}
 
@@ -88,10 +93,14 @@ final class EditingScreenMainView: UIView
 	}
 
 	func hideAllToolsViews(except: EditingType) {
-		currentEditingView.subviews.forEach { $0.isHidden = true }
+		editingView.subviews.forEach { $0.isHidden = true }
 		switch except {
-		case .filters: filtersTools.animatedAppearing()
-		case .tune: tuneTools.animatedAppearing()
+		case .filters:
+			filtersTools.reloadData()
+			filtersTools.animatedAppearing()
+		case .tune:
+			tuneTools.reloadData()
+			tuneTools.animatedAppearing()
 		case .rotation: rotationTool.animatedAppearing()
 		}
 	}

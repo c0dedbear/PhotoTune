@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class TuneToolCollectionViewCell: UICollectionViewCell
+final class TuneToolCollectionViewCell: ToolCollectionViewCell
 {
 	static let identifier = "TuneToolCollectionViewCell"
 }

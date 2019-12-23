@@ -19,7 +19,8 @@ final class EditingScreenViewController: UIViewController
 {
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
-	private var currentEditingType: EditingType = .filters {
+
+	var currentEditingType: EditingType = .filters {
 		didSet { title = currentEditingType.rawValue }
 	}
 
@@ -49,27 +50,40 @@ final class EditingScreenViewController: UIViewController
 		if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
 		setupNavigationBar()
 		setupToolBar()
-		mainView.setImage(presenter.getImage())
+		mainView.setImage(presenter.getInitialImage())
 	}
 }
 	// MARK: - IFilterCollectionViewDelegate
 extension EditingScreenViewController: IFilterCollectionViewDelegate
 {
-	func imageWithFilter(index: Int) -> UIImage {
+	func imageWithFilter(index: Int) -> UIImage? {
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }
 	// MARK: - IFilterCollectionViewDataSource
 extension EditingScreenViewController: IFilterCollectionViewDataSource
 {
-	var filtersCount: Int { presenter.getFiltersCount() }
-
-	func cellTitleFor(index: Int) -> String {
-		presenter.getFilterTitle(index: index)
+	var itemsCount: Int {
+		switch currentEditingType {
+		case .filters: return presenter.getFiltersCount()
+		case .tune: return presenter.getTuneToolsCount()
+		default: return 0
+		}
 	}
 
-	func cellImageFor(index: Int) -> UIImage {
-		presenter.getFilterPreview(index: index)
+	func cellTitleFor(index: Int) -> String {
+		switch currentEditingType {
+		case .filters: return presenter.getFilterTitle(index: index)
+		case .tune: return presenter.getTuneTitleFor(index: index)
+		case .rotation: return ""
+		}
+	}
+	func cellImageFor(index: Int) -> UIImage? {
+		switch currentEditingType {
+		case .filters: return presenter.getFilterPreview(index: index)
+		case .tune: return presenter.getTuneToolImageFor(index: index)
+		case .rotation: return nil
+		}
 	}
 }
 	// MARK: - Private Methods
@@ -94,18 +108,18 @@ private extension EditingScreenViewController
 		let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
 
 		let filtersButton = ToolBarButton(toolBarHeight: height)
-		filtersButton.setImage(#imageLiteral(resourceName: "colormodeFilled"), for: .normal)
+		filtersButton.setImage(ToolBarImages.filters, for: .normal)
 		filtersButton.editingType = .filters
 		filtersButton.isSelected = true
 		toolBarButtons.append(filtersButton)
 
 		let tuneButton = ToolBarButton(toolBarHeight: height)
-		tuneButton.setImage(#imageLiteral(resourceName: "tuneFilled"), for: .normal)
+		tuneButton.setImage(ToolBarImages.tune, for: .normal)
 		tuneButton.editingType = .tune
 		toolBarButtons.append(tuneButton)
 
 		let rotateButton = ToolBarButton(toolBarHeight: height)
-		rotateButton.setImage(#imageLiteral(resourceName: "rotateFilled"), for: .normal)
+		rotateButton.setImage(ToolBarImages.rotation, for: .normal)
 		rotateButton.editingType = .rotation
 		toolBarButtons.append(rotateButton)
 
@@ -140,14 +154,14 @@ private extension EditingScreenViewController
 
 		switch editingType {
 		case .filters:
-			presenter.filtersToolPressed()
 			currentEditingType = .filters
+			presenter.filtersToolPressed()
 		case .tune:
-			presenter.tuneToolPressed()
 			currentEditingType = .tune
+			presenter.tuneToolPressed()
 		case .rotation:
-			presenter.rotationToolPressed()
 			currentEditingType = .rotation
+			presenter.rotationToolPressed()
 		}
 	}
 }

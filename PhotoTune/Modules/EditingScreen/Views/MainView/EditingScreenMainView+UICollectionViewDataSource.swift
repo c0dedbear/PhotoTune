@@ -11,20 +11,36 @@ import UIKit
 extension EditingScreenMainView: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		filtersCollectionViewDataSource?.filtersCount ?? 0
+		filtersCollectionViewDataSource?.itemsCount ?? 0
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		guard let cell = collectionView.dequeueReusableCell(
-			withReuseIdentifier: FiltersCollectionViewCell.identifier,
-			for: indexPath) as? FiltersCollectionViewCell else { return UICollectionViewCell() }
 
 		let title = filtersCollectionViewDataSource?.cellTitleFor(index: indexPath.item)
 		let image = filtersCollectionViewDataSource?.cellImageFor(index: indexPath.item)
 
-		cell.setTitle(title ?? "")
-		cell.setImage(image)
+		switch filtersCollectionViewDataSource?.currentEditingType {
+		case .filters:
+			if let filterCell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: FiltersCollectionViewCell.identifier,
+				for: indexPath) as? FiltersCollectionViewCell {
 
-		return cell
-	}
+				filterCell.setTitle(title ?? "")
+				filterCell.setImage(image)
+
+				return filterCell
+			}
+		case .tune:
+			if let tuneToolCell = collectionView.dequeueReusableCell(
+				withReuseIdentifier: TuneToolCollectionViewCell.identifier,
+				for: indexPath) as? TuneToolCollectionViewCell {
+				tuneToolCell.setImage(image)
+				tuneToolCell.setTitle(title ?? "")
+				return tuneToolCell
+			}
+		default: break
+		}
+
+		return UICollectionViewCell()
+}
 }

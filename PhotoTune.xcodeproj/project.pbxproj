@@ -27,6 +27,8 @@
 		E906D75F23A7F7D40010CD54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E906D75E23A7F7D40010CD54 /* Assets.xcassets */; };
 		E906D76223A7F7D40010CD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E906D76023A7F7D40010CD54 /* LaunchScreen.storyboard */; };
 		E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930355023ABADB900ADAF52 /* ModulesFactory.swift */; };
+		E94D1A7223B13271007A4E86 /* TuneToolsImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1A7123B13271007A4E86 /* TuneToolsImages.swift */; };
+		E94D1A7423B13375007A4E86 /* ToolBarImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1A7323B13375007A4E86 /* ToolBarImages.swift */; };
 		E97027F523B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */; };
 		E97027F723B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */; };
@@ -56,6 +58,8 @@
 		E906D76123A7F7D40010CD54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E906D76323A7F7D40010CD54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E930355023ABADB900ADAF52 /* ModulesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesFactory.swift; sourceTree = "<group>"; };
+		E94D1A7123B13271007A4E86 /* TuneToolsImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneToolsImages.swift; sourceTree = "<group>"; };
+		E94D1A7323B13375007A4E86 /* ToolBarImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarImages.swift; sourceTree = "<group>"; };
 		E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
 		E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
@@ -103,6 +107,8 @@
 			children = (
 				E90288F223AE75D400F28FBA /* EditingType.swift */,
 				E90288F323AE75D400F28FBA /* EditingScreenMetrics.swift */,
+				E94D1A7123B13271007A4E86 /* TuneToolsImages.swift */,
+				E94D1A7323B13375007A4E86 /* ToolBarImages.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -332,6 +338,7 @@
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
 				D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */,
 				E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */,
+				E94D1A7423B13375007A4E86 /* ToolBarImages.swift in Sources */,
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
 				E97027F723B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
@@ -344,6 +351,7 @@
 				E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */,
 				E97027F923B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift in Sources */,
+				E94D1A7223B13271007A4E86 /* TuneToolsImages.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
 				E902893723B0DC7500F28FBA /* EditingScreenMainView.swift in Sources */,
 				E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */,

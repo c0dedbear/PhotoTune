@@ -13,11 +13,15 @@ protocol IEditingScreenPresenter
 	func filtersToolPressed()
 	func tuneToolPressed()
 	func rotationToolPressed()
-	func getImage() -> UIImage
+	func getInitialImage() -> UIImage
 	func getFilteredImageFor(filterIndex: Int) -> UIImage
 	func getFiltersCount() -> Int
 	func getFilterPreview(index: Int) -> UIImage
 	func getFilterTitle(index: Int) -> String
+
+	func getTuneToolsCount() -> Int
+	func getTuneToolImageFor(index: Int) -> UIImage?
+	func getTuneTitleFor(index: Int) -> String
 	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage
 }
 
@@ -40,6 +44,16 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func getTuneToolsCount() -> Int { TuneTools.all.count }
+
+	func getTuneToolImageFor(index: Int) -> UIImage? {
+		TuneTools.all[index].image
+	}
+
+	func getTuneTitleFor(index: Int) -> String {
+		TuneTools.all[index].title
+	}
+
 	func getFilterPreview(index: Int) -> UIImage { previews[index] }
 	func getFilterTitle(index: Int) -> String { imageProcessor.filterTitleFor(index: index) }
 	func getFiltersCount() -> Int { imageProcessor.filtersCount }
@@ -62,5 +76,5 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	func tuneToolPressed() { editingScreen?.showTuneTools() }
 	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
-	func getImage() -> UIImage { image }
+	func getInitialImage() -> UIImage { image }
 }

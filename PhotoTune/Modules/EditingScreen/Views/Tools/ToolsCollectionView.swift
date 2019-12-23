@@ -26,6 +26,7 @@ final class ToolsCollectionView: UICollectionView
 			bottom: 0,
 			right: EditingScreenMetrics.collectionViewRightInset)
 		register(FiltersCollectionViewCell.self, forCellWithReuseIdentifier: FiltersCollectionViewCell.identifier)
+		register(TuneToolCollectionViewCell.self, forCellWithReuseIdentifier: TuneToolCollectionViewCell.identifier)
 	}
 
 	@available(*, unavailable)
