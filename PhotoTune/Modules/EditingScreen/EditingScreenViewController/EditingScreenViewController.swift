@@ -17,8 +17,7 @@ final class EditingScreenViewController: UIViewController
 	}
 
 	private var toolBarButtons = [ToolBarButton]()
-	private var imageView = UIImageView()
-	private var currentEditingView = UIView()
+	private var mainView = EditingScreenMainView()
 
 	private lazy var filtersCollectionView = FiltersCollectionView()
 	private lazy var tuneView = TuneView()
@@ -41,8 +40,7 @@ final class EditingScreenViewController: UIViewController
 		if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
 		setupNavigationBar()
 		setupToolBar()
-		setupView()
-		imageView.image = presenter.getImage()
+		mainView.setImage(presenter.getImage())
 		setupFiltersCollectionView()
 	}
 }
@@ -50,10 +48,11 @@ final class EditingScreenViewController: UIViewController
 extension EditingScreenViewController
 {
 	var filtersCount: Int { presenter.getFiltersCount() }
-	var filterCellHeight: CGFloat { imageView.bounds.height / 3 }
+
+	var filterCellHeight: CGFloat { mainView.heightForCell }
 
 	func setFilteredImage(of filterIndex: Int) {
-		imageView.image = presenter.getFilteredImageFor(filterIndex: filterIndex)
+		mainView.setImage(presenter.getFilteredImageFor(filterIndex: filterIndex))
 	}
 
 	func cellTitleFor(index: Int) -> String {
@@ -65,7 +64,7 @@ extension EditingScreenViewController
 	}
 
 	func hideAllToolsViews(except: EditingType) {
-		currentEditingView.subviews.forEach { $0.isHidden = true }
+		mainView.subviews.forEach { $0.isHidden = true }
 		switch except {
 		case .filters: filtersCollectionView.animatedAppearing()
 		case .tune: tuneView.animatedAppearing()
@@ -76,35 +75,6 @@ extension EditingScreenViewController
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
-	private func setupView() {
-		view.backgroundColor = .white
-		imageView.clipsToBounds = true
-		imageView.contentMode = .scaleAspectFit
-		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
-		view.addSubview(imageView)
-		view.addSubview(currentEditingView)
-		setConstraints()
-	}
-
-	private func setConstraints() {
-		imageView.translatesAutoresizingMaskIntoConstraints = false
-		currentEditingView.translatesAutoresizingMaskIntoConstraints = false
-
-		imageView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-						 leading: view.leadingAnchor,
-						 bottom: nil,
-						 trailing: view.trailingAnchor)
-
-		imageView.heightAnchor.constraint(
-			equalTo: view.safeAreaLayoutGuide.heightAnchor,
-			multiplier: 0.66).isActive = true
-
-		currentEditingView.anchor(top: imageView.bottomAnchor,
-								  leading: view.leadingAnchor,
-								  bottom: view.safeAreaLayoutGuide.bottomAnchor,
-								  trailing: view.trailingAnchor)
-	}
-
 	private func setupNavigationBar() {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
@@ -155,7 +125,7 @@ private extension EditingScreenViewController
 	private func setupFiltersCollectionView() {
 		filtersCollectionView.delegate = self
 		filtersCollectionView.dataSource = self
-		currentEditingView.addSubview(filtersCollectionView)
+		mainView.addSubview(filtersCollectionView)
 		filtersCollectionView.fillSuperview()
 		showFiltersCollection()
 	}
