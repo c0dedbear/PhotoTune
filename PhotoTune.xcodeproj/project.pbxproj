@@ -105,21 +105,13 @@
 			path = Constants;
 			sourceTree = "<group>";
 		};
-		E90288F423AE75D400F28FBA /* EditingScreenViewController */ = {
-			isa = PBXGroup;
-			children = (
-				E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */,
-			);
-			path = EditingScreenViewController;
-			sourceTree = "<group>";
-		};
 		E90288F623AE75D400F28FBA /* Tools */ = {
 			isa = PBXGroup;
 			children = (
-				E90288F723AE75D400F28FBA /* Filters */,
-				E90288FD23AE75D400F28FBA /* TuneView.swift */,
-				E90288FE23AE75D400F28FBA /* RotationView.swift */,
 				E90288FF23AE75D400F28FBA /* ToolBarButton.swift */,
+				E90288F723AE75D400F28FBA /* Filters */,
+				E97027FA23B12333000F6A0C /* Tune */,
+				E90288FE23AE75D400F28FBA /* RotationView.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -202,8 +194,8 @@
 			isa = PBXGroup;
 			children = (
 				E90288F123AE75D400F28FBA /* Constants */,
-				E90288F423AE75D400F28FBA /* EditingScreenViewController */,
 				E902893823B1125700F28FBA /* Views */,
+				E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */,
 				E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */,
 				E902890023AE75D400F28FBA /* EditingScreenRouter.swift */,
 				E90288F023AE75D300F28FBA /* ImageProcessor.swift */,
@@ -220,6 +212,14 @@
 				E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */,
 			);
 			path = MainView;
+			sourceTree = "<group>";
+		};
+		E97027FA23B12333000F6A0C /* Tune */ = {
+			isa = PBXGroup;
+			children = (
+				E90288FD23AE75D400F28FBA /* TuneView.swift */,
+			);
+			path = Tune;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
