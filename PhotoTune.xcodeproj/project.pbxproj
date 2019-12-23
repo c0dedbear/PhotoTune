@@ -15,8 +15,8 @@
 		E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288F323AE75D400F28FBA /* EditingScreenMetrics.swift */; };
 		E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */; };
 		E902890723AE75D400F28FBA /* FiltersCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288F923AE75D400F28FBA /* FiltersCollectionViewCell.swift */; };
-		E902890A23AE75D400F28FBA /* FiltersCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FC23AE75D400F28FBA /* FiltersCollectionView.swift */; };
-		E902890B23AE75D400F28FBA /* TuneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FD23AE75D400F28FBA /* TuneView.swift */; };
+		E902890A23AE75D400F28FBA /* ToolsCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FC23AE75D400F28FBA /* ToolsCollectionView.swift */; };
+		E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FD23AE75D400F28FBA /* TuneToolCollectionViewCell.swift */; };
 		E902890C23AE75D400F28FBA /* RotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FE23AE75D400F28FBA /* RotationView.swift */; };
 		E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288FF23AE75D400F28FBA /* ToolBarButton.swift */; };
 		E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902890023AE75D400F28FBA /* EditingScreenRouter.swift */; };
@@ -30,6 +30,7 @@
 		E97027F523B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */; };
 		E97027F723B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */; };
+		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,8 +42,8 @@
 		E90288F323AE75D400F28FBA /* EditingScreenMetrics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenMetrics.swift; sourceTree = "<group>"; };
 		E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenViewController.swift; sourceTree = "<group>"; };
 		E90288F923AE75D400F28FBA /* FiltersCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCollectionViewCell.swift; sourceTree = "<group>"; };
-		E90288FC23AE75D400F28FBA /* FiltersCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FiltersCollectionView.swift; sourceTree = "<group>"; };
-		E90288FD23AE75D400F28FBA /* TuneView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TuneView.swift; sourceTree = "<group>"; };
+		E90288FC23AE75D400F28FBA /* ToolsCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolsCollectionView.swift; sourceTree = "<group>"; };
+		E90288FD23AE75D400F28FBA /* TuneToolCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TuneToolCollectionViewCell.swift; sourceTree = "<group>"; };
 		E90288FE23AE75D400F28FBA /* RotationView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RotationView.swift; sourceTree = "<group>"; };
 		E90288FF23AE75D400F28FBA /* ToolBarButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolBarButton.swift; sourceTree = "<group>"; };
 		E902890023AE75D400F28FBA /* EditingScreenRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenRouter.swift; sourceTree = "<group>"; };
@@ -58,6 +59,7 @@
 		E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
 		E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
+		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,9 +111,11 @@
 			isa = PBXGroup;
 			children = (
 				E90288FF23AE75D400F28FBA /* ToolBarButton.swift */,
+				E90288FC23AE75D400F28FBA /* ToolsCollectionView.swift */,
+				E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */,
 				E90288F723AE75D400F28FBA /* Filters */,
 				E97027FA23B12333000F6A0C /* Tune */,
-				E90288FE23AE75D400F28FBA /* RotationView.swift */,
+				E97027FB23B12577000F6A0C /* Rotation */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -120,7 +124,6 @@
 			isa = PBXGroup;
 			children = (
 				E90288F923AE75D400F28FBA /* FiltersCollectionViewCell.swift */,
-				E90288FC23AE75D400F28FBA /* FiltersCollectionView.swift */,
 			);
 			path = Filters;
 			sourceTree = "<group>";
@@ -217,9 +220,17 @@
 		E97027FA23B12333000F6A0C /* Tune */ = {
 			isa = PBXGroup;
 			children = (
-				E90288FD23AE75D400F28FBA /* TuneView.swift */,
+				E90288FD23AE75D400F28FBA /* TuneToolCollectionViewCell.swift */,
 			);
 			path = Tune;
+			sourceTree = "<group>";
+		};
+		E97027FB23B12577000F6A0C /* Rotation */ = {
+			isa = PBXGroup;
+			children = (
+				E90288FE23AE75D400F28FBA /* RotationView.swift */,
+			);
+			path = Rotation;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,12 +325,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E902890B23AE75D400F28FBA /* TuneView.swift in Sources */,
+				E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */,
 				E97027F523B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */,
 				E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */,
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
 				D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */,
+				E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */,
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
 				E97027F723B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
@@ -328,7 +340,7 @@
 				E902890223AE75D400F28FBA /* ImageProcessor.swift in Sources */,
 				E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */,
 				E902890323AE75D400F28FBA /* EditingType.swift in Sources */,
-				E902890A23AE75D400F28FBA /* FiltersCollectionView.swift in Sources */,
+				E902890A23AE75D400F28FBA /* ToolsCollectionView.swift in Sources */,
 				E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */,
 				E97027F923B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift in Sources */,

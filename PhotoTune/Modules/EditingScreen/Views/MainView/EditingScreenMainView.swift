@@ -26,9 +26,9 @@ final class EditingScreenMainView: UIView
 	private var imageView = UIImageView()
 	private var currentEditingView = UIView()
 
-	private lazy var filtersCollectionView = FiltersCollectionView()
-	private lazy var tuneView = TuneView()
-	private lazy var rotationView = RotationView()
+	private lazy var filtersTools = ToolsCollectionView()
+	private lazy var tuneTools = ToolsCollectionView()
+	private lazy var rotationTool = RotationView()
 
 	weak var filterCollectionViewDelegate: IFilterCollectionViewDelegate?
 	weak var filtersCollectionViewDataSource: IFilterCollectionViewDataSource?
@@ -37,8 +37,8 @@ final class EditingScreenMainView: UIView
 
 	init() {
 		super.init(frame: .zero)
-		filtersCollectionView.delegate = self
-		filtersCollectionView.dataSource = self
+		filtersTools.delegate = self
+		filtersTools.dataSource = self
 		setupView()
 		setConstraints()
 		addTools()
@@ -78,8 +78,8 @@ final class EditingScreenMainView: UIView
 	}
 
 	private func addTools() {
-		currentEditingView.addSubview(filtersCollectionView)
-		filtersCollectionView.fillSuperview()
+		currentEditingView.addSubview(filtersTools)
+		filtersTools.fillSuperview()
 		hideAllToolsViews(except: .filters)
 	}
 
@@ -90,9 +90,9 @@ final class EditingScreenMainView: UIView
 	func hideAllToolsViews(except: EditingType) {
 		currentEditingView.subviews.forEach { $0.isHidden = true }
 		switch except {
-		case .filters: filtersCollectionView.animatedAppearing()
-		case .tune: tuneView.animatedAppearing()
-		case .rotation: rotationView.animatedAppearing()
+		case .filters: filtersTools.animatedAppearing()
+		case .tune: tuneTools.animatedAppearing()
+		case .rotation: rotationTool.animatedAppearing()
 		}
 	}
 }

@@ -1,5 +1,5 @@
 //
-//  FiltersCollectionView.swift
+//  ToolsCollectionView.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 18.12.2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class FiltersCollectionView: UICollectionView
+final class ToolsCollectionView: UICollectionView
 {
 	init() {
 		let layout = UICollectionViewFlowLayout()
