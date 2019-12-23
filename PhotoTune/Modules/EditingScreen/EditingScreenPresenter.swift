@@ -14,26 +14,52 @@ protocol IEditingScreenPresenter
 	func tuneToolPressed()
 	func rotationToolPressed()
 	func getImage() -> UIImage
+	func getFilteredImageFor(filterIndex: Int) -> UIImage
+	func getFiltersCount() -> Int
+	func getFilterPreview(index: Int) -> UIImage
+	func getFilterTitle(index: Int) -> String
+	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage
 }
 
 final class EditingScreenPresenter
 {
 	private let router: IEditingScreenRouter
 	private let image: UIImage
-	private var editingScreen: IEditingScreen?
+	private let imageProcessor: IImageProcessor
+	private let previews: [UIImage]
 
-	init(image: UIImage, router: IEditingScreenRouter) {
-		self.router = router
+	var editingScreen: IEditingScreen?
+
+	init(image: UIImage, imageProcessor: IImageProcessor, router: IEditingScreenRouter) {
 		self.image = image
+		self.router = router
+		self.imageProcessor = imageProcessor
+		previews = imageProcessor.filtersPreviews(image: self.image)
 	}
 }
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func getFilterPreview(index: Int) -> UIImage { previews[index] }
+	func getFilterTitle(index: Int) -> String { imageProcessor.filterTitleFor(index: index) }
+	func getFiltersCount() -> Int { imageProcessor.filtersCount }
+
+	func getFilteredImageFor(filterIndex: Int) -> UIImage {
+		let filteredImage = imageProcessor.processed(
+			image: image,
+			with: imageProcessor.filterFor(index: filterIndex))
+		return filteredImage
+	}
+
+	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage {
+		imageProcessor.colorControls(image: image,
+									 brightness: brightness,
+									 saturation: saturation,
+									 contrast: contrast)
+	}
+
 	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
-
-	func tuneToolPressed() { editingScreen?.showSlidersView() }
-
+	func tuneToolPressed() { editingScreen?.showTuneView() }
 	func rotationToolPressed() { editingScreen?.showRotationView() }
 
 	func getImage() -> UIImage { image }

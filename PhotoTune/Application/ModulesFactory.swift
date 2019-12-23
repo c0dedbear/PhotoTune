@@ -12,12 +12,13 @@ final class ModulesFactory
 {
 	func createEditingScreenModule(image: UIImage)
 		-> UINavigationController {
+			let imageProcessor = ImageProcessor()
 			let router = EditingScreenRouter()
-			let presenter = EditingScreenPresenter(image: image, router: router)
+			let presenter = EditingScreenPresenter(image: image, imageProcessor: imageProcessor, router: router)
 			let editingScreenVC = EditingScreenViewController(presenter: presenter)
 			let navController = UINavigationController(rootViewController: editingScreenVC)
+			presenter.editingScreen = editingScreenVC
 			//fix
-//			presenter.editingScreen = editingScreenVC
 //			router.destinationViewController = EditedPhotoController()
 			return navController
 	}

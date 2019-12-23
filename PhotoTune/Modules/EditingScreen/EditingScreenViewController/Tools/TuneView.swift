@@ -1,5 +1,5 @@
 //
-//  SlidersView.swift
+//  TuneView.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 18.12.2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class SlidersView: UIView
+final class TuneView: UIView
 {
 //implement
 }
