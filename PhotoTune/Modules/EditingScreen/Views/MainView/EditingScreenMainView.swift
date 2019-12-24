@@ -8,20 +8,6 @@
 
 import UIKit
 
-protocol IToolCollectionViewDelegate: AnyObject
-{
-	func imageWithFilter(index: Int) -> UIImage?
-}
-
-protocol IToolCollectionViewDataSource: AnyObject
-{
-	var itemsCount: Int { get }
-	var editingType: EditingType { get }
-
-	func cellTitleFor(index: Int) -> String
-	func cellImageFor(index: Int) -> UIImage?
-}
-
 final class EditingScreenMainView: UIView
 {
 	private let imageView = UIImageView()
@@ -30,6 +16,7 @@ final class EditingScreenMainView: UIView
 	private let filtersTools = ToolsCollectionView()
 	private let tuneTools = ToolsCollectionView()
 	private let rotationTool = RotationView()
+	private let slidersStack = SlidersStackView()
 
 	weak var toolCollectionViewDelegate: IToolCollectionViewDelegate?
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
@@ -54,6 +41,7 @@ final class EditingScreenMainView: UIView
 
 	init() {
 		super.init(frame: .zero)
+		slidersStack.mainView = self
 		setDelegateWithDataSource()
 		setupView()
 		setConstraints()
@@ -65,14 +53,40 @@ final class EditingScreenMainView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	private func setDelegateWithDataSource() {
+	func setImage(_ image: UIImage) {
+		imageView.image = image
+	}
+
+	func showSliders() {
+		slidersStack.isHidden = false
+	}
+
+	func hideAllToolsViews(except: EditingType) {
+		editingView.subviews.forEach { $0.isHidden = true }
+		switch except {
+		case .filters:
+			filtersTools.reloadData()
+			filtersTools.selectItem(at: filtersTools.lastSelection, animated: false, scrollPosition: [])
+			filtersTools.animatedAppearing()
+		case .tune:
+			tuneTools.reloadData()
+			tuneTools.animatedAppearing()
+		case .rotation: rotationTool.animatedAppearing()
+		case .none: break
+		}
+	}
+}
+
+private extension EditingScreenMainView
+{
+	func setDelegateWithDataSource() {
 		filtersTools.delegate = self
 		filtersTools.dataSource = self
 		tuneTools.delegate = self
 		tuneTools.dataSource = self
 	}
 
-	private func setupView() {
+	func setupView() {
 		if #available(iOS 13.0, *){
 			backgroundColor = .systemBackground
 		}
@@ -84,7 +98,7 @@ final class EditingScreenMainView: UIView
 		addSubview(editingView)
 	}
 
-	private func setConstraints() {
+	func setConstraints() {
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 		editingView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -103,28 +117,11 @@ final class EditingScreenMainView: UIView
 								  trailing: trailingAnchor)
 	}
 
-	private func addTools() {
+	func addTools() {
 		editingView.addSubview(filtersTools)
 		filtersTools.fillSuperview()
 		editingView.addSubview(tuneTools)
 		tuneTools.fillSuperview()
-	}
-
-	func setImage(_ image: UIImage) {
-		imageView.image = image
-	}
-
-	func hideAllToolsViews(except: EditingType) {
-		editingView.subviews.forEach { $0.isHidden = true }
-		switch except {
-		case .filters:
-			filtersTools.reloadData()
-			filtersTools.selectItem(at: filtersTools.lastSelection, animated: false, scrollPosition: [])
-			filtersTools.animatedAppearing()
-		case .tune:
-			tuneTools.reloadData()
-			tuneTools.animatedAppearing()
-		case .rotation: rotationTool.animatedAppearing()
-		}
+		editingView.addSubview(slidersStack)
 	}
 }

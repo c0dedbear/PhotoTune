@@ -8,6 +8,15 @@
 
 import UIKit
 
+protocol IToolCollectionViewDataSource: AnyObject
+{
+	var itemsCount: Int { get }
+	var editingType: EditingType { get }
+
+	func dataForFilterCell(index: Int) -> (title: String, image: UIImage?)
+	func dataForTuneCell(index: Int) -> (title: String, image: UIImage?, type: TuneToolType)
+}
+
 extension EditingScreenMainView: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -16,17 +25,16 @@ extension EditingScreenMainView: UICollectionViewDataSource
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-		let title = toolCollectionViewDataSource?.cellTitleFor(index: indexPath.item)
-		let image = toolCollectionViewDataSource?.cellImageFor(index: indexPath.item)
-
 		switch toolCollectionViewDataSource?.editingType {
 		case .filters:
 			if let filterCell = collectionView.dequeueReusableCell(
 				withReuseIdentifier: FiltersCollectionViewCell.identifier,
 				for: indexPath) as? FiltersCollectionViewCell {
 
-				filterCell.setTitle(title ?? "")
-				filterCell.setImage(image)
+				let filter = toolCollectionViewDataSource?.dataForFilterCell(index: indexPath.item)
+
+				filterCell.setTitle(filter?.title ?? "")
+				filterCell.setImage(filter?.image)
 
 				return filterCell
 			}
@@ -34,8 +42,10 @@ extension EditingScreenMainView: UICollectionViewDataSource
 			if let tuneToolCell = collectionView.dequeueReusableCell(
 				withReuseIdentifier: TuneToolCollectionViewCell.identifier,
 				for: indexPath) as? TuneToolCollectionViewCell {
-				tuneToolCell.setImage(image)
-				tuneToolCell.setTitle(title ?? "")
+				let tuneTool = toolCollectionViewDataSource?.dataForTuneCell(index: indexPath.item)
+				tuneToolCell.setImage(tuneTool?.image)
+				tuneToolCell.setTitle(tuneTool?.title ?? "")
+				tuneToolCell.tuneToolType = tuneTool?.type
 				return tuneToolCell
 			}
 		default: break

@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum ToolBarImages
+enum ToolBarImage
 {
 	static let filters = UIImage(named: "colormodeFilled")
 	static let tune = UIImage(named: "tuneFilled")

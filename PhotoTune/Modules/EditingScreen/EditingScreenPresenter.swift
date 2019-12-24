@@ -10,21 +10,19 @@ import UIKit
 
 protocol IEditingScreenPresenter
 {
+	func getInitialImage() -> UIImage
 	func filtersToolPressed()
 	func tuneToolPressed()
 	func rotationToolPressed()
 
-	func getInitialImage() -> UIImage
-
-	func getFilteredImageFor(filterIndex: Int) -> UIImage
+	func getFilteredImageFor(filterIndex: Int) -> UIImage?
 	func getFiltersCount() -> Int
-	func getFilterPreview(index: Int) -> UIImage
-	func getFilterTitle(index: Int) -> String
+	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?)
 
 	func getTuneToolsCount() -> Int
-	func getTuneToolImageFor(index: Int) -> UIImage?
-	func getTuneTitleFor(index: Int) -> String
-	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage
+	func getTuneToolCellDataFor(index: Int) -> (title: String, image: UIImage?, type: TuneToolType)
+
+	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage?
 }
 
 final class EditingScreenPresenter
@@ -32,7 +30,7 @@ final class EditingScreenPresenter
 	private let router: IEditingScreenRouter
 	private let image: UIImage
 	private let imageProcessor: IImageProcessor
-	private let previews: [UIImage]
+	private let previews: [(title: String, image: UIImage?)]
 
 	var editingScreen: IEditingScreen?
 
@@ -46,37 +44,36 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func getTuneToolsCount() -> Int { TuneTools.all.count }
+	func getInitialImage() -> UIImage { image }
+	func filtersToolPressed() { editingScreen?.showFiltersTool() }
+	func tuneToolPressed() { editingScreen?.showTuneTools() }
+	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
-	func getTuneToolImageFor(index: Int) -> UIImage? {
-		TuneTools.all[index].image
+	func getTuneToolCellDataFor(index: Int) -> (
+		title: String,
+		image: UIImage?,
+		type: TuneToolType) {
+			return TuneTool.all[index]
 	}
 
-	func getTuneTitleFor(index: Int) -> String {
-		TuneTools.all[index].title
+	func getTuneToolsCount() -> Int { TuneTool.all.count }
+
+	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?) { previews[index]
 	}
 
-	func getFilterPreview(index: Int) -> UIImage { previews[index] }
-	func getFilterTitle(index: Int) -> String { imageProcessor.filterTitleFor(index: index) }
-	func getFiltersCount() -> Int { imageProcessor.filtersCount }
+	func getFiltersCount() -> Int { Filter.all.count }
 
-	func getFilteredImageFor(filterIndex: Int) -> UIImage {
+	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
 		let filteredImage = imageProcessor.processed(
 			image: image,
-			with: imageProcessor.filterFor(index: filterIndex))
+			with: Filter.all[filterIndex].filter)
 		return filteredImage
 	}
 
-	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage {
+	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage? {
 		imageProcessor.colorControls(image: image,
 									 brightness: brightness,
 									 saturation: saturation,
 									 contrast: contrast)
 	}
-
-	func filtersToolPressed() { editingScreen?.showFiltersTool() }
-	func tuneToolPressed() { editingScreen?.showTuneTools() }
-	func rotationToolPressed() { editingScreen?.showRotationTool() }
-
-	func getInitialImage() -> UIImage { image }
 }

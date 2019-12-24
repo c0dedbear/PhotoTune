@@ -12,6 +12,8 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 {
 	static let identifier = "TuneToolCollectionViewCell"
 
+	var tuneToolType: TuneToolType?
+
 	override var isHighlighted: Bool {
 		didSet {}
 	}

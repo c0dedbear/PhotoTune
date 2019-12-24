@@ -53,41 +53,6 @@ final class EditingScreenViewController: UIViewController
 		mainView.setImage(presenter.getInitialImage())
 	}
 }
-	// MARK: - IFilterCollectionViewDelegate
-extension EditingScreenViewController: IToolCollectionViewDelegate
-{
-	func imageWithFilter(index: Int) -> UIImage? {
-		presenter.getFilteredImageFor(filterIndex: index)
-	}
-}
-	// MARK: - IFilterCollectionViewDataSource
-extension EditingScreenViewController: IToolCollectionViewDataSource
-{
-	var editingType: EditingType { currentEditingType }
-
-	var itemsCount: Int {
-		switch currentEditingType {
-		case .filters: return presenter.getFiltersCount()
-		case .tune: return presenter.getTuneToolsCount()
-		default: return 0
-		}
-	}
-
-	func cellTitleFor(index: Int) -> String {
-		switch currentEditingType {
-		case .filters: return presenter.getFilterTitle(index: index)
-		case .tune: return presenter.getTuneTitleFor(index: index)
-		case .rotation: return ""
-		}
-	}
-	func cellImageFor(index: Int) -> UIImage? {
-		switch currentEditingType {
-		case .filters: return presenter.getFilterPreview(index: index)
-		case .tune: return presenter.getTuneToolImageFor(index: index)
-		case .rotation: return nil
-		}
-	}
-}
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
@@ -129,9 +94,9 @@ private extension EditingScreenViewController
 			navigationController?.toolbar.tintColor = .label
 		}
 		else {
-			filtersButton.setImage(ToolBarImages.filters, for: .normal)
-			tuneButton.setImage(ToolBarImages.tune, for: .normal)
-			rotateButton.setImage(ToolBarImages.rotation, for: .normal)
+			filtersButton.setImage(ToolBarImage.filters, for: .normal)
+			tuneButton.setImage(ToolBarImage.tune, for: .normal)
+			rotateButton.setImage(ToolBarImage.rotation, for: .normal)
 			navigationController?.toolbar.tintColor = .black
 		}
 
@@ -173,6 +138,7 @@ private extension EditingScreenViewController
 		case .rotation:
 			currentEditingType = .rotation
 			presenter.rotationToolPressed()
+		case .none: break
 		}
 	}
 }
@@ -189,5 +155,34 @@ extension EditingScreenViewController: IEditingScreen
 
 	func showRotationTool() {
 		mainView.hideAllToolsViews(except: .rotation)
+	}
+}
+
+// MARK: - IFilterCollectionViewDelegate
+extension EditingScreenViewController: IToolCollectionViewDelegate
+{
+	func imageWithFilter(index: Int) -> UIImage? {
+		presenter.getFilteredImageFor(filterIndex: index)
+	}
+}
+	// MARK: - IFilterCollectionViewDataSource
+extension EditingScreenViewController: IToolCollectionViewDataSource
+{
+	var editingType: EditingType { currentEditingType }
+
+	var itemsCount: Int {
+		switch currentEditingType {
+		case .filters: return presenter.getFiltersCount()
+		case .tune: return presenter.getTuneToolsCount()
+		default: return 0
+		}
+	}
+
+	func dataForFilterCell(index: Int) -> (title: String, image: UIImage?) {
+		presenter.getFiltersPreview(index: index)
+	}
+
+	func dataForTuneCell(index: Int) -> (title: String, image: UIImage?, type: TuneToolType) {
+		presenter.getTuneToolCellDataFor(index: index)
 	}
 }

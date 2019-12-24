@@ -12,12 +12,8 @@ import UIKit
 
 protocol IImageProcessor
 {
-	var filtersCount: Int { get }
-
-	func processed(image: UIImage, with filter: String) -> UIImage
-	func filtersPreviews(image: UIImage) -> [UIImage]
-	func filterTitleFor(index: Int) -> String
-	func filterFor(index: Int) -> String
+	func processed(image: UIImage, with filter: CIFilter?) -> UIImage
+	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 	func colorControls(image: UIImage,
 					   brightness: Float,
 					   saturation: Float,
@@ -27,22 +23,6 @@ protocol IImageProcessor
 final class ImageProcessor
 {
 	private let context = CIContext()
-
-	private let filters = [
-		"", "CIPhotoEffectMono",
-		"CISepiaTone", "CIPhotoEffectNoir",
-		"CIPhotoEffectTransfer", "CIPhotoEffectChrome",
-		"CIPhotoEffectProcess", "CIPhotoEffectFade",
-		"CIPhotoEffectInstant", "CIColorMonochrome",
-		]
-
-	private let filtersTitles = [
-		"Normal", "B & W",
-		"Sepia", "Noir",
-		"Transfer", "Chrome",
-		"Pro", "Fade",
-		"Instant", "Mono",
-	]
 
 	private func changedUIImageFromContext(image: UIImage, filter: CIFilter) -> UIImage {
 		guard let ciImage = CIImage(image: image) else { return image }
@@ -65,21 +45,17 @@ extension ImageProcessor: IImageProcessor
 		return changedUIImageFromContext(image: image, filter: filter)
 	}
 
-	var filtersCount: Int { filters.count }
-
-	func filterTitleFor(index: Int) -> String { filtersTitles[index] }
-	func filterFor(index: Int) -> String { filters[index] }
-
-	func processed(image: UIImage, with filter: String) -> UIImage {
-		guard let filter = CIFilter(name: filter) else { return image }
+	func processed(image: UIImage, with filter: CIFilter?) -> UIImage {
+		guard let filter = filter else { return image }
 		return changedUIImageFromContext(image: image, filter: filter)
 	}
 
-	func filtersPreviews(image: UIImage) -> [UIImage] {
-		var previews = [UIImage]()
-		for filter in filters {
-			let image = processed(image: image, with: filter)
-			previews.append(image)
+	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
+		var previews = [(title: String, image: UIImage?)]()
+		for index in 0..<Filter.all.count {
+			let preview = Filter.all[index]
+			let image = processed(image: image, with: preview.filter)
+			previews.append((preview.title, image))
 		}
 		return previews
 	}

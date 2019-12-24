@@ -8,6 +8,11 @@
 
 import UIKit
 
+protocol IToolCollectionViewDelegate: AnyObject
+{
+	func imageWithFilter(index: Int) -> UIImage?
+}
+
 extension EditingScreenMainView: UICollectionViewDelegate
 {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -23,8 +28,10 @@ extension EditingScreenMainView: UICollectionViewDelegate
 				toolsCollectionView.lastSelection = indexPath
 				setImage(filteredImage)
 			}
-		case .tune: break
+		case .tune:
 			//show slider or other tune tool
+			hideAllToolsViews(except: .none)
+			showSliders()
 		default: break
 		}
 	}
