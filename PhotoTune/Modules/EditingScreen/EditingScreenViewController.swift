@@ -110,20 +110,30 @@ private extension EditingScreenViewController
 		let spacer = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: self, action: nil)
 
 		let filtersButton = ToolBarButton(toolBarHeight: height)
-		filtersButton.setImage(ToolBarImages.filters, for: .normal)
 		filtersButton.editingType = .filters
 		filtersButton.isSelected = true
 		toolBarButtons.append(filtersButton)
 
 		let tuneButton = ToolBarButton(toolBarHeight: height)
-		tuneButton.setImage(ToolBarImages.tune, for: .normal)
 		tuneButton.editingType = .tune
 		toolBarButtons.append(tuneButton)
 
 		let rotateButton = ToolBarButton(toolBarHeight: height)
-		rotateButton.setImage(ToolBarImages.rotation, for: .normal)
 		rotateButton.editingType = .rotation
 		toolBarButtons.append(rotateButton)
+
+		if #available(iOS 13.0, *) {
+			filtersButton.setImage(UIImage(systemName: "f.circle"), for: .normal)
+			tuneButton.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
+			rotateButton.setImage(UIImage(systemName: "crop.rotate"), for: .normal)
+			navigationController?.toolbar.tintColor = .label
+		}
+		else {
+			filtersButton.setImage(ToolBarImages.filters, for: .normal)
+			tuneButton.setImage(ToolBarImages.tune, for: .normal)
+			rotateButton.setImage(ToolBarImages.rotation, for: .normal)
+			navigationController?.toolbar.tintColor = .black
+		}
 
 		let filtersBarButton = UIBarButtonItem(customView: filtersButton)
 		let tuneBarButton = UIBarButtonItem(customView: tuneButton)
@@ -134,7 +144,6 @@ private extension EditingScreenViewController
 		toolBarButtons.forEach { $0.addTarget(self, action: #selector(toolBarButtonTapped(_:)), for: .touchUpInside)
 		}
 
-		navigationController?.toolbar.tintColor = .black
 		navigationController?.setToolbarHidden(false, animated: false)
 	}
 
