@@ -13,7 +13,9 @@ protocol IEditingScreenPresenter
 	func filtersToolPressed()
 	func tuneToolPressed()
 	func rotationToolPressed()
+
 	func getInitialImage() -> UIImage
+
 	func getFilteredImageFor(filterIndex: Int) -> UIImage
 	func getFiltersCount() -> Int
 	func getFilterPreview(index: Int) -> UIImage

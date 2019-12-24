@@ -26,11 +26,12 @@ class ToolCollectionViewCell: UICollectionViewCell
 
 	private func initialSetup() {
 		imageView.contentMode = .scaleToFill
+		imageView.backgroundColor = .white
 		imageView.clipsToBounds = true
 		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		addSubview(imageView)
 
-		title.textColor = .lightGray
+		title.textColor = .systemGray
 		title.textAlignment = .center
 		addSubview(title)
 
@@ -58,6 +59,10 @@ class ToolCollectionViewCell: UICollectionViewCell
 	func setImageViewContentMode(mode: ContentMode) { imageView.contentMode = mode }
 	func setImage(_ image: UIImage?) { imageView.image = image }
 	func setBackgroundColor(_ color: UIColor) { imageView.backgroundColor = color }
+	func setBorderToImage(color: UIColor, width: CGFloat) {
+		imageView.layer.borderColor = color.cgColor
+		imageView.layer.borderWidth = width
+	}
 
 	func addShadow() {
 		layer.shadowRadius = 15

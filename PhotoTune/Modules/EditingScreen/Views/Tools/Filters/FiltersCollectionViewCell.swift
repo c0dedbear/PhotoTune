@@ -30,7 +30,12 @@ final class FiltersCollectionViewCell: ToolCollectionViewCell
 
 	override var isSelected: Bool {
 		didSet {
-			setTextColor(isSelected && isHighlighted == false ? .darkText : .lightGray)
+			if #available(iOS 13.0, *) {
+				setTextColor(isSelected && isHighlighted == false ? .label : .tertiaryLabel)
+			}
+			else {
+				setTextColor(isSelected && isHighlighted == false ? .darkText : .lightGray)
+			}
 		}
 	}
 

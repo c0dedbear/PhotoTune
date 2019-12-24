@@ -17,9 +17,16 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 	}
 
 	override func layoutSubviews() {
-		setFont(.systemFont(ofSize: 14, weight: .thin)
-		)
-		setTextColor(.darkText)
+		setFont(.systemFont(ofSize: 14, weight: .light))
 		setImageViewContentMode(mode: .center)
+
+		if #available(iOS 13.0, *) {
+			setTextColor(.label)
+			setBorderToImage(color: .label, width: 1)
+		}
+		else {
+			setTextColor(.darkText)
+			setBorderToImage(color: .black, width: 1)
+		}
 	}
 }
