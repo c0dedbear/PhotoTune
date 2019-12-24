@@ -10,6 +10,8 @@ import UIKit
 
 final class ToolsCollectionView: UICollectionView
 {
+	var lastSelection = IndexPath(item: 0, section: 0)
+
 	init() {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -18,7 +20,12 @@ final class ToolsCollectionView: UICollectionView
 	}
 
 	private func initialSetup() {
-		backgroundColor = .white
+		if #available(iOS 13.0, *) {
+			backgroundColor = .systemBackground
+		}
+		else {
+			backgroundColor = .white
+		}
 		showsHorizontalScrollIndicator = false
 		contentInset = UIEdgeInsets(
 			top: 0,

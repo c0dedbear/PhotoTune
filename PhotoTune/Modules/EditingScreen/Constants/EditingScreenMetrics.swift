@@ -11,6 +11,8 @@ import CoreGraphics
 enum EditingScreenMetrics
 {
 	static let filterCellCornerRadius: CGFloat = 20
-	static let collectionViewLeftInset: CGFloat = 10
-	static let collectionViewRightInset: CGFloat = 10
+	static let collectionViewLeftInset: CGFloat = 20
+	static let collectionViewRightInset: CGFloat = 20
+	static let filtersLineSpacing: CGFloat = 30
+	static let tuneToolLineSpacing: CGFloat = 40
 }

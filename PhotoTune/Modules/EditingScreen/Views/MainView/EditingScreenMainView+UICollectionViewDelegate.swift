@@ -12,16 +12,20 @@ extension EditingScreenMainView: UICollectionViewDelegate
 {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-		if let filterCell = collectionView.cellForItem(at: indexPath) as? FiltersCollectionViewCell {
-			filterCell.isSelected = true
-			if let filteredImage = filterCollectionViewDelegate?.imageWithFilter(index: indexPath.item) {
+		guard let toolsCollectionView = collectionView as? ToolsCollectionView else { return }
+
+		guard let cell = toolsCollectionView.cellForItem(at: indexPath) as? ToolCollectionViewCell else { return }
+		cell.isSelected = true
+
+		switch toolCollectionViewDataSource?.editingType {
+		case .filters:
+			if let filteredImage = toolCollectionViewDelegate?.imageWithFilter(index: indexPath.item) {
+				toolsCollectionView.lastSelection = indexPath
 				setImage(filteredImage)
 			}
-		}
-
-		if let tuneToolCell = collectionView.cellForItem(at: indexPath) as? TuneToolCollectionViewCell {
-			tuneToolCell.isSelected = true
-			//show sliders or other tune tools
+		case .tune: break
+			//show slider or other tune tool
+		default: break
 		}
 	}
 }

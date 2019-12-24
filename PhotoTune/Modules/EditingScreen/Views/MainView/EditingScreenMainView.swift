@@ -8,15 +8,15 @@
 
 import UIKit
 
-protocol IFilterCollectionViewDelegate: AnyObject
+protocol IToolCollectionViewDelegate: AnyObject
 {
 	func imageWithFilter(index: Int) -> UIImage?
 }
 
-protocol IFilterCollectionViewDataSource: AnyObject
+protocol IToolCollectionViewDataSource: AnyObject
 {
 	var itemsCount: Int { get }
-	var currentEditingType: EditingType { get }
+	var editingType: EditingType { get }
 
 	func cellTitleFor(index: Int) -> String
 	func cellImageFor(index: Int) -> UIImage?
@@ -31,17 +31,30 @@ final class EditingScreenMainView: UIView
 	private let tuneTools = ToolsCollectionView()
 	private let rotationTool = RotationView()
 
-	weak var filterCollectionViewDelegate: IFilterCollectionViewDelegate?
-	weak var filtersCollectionViewDataSource: IFilterCollectionViewDataSource?
+	weak var toolCollectionViewDelegate: IToolCollectionViewDelegate?
+	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
-	var heightForCell: CGFloat { imageView.bounds.height / 3 }
+	var heightForCell: CGFloat {
+		if toolCollectionViewDataSource?.editingType == .filters {
+			return imageView.bounds.height / 3
+		}
+		else {
+			return imageView.bounds.height / 5
+		}
+	}
+
+	var spacingForCell: CGFloat {
+		if toolCollectionViewDataSource?.editingType == .filters {
+			return 10
+		}
+		else {
+			return 100
+		}
+	}
 
 	init() {
 		super.init(frame: .zero)
-		filtersTools.delegate = self
-		filtersTools.dataSource = self
-		tuneTools.delegate = self
-		tuneTools.dataSource = self
+		setDelegateWithDataSource()
 		setupView()
 		setConstraints()
 		addTools()
@@ -52,8 +65,18 @@ final class EditingScreenMainView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	private func setDelegateWithDataSource() {
+		filtersTools.delegate = self
+		filtersTools.dataSource = self
+		tuneTools.delegate = self
+		tuneTools.dataSource = self
+	}
+
 	private func setupView() {
-		backgroundColor = .white
+		if #available(iOS 13.0, *){
+			backgroundColor = .systemBackground
+		}
+		else { backgroundColor = .white }
 		imageView.clipsToBounds = true
 		imageView.contentMode = .scaleAspectFit
 		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
@@ -85,7 +108,6 @@ final class EditingScreenMainView: UIView
 		filtersTools.fillSuperview()
 		editingView.addSubview(tuneTools)
 		tuneTools.fillSuperview()
-		hideAllToolsViews(except: .filters)
 	}
 
 	func setImage(_ image: UIImage) {
@@ -97,6 +119,7 @@ final class EditingScreenMainView: UIView
 		switch except {
 		case .filters:
 			filtersTools.reloadData()
+			filtersTools.selectItem(at: filtersTools.lastSelection, animated: false, scrollPosition: [])
 			filtersTools.animatedAppearing()
 		case .tune:
 			tuneTools.reloadData()

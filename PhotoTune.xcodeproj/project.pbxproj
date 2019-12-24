@@ -107,8 +107,8 @@
 			children = (
 				E90288F223AE75D400F28FBA /* EditingType.swift */,
 				E90288F323AE75D400F28FBA /* EditingScreenMetrics.swift */,
-				E94D1A7123B13271007A4E86 /* TuneToolsImages.swift */,
 				E94D1A7323B13375007A4E86 /* ToolBarImages.swift */,
+				E94D1A7123B13271007A4E86 /* TuneToolsImages.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";

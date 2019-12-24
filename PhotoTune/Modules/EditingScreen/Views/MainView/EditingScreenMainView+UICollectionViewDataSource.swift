@@ -11,15 +11,15 @@ import UIKit
 extension EditingScreenMainView: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		filtersCollectionViewDataSource?.itemsCount ?? 0
+		toolCollectionViewDataSource?.itemsCount ?? 0
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-		let title = filtersCollectionViewDataSource?.cellTitleFor(index: indexPath.item)
-		let image = filtersCollectionViewDataSource?.cellImageFor(index: indexPath.item)
+		let title = toolCollectionViewDataSource?.cellTitleFor(index: indexPath.item)
+		let image = toolCollectionViewDataSource?.cellImageFor(index: indexPath.item)
 
-		switch filtersCollectionViewDataSource?.currentEditingType {
+		switch toolCollectionViewDataSource?.editingType {
 		case .filters:
 			if let filterCell = collectionView.dequeueReusableCell(
 				withReuseIdentifier: FiltersCollectionViewCell.identifier,

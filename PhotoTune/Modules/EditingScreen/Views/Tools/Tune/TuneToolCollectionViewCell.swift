@@ -11,4 +11,15 @@ import UIKit
 final class TuneToolCollectionViewCell: ToolCollectionViewCell
 {
 	static let identifier = "TuneToolCollectionViewCell"
+
+	override var isHighlighted: Bool {
+		didSet {}
+	}
+
+	override func layoutSubviews() {
+		setFont(.systemFont(ofSize: 14, weight: .thin)
+		)
+		setTextColor(.darkText)
+		setImageViewContentMode(mode: .center)
+	}
 }

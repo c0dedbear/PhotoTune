@@ -20,7 +20,7 @@ final class EditingScreenViewController: UIViewController
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	var currentEditingType: EditingType = .filters {
+	internal var currentEditingType: EditingType = .filters {
 		didSet { title = currentEditingType.rawValue }
 	}
 
@@ -41,28 +41,30 @@ final class EditingScreenViewController: UIViewController
 	// MARK: ViewController Life Cycle Methods
 	override func loadView() {
 		view = mainView
-		mainView.filterCollectionViewDelegate = self
-		mainView.filtersCollectionViewDataSource = self
+		mainView.toolCollectionViewDelegate = self
+		mainView.toolCollectionViewDataSource = self
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		if #available(iOS 13.0, *) { overrideUserInterfaceStyle = .light }
 		setupNavigationBar()
 		setupToolBar()
+		mainView.hideAllToolsViews(except: currentEditingType)
 		mainView.setImage(presenter.getInitialImage())
 	}
 }
 	// MARK: - IFilterCollectionViewDelegate
-extension EditingScreenViewController: IFilterCollectionViewDelegate
+extension EditingScreenViewController: IToolCollectionViewDelegate
 {
 	func imageWithFilter(index: Int) -> UIImage? {
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }
 	// MARK: - IFilterCollectionViewDataSource
-extension EditingScreenViewController: IFilterCollectionViewDataSource
+extension EditingScreenViewController: IToolCollectionViewDataSource
 {
+	var editingType: EditingType { currentEditingType }
+
 	var itemsCount: Int {
 		switch currentEditingType {
 		case .filters: return presenter.getFiltersCount()
