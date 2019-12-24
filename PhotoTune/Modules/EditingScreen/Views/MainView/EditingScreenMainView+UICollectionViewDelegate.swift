@@ -30,8 +30,10 @@ extension EditingScreenMainView: UICollectionViewDelegate
 			}
 		case .tune:
 			//show slider or other tune tool
-			hideAllToolsViews(except: .none)
-			showSliders()
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+				self?.hideAllToolsViews(except: .none)
+				self?.showSliders()
+			}
 		default: break
 		}
 	}

@@ -14,8 +14,8 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 
 	var tuneToolType: TuneToolType?
 
-	override var isHighlighted: Bool {
-		didSet {}
+	override var isSelected: Bool {
+		didSet { animateScale(condition: isSelected) }
 	}
 
 	override func layoutSubviews() {
