@@ -1,5 +1,5 @@
 //
-//  EditingScreenMainView.swift
+//  EditingView.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 23.12.2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class EditingScreenMainView: UIView
+final class EditingView: UIView
 {
 	private let imageView = UIImageView()
 	private let editingView = UIView()
@@ -21,21 +21,14 @@ final class EditingScreenMainView: UIView
 	weak var toolCollectionViewDelegate: IToolCollectionViewDelegate?
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
+	var currentImage: UIImage? { imageView.image }
+
 	var heightForCell: CGFloat {
 		if toolCollectionViewDataSource?.editingType == .filters {
 			return imageView.bounds.height / 3
 		}
 		else {
 			return imageView.bounds.height / 5
-		}
-	}
-
-	var spacingForCell: CGFloat {
-		if toolCollectionViewDataSource?.editingType == .filters {
-			return 10
-		}
-		else {
-			return 100
 		}
 	}
 
@@ -53,12 +46,13 @@ final class EditingScreenMainView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func setImage(_ image: UIImage) {
+	func setImage(_ image: UIImage?) {
 		imageView.image = image
 	}
 
-	func showSliders() {
+	func showSliders(of type: TuneToolType) {
 		slidersStack.isHidden = false
+		slidersStack.currentTuneTool = type
 	}
 
 	func hideAllToolsViews(except: EditingType) {
@@ -77,7 +71,8 @@ final class EditingScreenMainView: UIView
 	}
 }
 
-private extension EditingScreenMainView
+	// MARK: - Private Methods
+private extension EditingView
 {
 	func setDelegateWithDataSource() {
 		filtersTools.delegate = self

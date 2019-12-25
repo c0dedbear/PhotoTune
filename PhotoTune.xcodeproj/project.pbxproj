@@ -22,7 +22,7 @@
 		E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902890023AE75D400F28FBA /* EditingScreenRouter.swift */; };
 		E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */; };
 		E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */; };
-		E902893723B0DC7500F28FBA /* EditingScreenMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902893623B0DC7500F28FBA /* EditingScreenMainView.swift */; };
+		E902893723B0DC7500F28FBA /* EditingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E902893623B0DC7500F28FBA /* EditingView.swift */; };
 		E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906D75523A7F7D10010CD54 /* AppDelegate.swift */; };
 		E906D75F23A7F7D40010CD54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E906D75E23A7F7D40010CD54 /* Assets.xcassets */; };
 		E906D76223A7F7D40010CD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E906D76023A7F7D40010CD54 /* LaunchScreen.storyboard */; };
@@ -33,9 +33,9 @@
 		E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD323B2493D007A4E86 /* ToolSlider.swift */; };
 		E94D1AD623B28B38007A4E86 /* TuneToolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD523B28B38007A4E86 /* TuneToolType.swift */; };
 		E94D1AD823B29147007A4E86 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD723B29147007A4E86 /* Filter.swift */; };
-		E97027F523B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */; };
-		E97027F723B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */; };
-		E97027F923B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */; };
+		E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */; };
+		E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */; };
+		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
@@ -55,7 +55,7 @@
 		E902890023AE75D400F28FBA /* EditingScreenRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenRouter.swift; sourceTree = "<group>"; };
 		E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+AnchorsExtension.swift"; sourceTree = "<group>"; };
 		E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+AnimatedAppearing.swift"; sourceTree = "<group>"; };
-		E902893623B0DC7500F28FBA /* EditingScreenMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingScreenMainView.swift; sourceTree = "<group>"; };
+		E902893623B0DC7500F28FBA /* EditingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditingView.swift; sourceTree = "<group>"; };
 		E906D75223A7F7D10010CD54 /* PhotoTune.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PhotoTune.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E906D75523A7F7D10010CD54 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E906D75E23A7F7D40010CD54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -68,9 +68,9 @@
 		E94D1AD323B2493D007A4E86 /* ToolSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolSlider.swift; sourceTree = "<group>"; };
 		E94D1AD523B28B38007A4E86 /* TuneToolType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneToolType.swift; sourceTree = "<group>"; };
 		E94D1AD723B29147007A4E86 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
-		E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
-		E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
-		E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingScreenMainView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
+		E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
+		E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
+		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -156,7 +156,7 @@
 		E902893823B1125700F28FBA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E97027F323B11F03000F6A0C /* MainView */,
+				E97027F323B11F03000F6A0C /* EditingView */,
 				E90288F623AE75D400F28FBA /* Tools */,
 			);
 			path = Views;
@@ -222,15 +222,15 @@
 			path = EditingScreen;
 			sourceTree = "<group>";
 		};
-		E97027F323B11F03000F6A0C /* MainView */ = {
+		E97027F323B11F03000F6A0C /* EditingView */ = {
 			isa = PBXGroup;
 			children = (
-				E902893623B0DC7500F28FBA /* EditingScreenMainView.swift */,
-				E97027F823B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift */,
-				E97027F423B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift */,
-				E97027F623B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift */,
+				E902893623B0DC7500F28FBA /* EditingView.swift */,
+				E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */,
+				E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */,
+				E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */,
 			);
-			path = MainView;
+			path = EditingView;
 			sourceTree = "<group>";
 		};
 		E97027FA23B12333000F6A0C /* Tune */ = {
@@ -344,7 +344,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */,
-				E97027F523B11F3C000F6A0C /* EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift in Sources */,
+				E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */,
 				E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */,
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
@@ -352,7 +352,7 @@
 				E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */,
 				E94D1A7423B13375007A4E86 /* ToolBarImage.swift in Sources */,
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
-				E97027F723B11F6F000F6A0C /* EditingScreenMainView+UICollectionViewDataSource.swift in Sources */,
+				E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
 				E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */,
@@ -365,11 +365,11 @@
 				E94D1AD623B28B38007A4E86 /* TuneToolType.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */,
 				E94D1AD823B29147007A4E86 /* Filter.swift in Sources */,
-				E97027F923B11FB7000F6A0C /* EditingScreenMainView+UICollectionViewDelegate.swift in Sources */,
+				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
 				E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
 				E94D1AD223B23FBA007A4E86 /* SlidersStackView.swift in Sources */,
-				E902893723B0DC7500F28FBA /* EditingScreenMainView.swift in Sources */,
+				E902893723B0DC7500F28FBA /* EditingView.swift in Sources */,
 				E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

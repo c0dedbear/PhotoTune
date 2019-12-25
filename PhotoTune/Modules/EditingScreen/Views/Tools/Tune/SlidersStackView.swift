@@ -10,12 +10,14 @@ import UIKit
 
 final class SlidersStackView: UIStackView
 {
-	private let radiusSlider = ToolSlider()
 	private let intensitySlider = ToolSlider()
+	private let radiusSlider = ToolSlider()
 	private let cancel = UIButton(type: .system)
 	private let done = UIButton(type: .system)
 
-	weak var mainView: EditingScreenMainView?
+	weak var mainView: EditingView?
+
+	var currentTuneTool: TuneToolType? { didSet { showControls() } }
 
 	init() {
 		super.init(frame: .zero)
@@ -28,6 +30,8 @@ final class SlidersStackView: UIStackView
 	}
 
 	private func initialSetup() {
+		intensitySlider.addTarget(self, action: #selector(intensityChanged), for: .valueChanged)
+		radiusSlider.addTarget(self, action: #selector(radiusChanged), for: .valueChanged)
 		addArrangedSubview(radiusSlider)
 		addArrangedSubview(intensitySlider)
 		buttonConfigure()
@@ -71,20 +75,64 @@ final class SlidersStackView: UIStackView
 			   padding: .init(top: 0, left: 20, bottom: 10, right: 20))
 	}
 
-	private func resetSliders() {
-		intensitySlider.value = 0
-		radiusSlider.value = 0
+	func showControls() {
+		radiusSlider.isHidden = true
+		switch currentTuneTool {
+		case .brightness: intensitySlider.configureForBrightness()
+		case .contrast: intensitySlider.configureForContrast()
+		case .saturation: intensitySlider.configureForSaturation()
+		case .vignette:
+			radiusSlider.isHidden = false
+			radiusSlider.configureForVignetteRadius()
+			intensitySlider.configureForVignetteIntensity()
+		case .bloom:
+			radiusSlider.isHidden = false
+			radiusSlider.configureForBloomRadius()
+			radiusSlider.configureForBloomIntensity()
+		case .none: break
+		}
+	}
+
+	@objc func intensityChanged() {
+		switch currentTuneTool {
+		case .brightness:
+			mainView?.toolCollectionViewDelegate?.setBrightness(value: intensitySlider.value)
+		case .contrast:
+			mainView?.toolCollectionViewDelegate?.setContrast(value: intensitySlider.value)
+		case .saturation:
+			mainView?.toolCollectionViewDelegate?.setSaturation(value: intensitySlider.value)
+		case .vignette: break
+		case .bloom: break
+		case .none: break
+		}
+	}
+
+	@objc func radiusChanged() {
+		print(radiusSlider.value)
 	}
 
 	@objc func cancelTapped() {
-		resetSliders()
+		switch currentTuneTool {
+		case .brightness:
+			intensitySlider.configureForBrightness()
+			mainView?.toolCollectionViewDelegate?.setBrightness(value: intensitySlider.value)
+		case .contrast:
+			intensitySlider.configureForContrast()
+			mainView?.toolCollectionViewDelegate?.setContrast(value: intensitySlider.value)
+		case .saturation:
+			intensitySlider.configureForSaturation()
+			mainView?.toolCollectionViewDelegate?.setSaturation(value: intensitySlider.value)
+		case .vignette: break
+		case .bloom: break
+		case .none: break
+		}
 		self.isHidden = true
 		mainView?.hideAllToolsViews(except: .tune)
 	}
 
 	@objc func doneTapped() {
+		mainView?.toolCollectionViewDelegate?.saveTuneSettings()
 		self.isHidden = true
 		mainView?.hideAllToolsViews(except: .tune)
-		//save image and tool state
 	}
 }

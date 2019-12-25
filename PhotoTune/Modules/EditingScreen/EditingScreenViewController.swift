@@ -20,11 +20,11 @@ final class EditingScreenViewController: UIViewController
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	internal var currentEditingType: EditingType = .filters {
+	var currentEditingType: EditingType = .filters {
 		didSet { title = currentEditingType.rawValue }
 	}
 
-	private let mainView = EditingScreenMainView()
+	private let editingView = EditingView()
 	private var toolBarButtons = [ToolBarButton]()
 
 	// MARK: Initialization
@@ -40,17 +40,17 @@ final class EditingScreenViewController: UIViewController
 
 	// MARK: ViewController Life Cycle Methods
 	override func loadView() {
-		view = mainView
-		mainView.toolCollectionViewDelegate = self
-		mainView.toolCollectionViewDataSource = self
+		view = editingView
+		editingView.toolCollectionViewDelegate = self
+		editingView.toolCollectionViewDataSource = self
 	}
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		setupNavigationBar()
 		setupToolBar()
-		mainView.hideAllToolsViews(except: currentEditingType)
-		mainView.setImage(presenter.getInitialImage())
+		editingView.hideAllToolsViews(except: currentEditingType)
+		editingView.setImage(presenter.getInitialImage())
 	}
 }
 	// MARK: - Private Methods
@@ -146,26 +146,45 @@ private extension EditingScreenViewController
 extension EditingScreenViewController: IEditingScreen
 {
 	func showFiltersTool() {
-		mainView.hideAllToolsViews(except: .filters)
+		editingView.hideAllToolsViews(except: .filters)
 	}
 
 	func showTuneTools() {
-		mainView.hideAllToolsViews(except: .tune)
+		editingView.hideAllToolsViews(except: .tune)
 	}
 
 	func showRotationTool() {
-		mainView.hideAllToolsViews(except: .rotation)
+		editingView.hideAllToolsViews(except: .rotation)
 	}
 }
 
-// MARK: - IFilterCollectionViewDelegate
+// MARK: - IToolCollectionViewDelegate
 extension EditingScreenViewController: IToolCollectionViewDelegate
 {
+	func saveTuneSettings() {
+		presenter.whenSaveTuneSettingsTapped(save: editingView.currentImage)
+	}
+
+	func setBrightness(value: Float) {
+		let tuned = presenter.brightnessChanged(value: value)
+		editingView.setImage(tuned)
+	}
+
+	func setContrast(value: Float) {
+		let tuned = presenter.contrastChanged(value: value)
+		editingView.setImage(tuned)
+	}
+
+	func setSaturation(value: Float) {
+		let tuned = presenter.saturationChanged(value: value)
+		editingView.setImage(tuned)
+	}
+
 	func imageWithFilter(index: Int) -> UIImage? {
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }
-	// MARK: - IFilterCollectionViewDataSource
+	// MARK: - IToolCollectionViewDelegate
 extension EditingScreenViewController: IToolCollectionViewDataSource
 {
 	var editingType: EditingType { currentEditingType }

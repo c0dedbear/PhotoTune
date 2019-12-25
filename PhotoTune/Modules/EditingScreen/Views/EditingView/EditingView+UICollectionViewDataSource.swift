@@ -1,5 +1,5 @@
 //
-//  EditingScreenMainView+UICollectionViewDataSource.swift
+//  EditingView+UICollectionViewDataSource.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 23.12.2019.
@@ -17,7 +17,7 @@ protocol IToolCollectionViewDataSource: AnyObject
 	func dataForTuneCell(index: Int) -> (title: String, image: UIImage?, type: TuneToolType)
 }
 
-extension EditingScreenMainView: UICollectionViewDataSource
+extension EditingView: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		toolCollectionViewDataSource?.itemsCount ?? 0

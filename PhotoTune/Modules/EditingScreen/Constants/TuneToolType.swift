@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum TuneToolType: CaseIterable
+enum TuneToolType
 {
 	case brightness
 	case contrast

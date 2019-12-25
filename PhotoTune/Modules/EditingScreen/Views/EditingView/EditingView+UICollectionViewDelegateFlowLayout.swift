@@ -1,5 +1,5 @@
 //
-//  EditingScreenMainView+UICollectionViewDelegateFlowLayout.swift
+//  EditingView+UICollectionViewDelegateFlowLayout.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 23.12.2019.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-extension EditingScreenMainView: UICollectionViewDelegateFlowLayout
+extension EditingView: UICollectionViewDelegateFlowLayout
 {
 	func collectionView(_ collectionView: UICollectionView,
 						layout collectionViewLayout: UICollectionViewLayout,
