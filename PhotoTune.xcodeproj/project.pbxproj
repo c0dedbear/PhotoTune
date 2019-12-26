@@ -29,10 +29,11 @@
 		E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930355023ABADB900ADAF52 /* ModulesFactory.swift */; };
 		E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1A7123B13271007A4E86 /* TuneTool.swift */; };
 		E94D1A7423B13375007A4E86 /* ToolBarImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1A7323B13375007A4E86 /* ToolBarImage.swift */; };
-		E94D1AD223B23FBA007A4E86 /* SlidersStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD123B23FBA007A4E86 /* SlidersStackView.swift */; };
+		E94D1AD223B23FBA007A4E86 /* ToolSliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD123B23FBA007A4E86 /* ToolSliderView.swift */; };
 		E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD323B2493D007A4E86 /* ToolSlider.swift */; };
 		E94D1AD623B28B38007A4E86 /* TuneToolType.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD523B28B38007A4E86 /* TuneToolType.swift */; };
 		E94D1AD823B29147007A4E86 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD723B29147007A4E86 /* Filter.swift */; };
+		E94D1ADA23B4E0EA007A4E86 /* TuneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */; };
 		E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */; };
 		E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
@@ -64,10 +65,11 @@
 		E930355023ABADB900ADAF52 /* ModulesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesFactory.swift; sourceTree = "<group>"; };
 		E94D1A7123B13271007A4E86 /* TuneTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneTool.swift; sourceTree = "<group>"; };
 		E94D1A7323B13375007A4E86 /* ToolBarImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolBarImage.swift; sourceTree = "<group>"; };
-		E94D1AD123B23FBA007A4E86 /* SlidersStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlidersStackView.swift; sourceTree = "<group>"; };
+		E94D1AD123B23FBA007A4E86 /* ToolSliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolSliderView.swift; sourceTree = "<group>"; };
 		E94D1AD323B2493D007A4E86 /* ToolSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolSlider.swift; sourceTree = "<group>"; };
 		E94D1AD523B28B38007A4E86 /* TuneToolType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneToolType.swift; sourceTree = "<group>"; };
 		E94D1AD723B29147007A4E86 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
+		E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneSettings.swift; sourceTree = "<group>"; };
 		E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
 		E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
@@ -106,6 +108,7 @@
 			isa = PBXGroup;
 			children = (
 				D04F2BCE23A960A8002DE17E /* EditedImage.swift */,
+				E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -236,9 +239,9 @@
 		E97027FA23B12333000F6A0C /* Tune */ = {
 			isa = PBXGroup;
 			children = (
-				E90288FD23AE75D400F28FBA /* TuneToolCollectionViewCell.swift */,
 				E94D1AD323B2493D007A4E86 /* ToolSlider.swift */,
-				E94D1AD123B23FBA007A4E86 /* SlidersStackView.swift */,
+				E90288FD23AE75D400F28FBA /* TuneToolCollectionViewCell.swift */,
+				E94D1AD123B23FBA007A4E86 /* ToolSliderView.swift */,
 			);
 			path = Tune;
 			sourceTree = "<group>";
@@ -345,6 +348,7 @@
 			files = (
 				E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */,
 				E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */,
+				E94D1ADA23B4E0EA007A4E86 /* TuneSettings.swift in Sources */,
 				E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */,
 				E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */,
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
@@ -368,7 +372,7 @@
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
 				E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
-				E94D1AD223B23FBA007A4E86 /* SlidersStackView.swift in Sources */,
+				E94D1AD223B23FBA007A4E86 /* ToolSliderView.swift in Sources */,
 				E902893723B0DC7500F28FBA /* EditingView.swift in Sources */,
 				E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */,
 			);

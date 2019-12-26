@@ -8,15 +8,6 @@
 
 import UIKit
 
-protocol IToolCollectionViewDelegate: AnyObject
-{
-	func imageWithFilter(index: Int) -> UIImage?
-	func saveTuneSettings()
-	func setBrightness(value: Float)
-	func setContrast(value: Float)
-	func setSaturation(value: Float)
-}
-
 extension EditingView: UICollectionViewDelegate
 {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -28,9 +19,10 @@ extension EditingView: UICollectionViewDelegate
 
 		switch toolCollectionViewDataSource?.editingType {
 		case .filters:
-			if let filteredImage = toolCollectionViewDelegate?.imageWithFilter(index: indexPath.item) {
+			if let filteredImage = toolsDelegate?.imageWithFilter(index: indexPath.item) {
 				toolsCollectionView.lastSelection = indexPath
 				setImage(filteredImage)
+				resetTuneSettings()
 			}
 		case .tune:
 			guard let tuneTool = cell as? TuneToolCollectionViewCell else { return }
@@ -38,7 +30,7 @@ extension EditingView: UICollectionViewDelegate
 			DispatchQueue.main.asyncAfter(wallDeadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration)
 			{ [weak self] in
 				self?.hideAllToolsViews(except: .none)
-				self?.showSliders(of: type)
+				self?.showSlider(of: type)
 			}
 		default: break
 		}

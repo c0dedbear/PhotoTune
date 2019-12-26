@@ -10,52 +10,32 @@ import UIKit
 
 final class ToolSlider: UISlider
 {
-	var toolType: TuneToolType?
-
 	init() {
 		super.init(frame: .zero)
 	}
 
-	func configureForBrightness() {
+	func configureForBrightness(withValue: Float) {
 		minimumValue = -0.75
 		maximumValue = 0.75
-		value = 0
+		value = withValue
 	}
 
-	func configureForContrast() {
+	func configureForContrast(withValue: Float) {
 		minimumValue = 0.25
 		maximumValue = 2
-		value = 1.0
+		value = withValue
 	}
 
-	func configureForSaturation() {
-		minimumValue = 0.5
-		maximumValue = 3
-		value = 1.0
+	func configureForSaturation(withValue: Float) {
+		minimumValue = -2
+		maximumValue = 4
+		value = withValue
 	}
 
-	func configureForBloomIntensity() {
-		minimumValue = 0.5
-		maximumValue = 3
-		value = 1.0
-	}
-
-	func configureForBloomRadius() {
-		minimumValue = 0.5
-		maximumValue = 3
-		value = 1.0
-	}
-
-	func configureForVignetteIntensity() {
-		minimumValue = 0.5
-		maximumValue = 3
-		value = 1.0
-	}
-
-	func configureForVignetteRadius() {
-		minimumValue = 0.5
-		maximumValue = 3
-		value = 1.0
+	func configureForVignetteIntensity(withValue: Float) {
+		minimumValue = 0.25
+		maximumValue = 1.75
+		value = withValue + 1 // 1 for immediately effect
 	}
 
 	@available(*, unavailable)

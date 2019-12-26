@@ -8,6 +8,13 @@
 
 import UIKit
 
+protocol IToolViewDelegate: AnyObject
+{
+	func imageWithFilter(index: Int) -> UIImage?
+	func applyTuneSettings(_ settings: TuneSettings)
+	func loadTuneSettings() -> TuneSettings?
+}
+
 final class EditingView: UIView
 {
 	private let imageView = UIImageView()
@@ -16,9 +23,9 @@ final class EditingView: UIView
 	private let filtersTools = ToolsCollectionView()
 	private let tuneTools = ToolsCollectionView()
 	private let rotationTool = RotationView()
-	private let slidersStack = SlidersStackView()
+	private let slidersStack = ToolSliderView()
 
-	weak var toolCollectionViewDelegate: IToolCollectionViewDelegate?
+	weak var toolsDelegate: IToolViewDelegate?
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
 	var currentImage: UIImage? { imageView.image }
@@ -34,7 +41,7 @@ final class EditingView: UIView
 
 	init() {
 		super.init(frame: .zero)
-		slidersStack.mainView = self
+		slidersStack.parentView = self
 		setDelegateWithDataSource()
 		setupView()
 		setConstraints()
@@ -50,9 +57,13 @@ final class EditingView: UIView
 		imageView.image = image
 	}
 
-	func showSliders(of type: TuneToolType) {
+	func showSlider(of type: TuneToolType) {
 		slidersStack.isHidden = false
 		slidersStack.currentTuneTool = type
+	}
+
+	func resetTuneSettings() {
+		slidersStack.savedTuneSettings = nil
 	}
 
 	func hideAllToolsViews(except: EditingType) {

@@ -15,6 +15,5 @@ enum TuneTool
 		(title: "Contrast", image: UIImage(named: "contrast"), type: TuneToolType.contrast),
 		(title: "Saturation", image: UIImage(named: "saturation"), type: TuneToolType.saturation),
 		(title: "Vignette", image: UIImage(named: "vignette"), type: TuneToolType.vignette),
-		(title: "Bloom", image: UIImage(named: "bloom"), type: TuneToolType.bloom),
 	]
 }

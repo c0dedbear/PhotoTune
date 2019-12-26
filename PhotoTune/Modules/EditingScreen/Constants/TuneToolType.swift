@@ -14,5 +14,4 @@ enum TuneToolType
 	case contrast
 	case saturation
 	case vignette
-	case bloom
 }

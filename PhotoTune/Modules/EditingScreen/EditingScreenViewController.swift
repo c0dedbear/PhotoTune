@@ -41,7 +41,7 @@ final class EditingScreenViewController: UIViewController
 	// MARK: ViewController Life Cycle Methods
 	override func loadView() {
 		view = editingView
-		editingView.toolCollectionViewDelegate = self
+		editingView.toolsDelegate = self
 		editingView.toolCollectionViewDataSource = self
 	}
 
@@ -159,25 +159,16 @@ extension EditingScreenViewController: IEditingScreen
 }
 
 // MARK: - IToolCollectionViewDelegate
-extension EditingScreenViewController: IToolCollectionViewDelegate
+extension EditingScreenViewController: IToolViewDelegate
 {
-	func saveTuneSettings() {
-		presenter.whenSaveTuneSettingsTapped(save: editingView.currentImage)
+	func loadTuneSettings() -> TuneSettings? {
+		presenter.getTuneSettings()
 	}
 
-	func setBrightness(value: Float) {
-		let tuned = presenter.brightnessChanged(value: value)
-		editingView.setImage(tuned)
-	}
-
-	func setContrast(value: Float) {
-		let tuned = presenter.contrastChanged(value: value)
-		editingView.setImage(tuned)
-	}
-
-	func setSaturation(value: Float) {
-		let tuned = presenter.saturationChanged(value: value)
-		editingView.setImage(tuned)
+	func applyTuneSettings(_ settings: TuneSettings) {
+		presenter.whenSaveTuneSettingsTapped(save: settings) { image in
+			editingView.setImage(image)
+		}
 	}
 
 	func imageWithFilter(index: Int) -> UIImage? {

@@ -22,11 +22,9 @@ protocol IEditingScreenPresenter
 
 	func getTuneToolsCount() -> Int
 	func getTuneToolCellDataFor(index: Int) -> (title: String, image: UIImage?, type: TuneToolType)
+	func getTuneSettings() -> TuneSettings?
 
-	func brightnessChanged(value: Float) -> UIImage?
-	func contrastChanged(value: Float) -> UIImage?
-	func saturationChanged(value: Float) -> UIImage?
-	func whenSaveTuneSettingsTapped(save image: UIImage?)
+	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
 }
 
 final class EditingScreenPresenter
@@ -43,29 +41,17 @@ final class EditingScreenPresenter
 		self.router = router
 		self.imageProcessor = imageProcessor
 		self.imageProcessor.currentImage = image
+		self.imageProcessor.tuneSettings = TuneSettings()
 		previews = imageProcessor.filtersPreviews(image: self.image)
 	}
 }
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func brightnessChanged(value: Float) -> UIImage? {
-		imageProcessor.brightnessControl(value: value)
-		return imageProcessor.tunedImage
-	}
-
-	func contrastChanged(value: Float) -> UIImage? {
-		imageProcessor.contrastControl(value: value)
-		return imageProcessor.tunedImage
-	}
-
-	func saturationChanged(value: Float) -> UIImage? {
-		imageProcessor.saturationControl(value: value)
-		return imageProcessor.tunedImage
-	}
-
 	func getInitialImage() -> UIImage { image }
-	func filtersToolPressed() { editingScreen?.showFiltersTool() }
+	func filtersToolPressed() {
+		editingScreen?.showFiltersTool()
+	}
 	func tuneToolPressed() { editingScreen?.showTuneTools() }
 	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
@@ -91,7 +77,12 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		return filteredImage
 	}
 
-	func whenSaveTuneSettingsTapped(save image: UIImage?) {
-		imageProcessor.currentImage = image
+	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings = settings
+		image(imageProcessor.tunedImage)
+	}
+
+	func getTuneSettings() -> TuneSettings? {
+		imageProcessor.tuneSettings
 	}
 }
