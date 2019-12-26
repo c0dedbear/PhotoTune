@@ -18,6 +18,10 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 		didSet { animateScale(condition: isSelected) }
 	}
 
+	override var isHighlighted: Bool {
+		didSet { animateScale(condition: isHighlighted) }
+	}
+
 	override func layoutSubviews() {
 		setFont(.systemFont(ofSize: 14, weight: .light))
 		setImageViewContentMode(mode: .center)

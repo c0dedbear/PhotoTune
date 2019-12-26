@@ -34,12 +34,12 @@ extension EditingView: UICollectionViewDelegate
 			}
 		case .tune:
 			guard let tuneTool = cell as? TuneToolCollectionViewCell else { return }
-			DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
+			guard let type = tuneTool.tuneToolType else { return }
+			DispatchQueue.main.asyncAfter(wallDeadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration)
+			{ [weak self] in
 				self?.hideAllToolsViews(except: .none)
-				guard let type = tuneTool.tuneToolType else { return }
 				self?.showSliders(of: type)
 			}
-
 		default: break
 		}
 	}

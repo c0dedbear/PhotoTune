@@ -43,7 +43,7 @@ final class SlidersStackView: UIStackView
 
 	private func buttonConfigure() {
 		cancel.setTitle("Cancel", for: .normal)
-		done.setTitle("Save", for: .normal)
+		done.setTitle("Done", for: .normal)
 		done.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
 		cancel.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
 

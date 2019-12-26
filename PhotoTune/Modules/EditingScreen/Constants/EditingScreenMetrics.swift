@@ -15,4 +15,5 @@ enum EditingScreenMetrics
 	static let collectionViewRightInset: CGFloat = 20
 	static let filtersLineSpacing: CGFloat = 30
 	static let tuneToolLineSpacing: CGFloat = 40
+	static let tuneCellTapAnimationDuration = 0.2
 }

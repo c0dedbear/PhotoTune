@@ -63,9 +63,9 @@ private extension EditingScreenViewController
 			action: #selector(cancelTapped))
 
 		navigationItem.rightBarButtonItem = UIBarButtonItem(
-			barButtonSystemItem: .done,
+			barButtonSystemItem: .save,
 			target: self,
-			action: #selector(doneTapped))
+			action: #selector(saveTapped))
 
 		currentEditingType = .filters
 	}
@@ -117,7 +117,7 @@ private extension EditingScreenViewController
 		//dismiss VC
 	}
 
-	@objc private func doneTapped() {
+	@objc private func saveTapped() {
 		//save edited image
 	}
 
