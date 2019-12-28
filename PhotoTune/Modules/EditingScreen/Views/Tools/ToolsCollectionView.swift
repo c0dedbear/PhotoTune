@@ -10,7 +10,7 @@ import UIKit
 
 final class ToolsCollectionView: UICollectionView
 {
-	var lastSelection = IndexPath(item: 0, section: 0)
+	var lastSelectedFilter = IndexPath(item: 0, section: 0)
 
 	init() {
 		let layout = UICollectionViewFlowLayout()

@@ -67,8 +67,8 @@ extension ImageProcessor: IImageProcessor
 
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
 		var previews = [(title: String, image: UIImage?)]()
-		for index in 0..<Filter.all.count {
-			let preview = Filter.all[index]
+		for index in 0..<Filters.all.count {
+			let preview = Filters.all[index]
 			let image = processed(image: image, with: preview.filter)
 			previews.append((preview.title, image))
 		}

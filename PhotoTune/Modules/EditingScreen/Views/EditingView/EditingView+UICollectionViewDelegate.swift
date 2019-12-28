@@ -20,17 +20,17 @@ extension EditingView: UICollectionViewDelegate
 		switch toolCollectionViewDataSource?.editingType {
 		case .filters:
 			if let filteredImage = toolsDelegate?.imageWithFilter(index: indexPath.item) {
-				toolsCollectionView.lastSelection = indexPath
 				setImage(filteredImage)
 				resetTuneSettings()
 			}
+			toolsCollectionView.lastSelectedFilter = indexPath
 		case .tune:
-			guard let tuneTool = cell as? TuneToolCollectionViewCell else { return }
-			guard let type = tuneTool.tuneToolType else { return }
+			guard let tuneToolCell = cell as? TuneToolCollectionViewCell else { return }
+			guard let type = tuneToolCell.tuneTool else { return }
 			DispatchQueue.main.asyncAfter(wallDeadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration)
 			{ [weak self] in
 				self?.hideAllToolsViews(except: .none)
-				self?.showSlider(of: type)
+				self?.showSlider(type: type)
 			}
 		default: break
 		}

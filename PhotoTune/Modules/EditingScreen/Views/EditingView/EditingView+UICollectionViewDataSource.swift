@@ -14,7 +14,7 @@ protocol IToolCollectionViewDataSource: AnyObject
 	var editingType: EditingType { get }
 
 	func dataForFilterCell(index: Int) -> (title: String, image: UIImage?)
-	func dataForTuneCell(index: Int) -> (title: String, image: UIImage?, type: TuneToolType)
+	func dataForTuneCell(index: Int) -> TuneTool
 }
 
 extension EditingView: UICollectionViewDataSource
@@ -43,9 +43,7 @@ extension EditingView: UICollectionViewDataSource
 				withReuseIdentifier: TuneToolCollectionViewCell.identifier,
 				for: indexPath) as? TuneToolCollectionViewCell {
 				let tuneTool = toolCollectionViewDataSource?.dataForTuneCell(index: indexPath.item)
-				tuneToolCell.setImage(tuneTool?.image)
-				tuneToolCell.setTitle(tuneTool?.title ?? "")
-				tuneToolCell.tuneToolType = tuneTool?.type
+				tuneToolCell.tuneTool = tuneTool
 				return tuneToolCell
 			}
 		default: break

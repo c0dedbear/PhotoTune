@@ -57,7 +57,7 @@ final class EditingView: UIView
 		imageView.image = image
 	}
 
-	func showSlider(of type: TuneToolType) {
+	func showSlider(type: TuneTool) {
 		slidersStack.isHidden = false
 		slidersStack.currentTuneTool = type
 	}
@@ -71,13 +71,18 @@ final class EditingView: UIView
 		switch except {
 		case .filters:
 			filtersTools.reloadData()
-			filtersTools.selectItem(at: filtersTools.lastSelection, animated: false, scrollPosition: [])
+			filtersTools.selectItem(at: filtersTools.lastSelectedFilter, animated: false, scrollPosition: .centeredHorizontally)
 			filtersTools.animatedAppearing()
 		case .tune:
 			tuneTools.reloadData()
 			tuneTools.animatedAppearing()
 		case .rotation: rotationTool.animatedAppearing()
 		case .none: break
+		}
+	}
+
+	func showChangeIndicator(type: TuneTool) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration) {
 		}
 	}
 }

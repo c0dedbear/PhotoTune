@@ -192,7 +192,7 @@ extension EditingScreenViewController: IToolCollectionViewDataSource
 		presenter.getFiltersPreview(index: index)
 	}
 
-	func dataForTuneCell(index: Int) -> (title: String, image: UIImage?, type: TuneToolType) {
+	func dataForTuneCell(index: Int) -> TuneTool {
 		presenter.getTuneToolCellDataFor(index: index)
 	}
 }

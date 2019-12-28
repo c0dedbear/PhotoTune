@@ -32,7 +32,7 @@ final class ToolSliderView: UIStackView
 		}
 	}
 
-	var currentTuneTool: TuneToolType? { didSet { showControls() } }
+	var currentTuneTool: TuneTool? { didSet { showControls() } }
 
 	init() {
 		currentTuneSettings = parentView?.toolsDelegate?.loadTuneSettings() ?? TuneSettings()

@@ -1,5 +1,5 @@
 //
-//  Filter.swift
+//  Filters.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 24.12.2019.
@@ -9,11 +9,11 @@
 import UIKit
 import CoreImage
 
-enum Filter
+enum Filters
 {
 	static let all: [(title: String, filter: CIFilter?, image: UIImage?)] =
 		[
-		(title: "Normal", filter: CIFilter(name: ""), image: nil),
+		(title: "Original", filter: CIFilter(name: ""), image: nil),
 		(title: "B & W", filter: CIFilter(name: "CIPhotoEffectMono"), image: nil),
 		(title: "Sepia", filter: CIFilter(name: "CISepiaTone"), image: nil),
 		(title: "Noir", filter: CIFilter(name: "CIPhotoEffectNoir"), image: nil),
