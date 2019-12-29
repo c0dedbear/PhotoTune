@@ -31,30 +31,38 @@ final class ImageProcessor
 
 	private let context = CIContext()
 
-	private func changedUIImageFromContext(image: UIImage?, filter: CIFilter) -> UIImage? {
-		guard let image = image else { return nil }
-		guard let ciImageInput = CIImage(image: image) else { return nil }
-		filter.setValue(ciImageInput, forKey: kCIInputImageKey)
-		guard let ciImageOutput = filter.outputImage else { return nil }
-		guard let cgImage = context.createCGImage(ciImageOutput, from: ciImageOutput.extent) else { return image }
-
-		return UIImage(cgImage: cgImage)
+	private func changedUIImageFromContext(ciImage: CIImage?, filter: CIFilter) -> CIImage? {
+		guard let ciInput = ciImage else { return nil }
+		filter.setValue(ciInput, forKey: kCIInputImageKey)
+		return filter.outputImage
 	}
 
 	private func appleTuneSettings() {
-		guard let colorFilter = CIFilter(name: "CIColorControls") else { return }
+		let ciInput: CIImage
+		guard let image = currentImage else { return }
+		if let ciContext = image.ciImage {
+			ciInput = ciContext
+		}
+		else {
+			guard let ciImage = CIImage(image: image) else  { return }
+			ciInput = ciImage
+		}
 
+		guard let colorFilter = CIFilter(name: "CIColorControls") else { return }
+		colorFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		colorFilter.setValue(tuneSettings?.brightnessIntensity, forKey: kCIInputBrightnessKey)
 		colorFilter.setValue(tuneSettings?.saturationIntensity, forKey: kCIInputSaturationKey)
 		colorFilter.setValue(tuneSettings?.contrastIntensity, forKey: kCIInputContrastKey)
 
-		tunedImage = changedUIImageFromContext(image: currentImage, filter: colorFilter)
+		let coloredImage = changedUIImageFromContext(ciImage: colorFilter.outputImage, filter: colorFilter)
 
 		guard let vignetteFilter = CIFilter(name: "CIVignette") else { return }
 		vignetteFilter.setValue(tuneSettings?.vignetteIntensity, forKey: kCIInputIntensityKey)
 		vignetteFilter.setValue(tuneSettings?.vignetteRadius, forKey: kCIInputRadiusKey)
 
-		tunedImage = changedUIImageFromContext(image: tunedImage, filter: vignetteFilter)
+		guard let ciOutput = changedUIImageFromContext(ciImage: coloredImage, filter: vignetteFilter) else { return }
+
+		tunedImage = UIImage(ciImage: ciOutput)
 	}
 }
 
@@ -62,7 +70,9 @@ extension ImageProcessor: IImageProcessor
 {
 	func processed(image: UIImage, with filter: CIFilter?) -> UIImage? {
 		guard let filter = filter else { return image }
-		return changedUIImageFromContext(image: image, filter: filter)
+		let ciInput = CIImage(image: image)
+		guard let ciOutput = changedUIImageFromContext(ciImage: ciInput, filter: filter) else { return nil }
+		return UIImage(ciImage: ciOutput)
 	}
 
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
