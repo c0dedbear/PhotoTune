@@ -113,13 +113,17 @@ final class ToolSliderView: UIStackView
 		switch currentTuneTool {
 		case .brightness:
 			currentTuneSettings.brightnessIntensity = intensitySlider.value
+			intensitySlider.updateLabel()
 		case .contrast:
 			currentTuneSettings.contrastIntensity = intensitySlider.value
+			intensitySlider.updateLabel()
 		case .saturation:
 			currentTuneSettings.saturationIntensity = intensitySlider.value
+			intensitySlider.updateLabel()
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = intensitySlider.value
 			currentTuneSettings.vignetteRadius = intensitySlider.value + 1
+			intensitySlider.updateLabel(convertValues: false)
 		case .none: break
 		}
 	}
