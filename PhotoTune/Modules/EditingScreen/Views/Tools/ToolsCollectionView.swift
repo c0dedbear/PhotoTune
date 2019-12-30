@@ -1,5 +1,5 @@
 //
-//  FiltersCollectionView.swift
+//  ToolsCollectionView.swift
 //  PhotoTune
 //
 //  Created by Mikhail Medvedev on 18.12.2019.
@@ -8,8 +8,10 @@
 
 import UIKit
 
-final class FiltersCollectionView: UICollectionView
+final class ToolsCollectionView: UICollectionView
 {
+	var lastSelectedFilter = IndexPath(item: 0, section: 0)
+
 	init() {
 		let layout = UICollectionViewFlowLayout()
 		layout.scrollDirection = .horizontal
@@ -18,7 +20,12 @@ final class FiltersCollectionView: UICollectionView
 	}
 
 	private func initialSetup() {
-		backgroundColor = .white
+		if #available(iOS 13.0, *) {
+			backgroundColor = .systemBackground
+		}
+		else {
+			backgroundColor = .white
+		}
 		showsHorizontalScrollIndicator = false
 		contentInset = UIEdgeInsets(
 			top: 0,
@@ -26,6 +33,7 @@ final class FiltersCollectionView: UICollectionView
 			bottom: 0,
 			right: EditingScreenMetrics.collectionViewRightInset)
 		register(FiltersCollectionViewCell.self, forCellWithReuseIdentifier: FiltersCollectionViewCell.identifier)
+		register(TuneToolCollectionViewCell.self, forCellWithReuseIdentifier: TuneToolCollectionViewCell.identifier)
 	}
 
 	@available(*, unavailable)

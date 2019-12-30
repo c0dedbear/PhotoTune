@@ -24,6 +24,11 @@ final class ToolBarButton: UIButton
 		super.init(frame: .zero)
 		frame.size.width = toolBarHeight
 		frame.size.height = toolBarHeight
+		if #available(iOS 13.0, *) {
+			if overrideUserInterfaceStyle == .dark {
+				print(overrideUserInterfaceStyle)
+			}
+		}
 	}
 
 	@available(*, unavailable)

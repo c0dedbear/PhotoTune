@@ -10,23 +10,29 @@ import UIKit
 
 protocol IEditingScreenPresenter
 {
+	func getInitialImage() -> UIImage
+	func getFilteredImageFor(filterIndex: Int) -> UIImage?
+
 	func filtersToolPressed()
 	func tuneToolPressed()
 	func rotationToolPressed()
-	func getImage() -> UIImage
-	func getFilteredImageFor(filterIndex: Int) -> UIImage
+
 	func getFiltersCount() -> Int
-	func getFilterPreview(index: Int) -> UIImage
-	func getFilterTitle(index: Int) -> String
-	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage
+	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?)
+
+	func getTuneToolsCount() -> Int
+	func getTuneToolCellDataFor(index: Int) -> TuneTool
+	func getTuneSettings() -> TuneSettings?
+
+	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
 }
 
 final class EditingScreenPresenter
 {
 	private let router: IEditingScreenRouter
 	private let image: UIImage
-	private let imageProcessor: IImageProcessor
-	private let previews: [UIImage]
+	private var imageProcessor: IImageProcessor
+	private let previews: [(title: String, image: UIImage?)]
 
 	var editingScreen: IEditingScreen?
 
@@ -34,33 +40,46 @@ final class EditingScreenPresenter
 		self.image = image
 		self.router = router
 		self.imageProcessor = imageProcessor
+		self.imageProcessor.currentImage = image
+		self.imageProcessor.tuneSettings = TuneSettings()
 		previews = imageProcessor.filtersPreviews(image: self.image)
 	}
 }
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func getFilterPreview(index: Int) -> UIImage { previews[index] }
-	func getFilterTitle(index: Int) -> String { imageProcessor.filterTitleFor(index: index) }
-	func getFiltersCount() -> Int { imageProcessor.filtersCount }
+	func getInitialImage() -> UIImage { image }
+	func filtersToolPressed() {
+		editingScreen?.showFiltersTool()
+	}
+	func tuneToolPressed() { editingScreen?.showTuneTools() }
+	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
-	func getFilteredImageFor(filterIndex: Int) -> UIImage {
+	func getTuneToolCellDataFor(index: Int) -> TuneTool {
+			return TuneTool.allCases[index]
+	}
+
+	func getTuneToolsCount() -> Int { TuneTool.allCases.count }
+
+	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?) { previews[index]
+	}
+
+	func getFiltersCount() -> Int { Filters.all.count }
+
+	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
 		let filteredImage = imageProcessor.processed(
 			image: image,
-			with: imageProcessor.filterFor(index: filterIndex))
+			with: Filters.all[filterIndex].filter)
+		imageProcessor.currentImage = filteredImage
 		return filteredImage
 	}
 
-	func controlsColorsWithValues(brightness: Float, saturation: Float, contrast: Float) -> UIImage {
-		imageProcessor.colorControls(image: image,
-									 brightness: brightness,
-									 saturation: saturation,
-									 contrast: contrast)
+	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings = settings
+		image(imageProcessor.tunedImage)
 	}
 
-	func filtersToolPressed() { editingScreen?.showFiltersCollection() }
-	func tuneToolPressed() { editingScreen?.showTuneView() }
-	func rotationToolPressed() { editingScreen?.showRotationView() }
-
-	func getImage() -> UIImage { image }
+	func getTuneSettings() -> TuneSettings? {
+		imageProcessor.tuneSettings
+	}
 }

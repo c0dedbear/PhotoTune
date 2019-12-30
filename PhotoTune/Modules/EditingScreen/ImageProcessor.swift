@@ -12,74 +12,75 @@ import UIKit
 
 protocol IImageProcessor
 {
-	var filtersCount: Int { get }
+	var currentImage: UIImage? { get set }
+	var tuneSettings: TuneSettings? { get set }
+	var tunedImage: UIImage? { get set }
 
-	func processed(image: UIImage, with filter: String) -> UIImage
-	func filtersPreviews(image: UIImage) -> [UIImage]
-	func filterTitleFor(index: Int) -> String
-	func filterFor(index: Int) -> String
-	func colorControls(image: UIImage,
-					   brightness: Float,
-					   saturation: Float,
-					   contrast: Float ) -> UIImage
+	func processed(image: UIImage, with filter: CIFilter?) -> UIImage?
+	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 }
 
 final class ImageProcessor
 {
+	var currentImage: UIImage?
+
+	var tuneSettings: TuneSettings? {
+		didSet { appleTuneSettings() }
+	}
+	var tunedImage: UIImage?
+
 	private let context = CIContext()
 
-	private let filters = [
-		"", "CIPhotoEffectMono",
-		"CISepiaTone", "CIPhotoEffectNoir",
-		"CIPhotoEffectTransfer", "CIPhotoEffectChrome",
-		"CIPhotoEffectProcess", "CIPhotoEffectFade",
-		"CIPhotoEffectInstant", "CIColorMonochrome",
-		]
+	private func changedUIImageFromContext(ciImage: CIImage?, filter: CIFilter) -> CIImage? {
+		guard let ciInput = ciImage else { return nil }
+		filter.setValue(ciInput, forKey: kCIInputImageKey)
+		return filter.outputImage
+	}
 
-	private let filtersTitles = [
-		"Normal", "B & W",
-		"Sepia", "Noir",
-		"Transfer", "Chrome",
-		"Pro", "Fade",
-		"Instant", "Mono",
-	]
+	private func appleTuneSettings() {
+		let ciInput: CIImage
+		guard let image = currentImage else { return }
+		if let ciContext = image.ciImage {
+			ciInput = ciContext
+		}
+		else {
+			guard let ciImage = CIImage(image: image) else  { return }
+			ciInput = ciImage
+		}
 
-	private func changedUIImageFromContext(image: UIImage, filter: CIFilter) -> UIImage {
-		guard let ciImage = CIImage(image: image) else { return image }
-		filter.setValue(ciImage, forKey: kCIInputImageKey)
-		guard let result = filter.outputImage else { return image }
-		guard let cgImage = context.createCGImage(result, from: result.extent) else { return image }
+		guard let colorFilter = CIFilter(name: "CIColorControls") else { return }
+		colorFilter.setValue(ciInput, forKey: kCIInputImageKey)
+		colorFilter.setValue(tuneSettings?.brightnessIntensity, forKey: kCIInputBrightnessKey)
+		colorFilter.setValue(tuneSettings?.saturationIntensity, forKey: kCIInputSaturationKey)
+		colorFilter.setValue(tuneSettings?.contrastIntensity, forKey: kCIInputContrastKey)
 
-		return UIImage(cgImage: cgImage)
+		let coloredImage = changedUIImageFromContext(ciImage: colorFilter.outputImage, filter: colorFilter)
+
+		guard let vignetteFilter = CIFilter(name: "CIVignette") else { return }
+		vignetteFilter.setValue(tuneSettings?.vignetteIntensity, forKey: kCIInputIntensityKey)
+		vignetteFilter.setValue(tuneSettings?.vignetteRadius, forKey: kCIInputRadiusKey)
+
+		guard let ciOutput = changedUIImageFromContext(ciImage: coloredImage, filter: vignetteFilter) else { return }
+
+		tunedImage = UIImage(ciImage: ciOutput)
 	}
 }
 
 extension ImageProcessor: IImageProcessor
 {
-	func colorControls(image: UIImage, brightness: Float, saturation: Float, contrast: Float) -> UIImage {
-		guard let filter = CIFilter(name: "CIColorControls") else { return image }
-		filter.setValue(brightness, forKey: kCIInputBrightnessKey) // default 0.0
-		filter.setValue(saturation, forKey: kCIInputSaturationKey) // default 1.0
-		filter.setValue(contrast, forKey: kCIInputContrastKey) // default 1.0
-
-		return changedUIImageFromContext(image: image, filter: filter)
+	func processed(image: UIImage, with filter: CIFilter?) -> UIImage? {
+		guard let filter = filter else { return image }
+		let ciInput = CIImage(image: image)
+		guard let ciOutput = changedUIImageFromContext(ciImage: ciInput, filter: filter) else { return nil }
+		return UIImage(ciImage: ciOutput)
 	}
 
-	var filtersCount: Int { filters.count }
-
-	func filterTitleFor(index: Int) -> String { filtersTitles[index] }
-	func filterFor(index: Int) -> String { filters[index] }
-
-	func processed(image: UIImage, with filter: String) -> UIImage {
-		guard let filter = CIFilter(name: filter) else { return image }
-		return changedUIImageFromContext(image: image, filter: filter)
-	}
-
-	func filtersPreviews(image: UIImage) -> [UIImage] {
-		var previews = [UIImage]()
-		for filter in filters {
-			let image = processed(image: image, with: filter)
-			previews.append(image)
+	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
+		var previews = [(title: String, image: UIImage?)]()
+		for index in 0..<Filters.all.count {
+			let preview = Filters.all[index]
+			let image = processed(image: image, with: preview.filter)
+			previews.append((preview.title, image))
 		}
 		return previews
 	}

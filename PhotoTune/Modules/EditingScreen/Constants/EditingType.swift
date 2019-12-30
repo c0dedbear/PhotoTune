@@ -13,4 +13,5 @@ enum EditingType: String
 	case filters = "Filters"
 	case tune = "Tune"
 	case rotation = "Rotation"
+	case none
 }
