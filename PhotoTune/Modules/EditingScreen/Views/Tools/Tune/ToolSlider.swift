@@ -23,7 +23,7 @@ final class ToolSlider: UISlider
 		label.text = "\(Int(value))"
 		label.textAlignment = .center
 		if #available(iOS 13.0, *) {
-			label.textColor = .tertiaryLabel
+			label.textColor = .secondaryLabel
 		}
 		else {
 			label.textColor = .gray
@@ -33,7 +33,8 @@ final class ToolSlider: UISlider
 
 	func updateLabel(convertValues: Bool = true) {
 		label.frame = thumbBounds.offsetBy(dx: 0, dy: -30)
-		label.frame.size.width = thumbBounds.width * 1.2
+		label.adjustsFontSizeToFitWidth = true
+		label.minimumScaleFactor = 0.75
 		setLabelText(convertValues: convertValues)
 	}
 
