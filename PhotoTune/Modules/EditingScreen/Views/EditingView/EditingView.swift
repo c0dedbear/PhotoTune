@@ -80,11 +80,6 @@ final class EditingView: UIView
 		case .none: break
 		}
 	}
-
-	func showChangeIndicator(type: TuneTool) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration) {
-		}
-	}
 }
 
 	// MARK: - Private Methods
@@ -120,12 +115,13 @@ private extension EditingView
 
 		imageView.heightAnchor.constraint(
 			equalTo: safeAreaLayoutGuide.heightAnchor,
-			multiplier: 0.66).isActive = true
+			multiplier: 0.64).isActive = true
 
 		editingView.anchor(top: imageView.bottomAnchor,
 								  leading: leadingAnchor,
 								  bottom: safeAreaLayoutGuide.bottomAnchor,
-								  trailing: trailingAnchor)
+								  trailing: trailingAnchor,
+								  padding: .init(top: 8, left: 0, bottom: 0, right: 0))
 	}
 
 	func addTools() {

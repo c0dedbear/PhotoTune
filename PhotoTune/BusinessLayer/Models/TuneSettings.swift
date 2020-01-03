@@ -23,5 +23,5 @@ enum TuneSettingsDefaults
 	static let contrastIntensity: Float = 1
 	static let saturationIntensity: Float = 1
 	static let vignetteIntensity: Float = 0
-	static let vignetteRadius: Float = TuneSettingsDefaults.vignetteIntensity + 1
+	static let vignetteRadius: Float = 2
 }
