@@ -25,6 +25,9 @@ protocol IEditingScreenPresenter
 	func getTuneSettings() -> TuneSettings?
 
 	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
+
+	func onRotateClockwiseTapped(image: (UIImage?) -> Void)
+	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
 }
 
 final class EditingScreenPresenter
@@ -64,12 +67,12 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?) { previews[index]
 	}
 
-	func getFiltersCount() -> Int { Filters.all.count }
+	func getFiltersCount() -> Int { Filter.photoFilters.count }
 
 	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
-		let filteredImage = imageProcessor.processed(
+		let filteredImage = imageProcessor.filteredImage(
 			image: image,
-			with: Filters.all[filterIndex].filter)
+			with: Filter.photoFilters[filterIndex].ciFilter)
 		imageProcessor.currentImage = filteredImage
 		return filteredImage
 	}
@@ -81,5 +84,15 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 
 	func getTuneSettings() -> TuneSettings? {
 		imageProcessor.tuneSettings
+	}
+
+	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings?.rotationAngle = .pi / -180
+		image(imageProcessor.tunedImage)
+	}
+
+	func onRotateClockwiseTapped(image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings?.rotationAngle = .pi / 180
+		image(imageProcessor.tunedImage)
 	}
 }

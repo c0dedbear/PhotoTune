@@ -13,6 +13,8 @@ protocol IToolViewDelegate: AnyObject
 	func imageWithFilter(index: Int) -> UIImage?
 	func applyTuneSettings(_ settings: TuneSettings)
 	func loadTuneSettings() -> TuneSettings?
+	func rotateClockwise()
+	func rotateAntiClockwise()
 }
 
 final class EditingView: UIView
@@ -76,7 +78,8 @@ final class EditingView: UIView
 		case .tune:
 			tuneTools.reloadData()
 			tuneTools.animatedAppearing()
-		case .rotation: rotationTool.animatedAppearing()
+		case .rotation:
+			rotationTool.animatedAppearing()
 		case .none: break
 		}
 	}
@@ -127,8 +130,13 @@ private extension EditingView
 	func addTools() {
 		editingView.addSubview(filtersTools)
 		filtersTools.fillSuperview()
+
 		editingView.addSubview(tuneTools)
 		tuneTools.fillSuperview()
 		editingView.addSubview(slidersStack)
+
+		editingView.addSubview(rotationTool)
+		rotationTool.fillSuperview()
+		rotationTool.parentView = self
 	}
 }

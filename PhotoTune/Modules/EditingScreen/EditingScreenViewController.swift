@@ -161,6 +161,20 @@ extension EditingScreenViewController: IEditingScreen
 // MARK: - IToolCollectionViewDelegate
 extension EditingScreenViewController: IToolViewDelegate
 {
+	func rotateClockwise() {
+		// rotate right
+		presenter.onRotateClockwiseTapped { image in
+			editingView.setImage(image)
+		}
+	}
+
+	func rotateAntiClockwise() {
+		// rotate left
+		presenter.onRotateAntiClockwiseTapped { image in
+		editingView.setImage(image)
+		}
+	}
+
 	func loadTuneSettings() -> TuneSettings? {
 		presenter.getTuneSettings()
 	}

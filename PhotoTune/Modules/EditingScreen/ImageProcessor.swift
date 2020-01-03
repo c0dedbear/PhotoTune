@@ -16,7 +16,7 @@ protocol IImageProcessor
 	var tuneSettings: TuneSettings? { get set }
 	var tunedImage: UIImage? { get set }
 
-	func processed(image: UIImage, with filter: CIFilter?) -> UIImage?
+	func filteredImage(image: UIImage, with filter: CIFilter?) -> UIImage?
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 }
 
@@ -25,7 +25,12 @@ final class ImageProcessor
 	var currentImage: UIImage?
 
 	var tuneSettings: TuneSettings? {
-		didSet { appleTuneSettings() }
+		didSet {
+			if tuneSettings?.rotationAngle != TuneSettingsDefaults.rotationAngle {
+				rotateImage()
+			}
+			appleTuneSettings()
+		}
 	}
 	var tunedImage: UIImage?
 
@@ -48,7 +53,7 @@ final class ImageProcessor
 			ciInput = ciImage
 		}
 
-		guard let colorFilter = CIFilter(name: "CIColorControls") else { return }
+		guard let colorFilter = Filter.colorControls.ciFilter else { return }
 		colorFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		colorFilter.setValue(tuneSettings?.brightnessIntensity, forKey: kCIInputBrightnessKey)
 		colorFilter.setValue(tuneSettings?.saturationIntensity, forKey: kCIInputSaturationKey)
@@ -56,7 +61,7 @@ final class ImageProcessor
 
 		let coloredImage = changedUIImageFromContext(ciImage: colorFilter.outputImage, filter: colorFilter)
 
-		guard let vignetteFilter = CIFilter(name: "CIVignette") else { return }
+		guard let vignetteFilter = Filter.vignette.ciFilter else { return }
 		vignetteFilter.setValue(tuneSettings?.vignetteIntensity, forKey: kCIInputIntensityKey)
 		vignetteFilter.setValue(tuneSettings?.vignetteRadius, forKey: kCIInputRadiusKey)
 
@@ -64,11 +69,26 @@ final class ImageProcessor
 
 		tunedImage = UIImage(ciImage: ciOutput)
 	}
+
+	private func rotateImage() {
+		guard let angle = tuneSettings?.rotationAngle else { return }
+		guard let image = currentImage else { return }
+		guard let filter = Filter.transform.ciFilter else { return }
+
+		let transform = CGAffineTransform(rotationAngle: angle)
+		let ciImage = CIImage(image: image)
+		filter.setValue(ciImage, forKey: kCIInputImageKey)
+		filter.setValue(transform, forKey: kCIInputTransformKey)
+
+		guard let outputImage = filter.outputImage else { return }
+		tunedImage = UIImage(ciImage: outputImage)
+		currentImage = tunedImage
+	}
 }
 
 extension ImageProcessor: IImageProcessor
 {
-	func processed(image: UIImage, with filter: CIFilter?) -> UIImage? {
+	func filteredImage(image: UIImage, with filter: CIFilter?) -> UIImage? {
 		guard let filter = filter else { return image }
 		let ciInput = CIImage(image: image)
 		guard let ciOutput = changedUIImageFromContext(ciImage: ciInput, filter: filter) else { return nil }
@@ -77,9 +97,9 @@ extension ImageProcessor: IImageProcessor
 
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
 		var previews = [(title: String, image: UIImage?)]()
-		for index in 0..<Filters.all.count {
-			let preview = Filters.all[index]
-			let image = processed(image: image, with: preview.filter)
+		for index in 0..<Filter.photoFilters.count {
+			let preview = Filter.photoFilters[index]
+			let image = filteredImage(image: image, with: preview.ciFilter)
 			previews.append((preview.title, image))
 		}
 		return previews
