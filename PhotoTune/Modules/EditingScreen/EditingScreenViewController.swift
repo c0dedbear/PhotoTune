@@ -10,6 +10,8 @@ import UIKit
 
 protocol IEditingScreen
 {
+	var currentEditingType: EditingType { get set }
+
 	func showFiltersTool()
 	func showTuneTools()
 	func showRotationTool()
@@ -158,7 +160,7 @@ extension EditingScreenViewController: IEditingScreen
 	}
 }
 
-// MARK: - IToolCollectionViewDelegate
+// MARK: - IToolViewDelegate
 extension EditingScreenViewController: IToolViewDelegate
 {
 	func rotateClockwise() {
@@ -180,7 +182,7 @@ extension EditingScreenViewController: IToolViewDelegate
 	}
 
 	func applyTuneSettings(_ settings: TuneSettings) {
-		presenter.whenSaveTuneSettingsTapped(save: settings) { image in
+		presenter.onSaveTuneSettingsTapped(save: settings) { image in
 			editingView.setImage(image)
 		}
 	}
@@ -189,7 +191,7 @@ extension EditingScreenViewController: IToolViewDelegate
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }
-	// MARK: - IToolCollectionViewDelegate
+	// MARK: - IToolCollectionViewDataSource
 extension EditingScreenViewController: IToolCollectionViewDataSource
 {
 	var editingType: EditingType { currentEditingType }

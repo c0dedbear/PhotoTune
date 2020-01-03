@@ -29,15 +29,17 @@ final class RotationView: UIView
 
 		if #available(iOS 13.0, *) {
 			backgroundColor = .systemBackground
-			rotateAntiClockwise.setImage(UIImage(systemName: "rotate.left"), for: .normal)
-			rotateClockwise.setImage(UIImage(systemName: "rotate.right"), for: .normal)
-
 			rotateAntiClockwise.tintColor = .label
 			rotateClockwise.tintColor = .label
 		}
 		else {
 			backgroundColor = .white
+			rotateAntiClockwise.tintColor = .black
+			rotateClockwise.tintColor = .black
 		}
+
+		rotateAntiClockwise.setImage(UIImage(named: "rotateLeft"), for: .normal)
+		rotateClockwise.setImage(UIImage(named: "rotateRight"), for: .normal)
 
 		addSubview(rotateClockwise)
 		addSubview(rotateAntiClockwise)
