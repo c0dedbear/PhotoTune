@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TuneSettings
+struct TuneSettings: Codable
 {
 	var brightnessIntensity = TuneSettingsDefaults.brightnessIntensity
 	var contrastIntensity = TuneSettingsDefaults.contrastIntensity

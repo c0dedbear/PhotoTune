@@ -6,8 +6,17 @@
 //  Copyright © 2019 Mikhail Medvedev. All rights reserved.
 //
 
-struct EditedImage
+import Foundation
+
+struct EditedImage: Codable
 {
 	let imagePath: String
-	let editingDate: String
+	var editingDate: Date
+	var tuneSettings: TuneSettings?
+
+	var formattedDate: String {
+		let formatter = DateFormatter()
+		formatter.dateStyle = .medium
+		return formatter.string(from: editingDate)
+	}
 }
