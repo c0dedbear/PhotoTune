@@ -10,8 +10,8 @@ import UIKit
 
 protocol IStorageService
 {
-	func storeImage(_ image: UIImage, with id: String)
-	func loadImage(id: String, completion: (UIImage?) -> Void)
+	func storeImage(_ image: UIImage, filename: String, completion: (() -> Void)?)
+	func loadImage(filename: String, completion: (UIImage?) -> Void)
 	func saveEditedImages(_ editedImages: [EditedImage])
 	func loadEditedImages() -> [EditedImage]?
 }
@@ -32,11 +32,12 @@ final class StorageService
 
 extension StorageService: IStorageService
 {
-	func storeImage(_ image: UIImage, with id: String) {
+	func storeImage(_ image: UIImage, filename: String, completion: (() -> Void)?) {
 		if let data = image.pngData() {
-			let filePath = getDocumentsDirectory().appendingPathComponent(id)
+			let filePath = getDocumentsDirectory().appendingPathComponent(filename)
 			do {
 				try data.write(to: filePath)
+				completion?()
 			}
 			catch {
 				assertionFailure(error.localizedDescription)
@@ -44,16 +45,16 @@ extension StorageService: IStorageService
 		}
 	}
 
-	func loadImage(id: String, completion: (UIImage?) -> Void) {
-		let filePath = getDocumentsDirectory().appendingPathComponent(id)
+	func loadImage(filename: String, completion: (UIImage?) -> Void) {
+		let filePath = getDocumentsDirectory().appendingPathComponent(filename)
 
 		if let data = try? Data(contentsOf: filePath) {
 			if let image = UIImage(data: data) {
 				completion(image)
 			}
 			else {
-				assertionFailure("No image on the url: \(filePath)")
 				completion(nil)
+				assertionFailure("No image on the url: \(filePath)")
 			}
 		}
 	}
