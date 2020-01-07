@@ -11,6 +11,8 @@ import Foundation
 struct EditedImage: Codable
 {
 	let imagePath: String
+	var previewURL: URL?
+
 	var editingDate: Date
 	var tuneSettings: TuneSettings?
 
