@@ -15,6 +15,7 @@ protocol IToolCollectionViewDataSource: AnyObject
 
 	func dataForFilterCell(index: Int) -> (title: String, image: UIImage?)
 	func dataForTuneCell(index: Int) -> TuneTool
+	func showChangesIndicator(for tuneTool: TuneTool?) -> Bool?
 }
 
 extension EditingView: UICollectionViewDataSource
@@ -44,6 +45,7 @@ extension EditingView: UICollectionViewDataSource
 				for: indexPath) as? TuneToolCollectionViewCell {
 				let tuneTool = toolCollectionViewDataSource?.dataForTuneCell(index: indexPath.item)
 				tuneToolCell.tuneTool = tuneTool
+				tuneToolCell.showIndicator = toolCollectionViewDataSource?.showChangesIndicator(for: tuneTool) ?? false
 				return tuneToolCell
 			}
 		default: break

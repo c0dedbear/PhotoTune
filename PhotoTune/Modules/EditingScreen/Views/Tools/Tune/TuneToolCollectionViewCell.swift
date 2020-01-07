@@ -12,7 +12,7 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 {
 	static let identifier = "TuneToolCollectionViewCell"
 
-	let indicator = UIView()
+	private let indicator = UIView()
 
 	var tuneTool: TuneTool? {
 		didSet {
@@ -20,6 +20,10 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 			setImage(tuneTool.image)
 			setTitle(tuneTool.title)
 		}
+	}
+
+	var showIndicator = false {
+		didSet { indicator.isHidden = showIndicator ? false : true }
 	}
 
 	override var isSelected: Bool {

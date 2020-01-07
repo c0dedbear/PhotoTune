@@ -152,6 +152,7 @@ final class ToolSliderView: UIStackView
 
 	@objc func doneTapped() {
 		savedTuneSettings = currentTuneSettings
+		savedTuneSettings?.resetToActualSettings()
 		self.isHidden = true
 		parentView?.hideAllToolsViews(except: .tune)
 	}
