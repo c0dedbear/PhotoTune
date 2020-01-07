@@ -125,7 +125,18 @@ private extension EditingScreenViewController
 	}
 
 	@objc private func shareTapped() {
-		//save edited image
+		guard let data = editingView.currentImage?.pngData() else { return }
+
+		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+
+		activityVC.completionWithItemsHandler = { _, _, _, error in
+			if error == nil {
+				//saveImage to Disk (presenter)
+			}
+		}
+
+		activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
+		present(activityVC, animated: true)
 	}
 
 	@objc private func saveTapped() {
