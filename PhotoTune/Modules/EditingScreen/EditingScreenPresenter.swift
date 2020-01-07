@@ -24,6 +24,7 @@ protocol IEditingScreenPresenter
 	func getTuneToolCellDataFor(index: Int) -> TuneTool
 	func getTuneSettings() -> TuneSettings?
 
+	func onShareTapped()
 	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
 }
 
@@ -48,10 +49,21 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func getInitialImage() -> UIImage { image }
-	func filtersToolPressed() {
-		editingScreen?.showFiltersTool()
+	func onShareTapped() {
+		guard let data = editingScreen?.currentImage?.pngData() else { return }
+
+		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+
+		activityVC.completionWithItemsHandler = { _, _, _, error in
+			if error == nil {
+				//saveImage to Disk
+			}
+		}
+		editingScreen?.showAcitivityVC(activityVC)
 	}
+
+	func getInitialImage() -> UIImage { image }
+	func filtersToolPressed() { editingScreen?.showFiltersTool() }
 	func tuneToolPressed() { editingScreen?.showTuneTools() }
 	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
@@ -79,7 +91,5 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		image(imageProcessor.tunedImage)
 	}
 
-	func getTuneSettings() -> TuneSettings? {
-		imageProcessor.tuneSettings
-	}
+	func getTuneSettings() -> TuneSettings? { imageProcessor.tuneSettings }
 }

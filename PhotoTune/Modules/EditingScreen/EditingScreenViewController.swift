@@ -10,9 +10,12 @@ import UIKit
 
 protocol IEditingScreen
 {
+	var currentImage: UIImage? { get }
+
 	func showFiltersTool()
 	func showTuneTools()
 	func showRotationTool()
+	func showAcitivityVC(_ vc: UIActivityViewController)
 }
 
 final class EditingScreenViewController: UIViewController
@@ -20,7 +23,7 @@ final class EditingScreenViewController: UIViewController
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	var currentEditingType: EditingType = .filters {
+	private var currentEditingType: EditingType = .filters {
 		didSet { title = currentEditingType.rawValue }
 	}
 
@@ -73,8 +76,6 @@ private extension EditingScreenViewController
 		action: #selector(shareTapped))
 
 		navigationItem.rightBarButtonItems = [saveButton, shareButton]
-
-		currentEditingType = .filters
 	}
 
 	func setupToolBar() {
@@ -124,20 +125,7 @@ private extension EditingScreenViewController
 		//dismiss VC
 	}
 
-	@objc private func shareTapped() {
-		guard let data = editingView.currentImage?.pngData() else { return }
-
-		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
-
-		activityVC.completionWithItemsHandler = { _, _, _, error in
-			if error == nil {
-				//saveImage to Disk (presenter)
-			}
-		}
-
-		activityVC.popoverPresentationController?.barButtonItem = navigationItem.rightBarButtonItem
-		present(activityVC, animated: true)
-	}
+	@objc private func shareTapped() { presenter.onShareTapped() }
 
 	@objc private func saveTapped() {
 		//save edited image
@@ -167,17 +155,12 @@ private extension EditingScreenViewController
 	// MARK: - IEditingScreen
 extension EditingScreenViewController: IEditingScreen
 {
-	func showFiltersTool() {
-		editingView.hideAllToolsViews(except: .filters)
-	}
+	var currentImage: UIImage? { editingView.currentImage }
 
-	func showTuneTools() {
-		editingView.hideAllToolsViews(except: .tune)
-	}
-
-	func showRotationTool() {
-		editingView.hideAllToolsViews(except: .rotation)
-	}
+	func showAcitivityVC(_ vc: UIActivityViewController) { present(vc, animated: true) }
+	func showFiltersTool() { editingView.hideAllToolsViews(except: .filters) }
+	func showTuneTools() { editingView.hideAllToolsViews(except: .tune) }
+	func showRotationTool() { editingView.hideAllToolsViews(except: .rotation) }
 }
 
 // MARK: - IToolCollectionViewDelegate
