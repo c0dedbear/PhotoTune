@@ -25,7 +25,7 @@ class ToolCollectionViewCell: UICollectionViewCell
 	}
 
 	private func initialSetup() {
-		imageView.contentMode = .scaleToFill
+		imageView.contentMode = .scaleAspectFill
 		imageView.backgroundColor = .white
 		imageView.clipsToBounds = true
 		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
