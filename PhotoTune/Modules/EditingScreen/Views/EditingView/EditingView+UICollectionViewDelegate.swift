@@ -21,7 +21,6 @@ extension EditingView: UICollectionViewDelegate
 		case .filters:
 			if let filteredImage = toolsDelegate?.imageWithFilter(index: indexPath.item) {
 				setImage(filteredImage)
-				resetTuneSettings()
 			}
 			toolsCollectionView.lastSelectedFilter = indexPath
 		case .tune:

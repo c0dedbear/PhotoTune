@@ -64,8 +64,8 @@ final class ToolSlider: UISlider
 	}
 
 	func configureForSaturation(withValue: Float) {
-		minimumValue = -2
-		maximumValue = 4
+		minimumValue = 0.25
+		maximumValue = 1.75
 		value = withValue
 		updateLabel()
 	}
