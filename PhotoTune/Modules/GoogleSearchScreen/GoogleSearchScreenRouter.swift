@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+protocol IGoogleSearchScreenRouter
+{
+}
+
+final class GoogleSearchScreenRouter
+{
+}
+
+extension GoogleSearchScreenRouter: IGoogleSearchScreenRouter
+{
+}

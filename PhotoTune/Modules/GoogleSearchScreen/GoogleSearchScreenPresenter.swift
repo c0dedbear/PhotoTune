@@ -7,3 +7,15 @@
 //
 
 import Foundation
+
+protocol IGoogleSearchScreenPresenter
+{
+}
+
+final class GoogleSearchScreenPresenter
+{
+}
+
+extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
+{
+}
