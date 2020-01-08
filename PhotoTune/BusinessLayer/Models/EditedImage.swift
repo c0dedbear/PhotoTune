@@ -6,7 +6,7 @@
 //  Copyright © 2019 Mikhail Medvedev. All rights reserved.
 //
 
-struct EditedImage
+struct EditedImage: Codable
 {
 	let imagePath: String
 	let editingDate: String
