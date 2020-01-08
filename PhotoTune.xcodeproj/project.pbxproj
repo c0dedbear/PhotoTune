@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */; };
+		2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */; };
+		2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */; };
 		D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F2BCE23A960A8002DE17E /* EditedImage.swift */; };
 		D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CA068823ABACF5006CB5AF /* Repository.swift */; };
 		E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */; };
@@ -41,6 +44,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenViewController.swift; sourceTree = "<group>"; };
+		2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenPresenter.swift; sourceTree = "<group>"; };
+		2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenRouter.swift; sourceTree = "<group>"; };
 		D04F2BCE23A960A8002DE17E /* EditedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImage.swift; sourceTree = "<group>"; };
 		D0CA068823ABACF5006CB5AF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenPresenter.swift; sourceTree = "<group>"; };
@@ -87,9 +93,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2247570223C61E880030C9EE /* GoogleSearchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */,
+				2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */,
+				2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */,
+			);
+			path = GoogleSearchScreen;
+			sourceTree = "<group>";
+		};
 		D04F2BAA23A7FF79002DE17E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				2247570223C61E880030C9EE /* GoogleSearchScreen */,
 				E93BA17223AA20D500BD5656 /* EditingScreen */,
 			);
 			path = Modules;
@@ -359,14 +376,17 @@
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
 				E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
+				2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */,
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
 				E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */,
 				E902890723AE75D400F28FBA /* FiltersCollectionViewCell.swift in Sources */,
 				E902890223AE75D400F28FBA /* ImageProcessor.swift in Sources */,
+				2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */,
 				E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */,
 				E902890323AE75D400F28FBA /* EditingType.swift in Sources */,
 				E902890A23AE75D400F28FBA /* ToolsCollectionView.swift in Sources */,
 				E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */,
+				2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */,
 				E94D1AD823B29147007A4E86 /* Filter.swift in Sources */,
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
