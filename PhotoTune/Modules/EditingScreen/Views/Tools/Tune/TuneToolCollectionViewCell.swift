@@ -35,7 +35,6 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 	override init(frame: CGRect = .zero) {
 		super.init(frame: frame)
 		initialSetup()
-		configureIndicator()
 	}
 
 	private func initialSetup() {
@@ -50,27 +49,5 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 			setTextColor(.darkText)
 			setBorderToImage(color: .black, width: 1)
 		}
-	}
-
-	private func configureIndicator() {
-		indicator.isHidden = true
-		indicator.backgroundColor = .systemGray
-		indicator.layer.cornerRadius = EditingScreenMetrics.tuneToolIndicatorRadius / 2
-		addSubview(indicator)
-		indicator.translatesAutoresizingMaskIntoConstraints = false
-		indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-		indicator.anchor(
-			top: nil,
-			leading: nil,
-			bottom: self.bottomAnchor,
-			trailing: nil,
-			padding: .init(
-				top: 0,
-				left: 0,
-				bottom: self.bounds.height + EditingScreenMetrics.tuneToolIndicatorRadius / 2,
-				right: 0),
-			size: .init(width: EditingScreenMetrics.tuneToolIndicatorRadius,
-						height: EditingScreenMetrics.tuneToolIndicatorRadius)
-		)
 	}
 }
