@@ -86,7 +86,7 @@ final class ToolSliderView: UIStackView
 			   leading: superview?.leadingAnchor,
 			   bottom: superview?.bottomAnchor,
 			   trailing: superview?.trailingAnchor,
-			   padding: .init(top: 0, left: 20, bottom: 10, right: 20))
+			   padding: .init(top: 40, left: 20, bottom: 10, right: 20))
 	}
 
 	private func showControls() {
