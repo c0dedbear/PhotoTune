@@ -13,6 +13,8 @@ protocol IToolViewDelegate: AnyObject
 	func imageWithFilter(index: Int) -> UIImage?
 	func applyTuneSettings(_ settings: TuneSettings)
 	func loadTuneSettings() -> TuneSettings?
+	func rotateClockwise()
+	func rotateAntiClockwise()
 }
 
 final class EditingView: UIView
@@ -76,13 +78,9 @@ final class EditingView: UIView
 		case .tune:
 			tuneTools.reloadData()
 			tuneTools.animatedAppearing()
-		case .rotation: rotationTool.animatedAppearing()
+		case .rotation:
+			rotationTool.animatedAppearing()
 		case .none: break
-		}
-	}
-
-	func showChangeIndicator(type: TuneTool) {
-		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration) {
 		}
 	}
 }
@@ -120,19 +118,25 @@ private extension EditingView
 
 		imageView.heightAnchor.constraint(
 			equalTo: safeAreaLayoutGuide.heightAnchor,
-			multiplier: 0.66).isActive = true
+			multiplier: 0.64).isActive = true
 
 		editingView.anchor(top: imageView.bottomAnchor,
 								  leading: leadingAnchor,
 								  bottom: safeAreaLayoutGuide.bottomAnchor,
-								  trailing: trailingAnchor)
+								  trailing: trailingAnchor,
+								  padding: .init(top: 8, left: 0, bottom: 0, right: 0))
 	}
 
 	func addTools() {
 		editingView.addSubview(filtersTools)
 		filtersTools.fillSuperview()
+
 		editingView.addSubview(tuneTools)
 		tuneTools.fillSuperview()
 		editingView.addSubview(slidersStack)
+
+		editingView.addSubview(rotationTool)
+		rotationTool.fillSuperview()
+		rotationTool.parentView = self
 	}
 }

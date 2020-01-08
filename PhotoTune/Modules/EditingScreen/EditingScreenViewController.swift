@@ -163,15 +163,29 @@ extension EditingScreenViewController: IEditingScreen
 	func showRotationTool() { editingView.hideAllToolsViews(except: .rotation) }
 }
 
-// MARK: - IToolCollectionViewDelegate
+// MARK: - IToolViewDelegate
 extension EditingScreenViewController: IToolViewDelegate
 {
+	func rotateClockwise() {
+		// rotate right
+		presenter.onRotateClockwiseTapped { image in
+			editingView.setImage(image)
+		}
+	}
+
+	func rotateAntiClockwise() {
+		// rotate left
+		presenter.onRotateAntiClockwiseTapped { image in
+		editingView.setImage(image)
+		}
+	}
+
 	func loadTuneSettings() -> TuneSettings? {
 		presenter.getTuneSettings()
 	}
 
 	func applyTuneSettings(_ settings: TuneSettings) {
-		presenter.whenSaveTuneSettingsTapped(save: settings) { image in
+		presenter.onSaveTuneSettingsTapped(save: settings) { image in
 			editingView.setImage(image)
 		}
 	}
@@ -180,7 +194,7 @@ extension EditingScreenViewController: IToolViewDelegate
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }
-	// MARK: - IToolCollectionViewDelegate
+	// MARK: - IToolCollectionViewDataSource
 extension EditingScreenViewController: IToolCollectionViewDataSource
 {
 	var editingType: EditingType { currentEditingType }

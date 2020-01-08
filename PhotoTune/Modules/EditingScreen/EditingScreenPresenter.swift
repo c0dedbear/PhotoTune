@@ -22,10 +22,14 @@ protocol IEditingScreenPresenter
 
 	func getTuneToolsCount() -> Int
 	func getTuneToolCellDataFor(index: Int) -> TuneTool
+
 	func getTuneSettings() -> TuneSettings?
+	func onSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
+
+	func onRotateClockwiseTapped(image: (UIImage?) -> Void)
+	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
 
 	func onShareTapped()
-	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
 }
 
 final class EditingScreenPresenter
@@ -63,33 +67,34 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func getInitialImage() -> UIImage { image }
+	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
+		imageProcessor.tuneSettings?.ciFilter = Filter.photoFilters[filterIndex].ciFilter?.name
+		return imageProcessor.tunedImage
+	}
+
 	func filtersToolPressed() { editingScreen?.showFiltersTool() }
 	func tuneToolPressed() { editingScreen?.showTuneTools() }
 	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
-	func getTuneToolCellDataFor(index: Int) -> TuneTool {
-			return TuneTool.allCases[index]
-	}
-
+	func getTuneToolCellDataFor(index: Int) -> TuneTool { TuneTool.allCases[index] }
 	func getTuneToolsCount() -> Int { TuneTool.allCases.count }
 
-	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?) { previews[index]
-	}
+	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?) { previews[index] }
+	func getFiltersCount() -> Int { Filter.photoFilters.count }
 
-	func getFiltersCount() -> Int { Filters.all.count }
-
-	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
-		let filteredImage = imageProcessor.processed(
-			image: image,
-			with: Filters.all[filterIndex].filter)
-		imageProcessor.currentImage = filteredImage
-		return filteredImage
-	}
-
-	func whenSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void) {
+	func getTuneSettings() -> TuneSettings? { imageProcessor.tuneSettings }
+	func onSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void) {
 		imageProcessor.tuneSettings = settings
 		image(imageProcessor.tunedImage)
 	}
 
-	func getTuneSettings() -> TuneSettings? { imageProcessor.tuneSettings }
+	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
+		image(imageProcessor.tunedImage)
+	}
+
+	func onRotateClockwiseTapped(image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
+		image(imageProcessor.tunedImage)
+	}
 }
