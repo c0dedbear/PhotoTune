@@ -12,7 +12,7 @@ protocol IStorageService
 {
 	func storeImage(_ image: UIImage, filename: String, completion: (() -> Void)?)
 	func loadImage(filename: String, completion: (UIImage?) -> Void)
-	func removeImageAt(filepath: String, completion: (() -> Void)?)
+	func removeFilesAt(filepaths: [String], completion: (() -> Void)?)
 	func saveEditedImages(_ editedImages: [EditedImage])
 	func loadEditedImages() -> [EditedImage]?
 }
@@ -33,15 +33,17 @@ final class StorageService
 
 extension StorageService: IStorageService
 {
-	func removeImageAt(filepath: String, completion: (() -> Void)?) {
-		let fileURL = getDocumentsDirectory().appendingPathComponent(filepath)
-		do {
-			try FileManager.default.removeItem(at: fileURL)
-			completion?()
+	func removeFilesAt(filepaths: [String], completion: (() -> Void)?) {
+		for filepath in filepaths {
+			let fileURL = getDocumentsDirectory().appendingPathComponent(filepath)
+			do {
+				try FileManager.default.removeItem(at: fileURL)
+			}
+			catch {
+				assertionFailure(error.localizedDescription)
+			}
 		}
-		catch {
-			assertionFailure(error.localizedDescription)
-		}
+		completion?()
 	}
 
 	func storeImage(_ image: UIImage, filename: String, completion: (() -> Void)?) {
