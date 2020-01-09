@@ -28,6 +28,8 @@ protocol IEditingScreenPresenter
 
 	func onRotateClockwiseTapped(image: (UIImage?) -> Void)
 	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
+
+	func onShareTapped()
 }
 
 final class EditingScreenPresenter
@@ -51,8 +53,20 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func getInitialImage() -> UIImage { image }
+	func onShareTapped() {
+		guard let data = editingScreen?.currentImage?.pngData() else { return }
 
+		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+
+		activityVC.completionWithItemsHandler = { _, _, _, error in
+			if error == nil {
+				//saveImage to Disk
+			}
+		}
+		editingScreen?.showAcitivityVC(activityVC)
+	}
+
+	func getInitialImage() -> UIImage { image }
 	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
 		imageProcessor.tuneSettings?.ciFilter = Filter.photoFilters[filterIndex].ciFilter?.name
 		return imageProcessor.tunedImage
