@@ -45,7 +45,7 @@ extension EditingView: UICollectionViewDataSource
 				for: indexPath) as? TuneToolCollectionViewCell {
 				let tuneTool = toolCollectionViewDataSource?.dataForTuneCell(index: indexPath.item)
 				tuneToolCell.tuneTool = tuneTool
-				tuneToolCell.showIndicator = toolCollectionViewDataSource?.showChangesIndicator(for: tuneTool) ?? false
+				tuneToolCell.isIndicatorShown = toolCollectionViewDataSource?.showChangesIndicator(for: tuneTool) ?? false
 				return tuneToolCell
 			}
 		default: break

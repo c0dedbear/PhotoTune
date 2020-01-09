@@ -22,8 +22,8 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 		}
 	}
 
-	var showIndicator = false {
-		didSet { indicator.isHidden = showIndicator ? false : true }
+	var isIndicatorShown = false {
+		didSet { indicator.isHidden = isIndicatorShown ? false : true }
 	}
 
 	override var isSelected: Bool {
