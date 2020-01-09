@@ -56,11 +56,3 @@ enum TuneSettingsDefaults
 	static let rotationNegativeAngleLimit: CGFloat = -6.2
 	static let rotationAngleStep: CGFloat = 90 * (.pi / 180)
 }
-
-extension Float
-{
-	func roundToDecimal(_ fractionDigits: Int) -> Float {
-		let multiplier = pow(10, Float(fractionDigits))
-		return Darwin.round(self * multiplier) / multiplier
-	}
-}
