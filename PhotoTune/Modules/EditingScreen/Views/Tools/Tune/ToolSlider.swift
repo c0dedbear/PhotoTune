@@ -50,29 +50,29 @@ final class ToolSlider: UISlider
 	}
 
 	func configureForBrightness(withValue: Float) {
-		minimumValue = -0.3
-		maximumValue = 0.3
+		minimumValue = TuneSettingsDefaults.minBrightnessIntensity
+		maximumValue = TuneSettingsDefaults.maxBrightnessIntensity
 		value = withValue
 		updateLabel()
 	}
 
 	func configureForContrast(withValue: Float) {
-		minimumValue = 0.25
-		maximumValue = 1.75
+		minimumValue = TuneSettingsDefaults.minContrastIntensity
+		maximumValue = TuneSettingsDefaults.maxBrightnessIntensity
 		value = withValue
 		updateLabel()
 	}
 
 	func configureForSaturation(withValue: Float) {
-		minimumValue = 0.25
-		maximumValue = 1.75
+		minimumValue = TuneSettingsDefaults.minSaturationIntensity
+		maximumValue = TuneSettingsDefaults.maxSaturationIntensity
 		value = withValue
 		updateLabel()
 	}
 
 	func configureForVignetteIntensity(withValue: Float) {
-		minimumValue = 0.25
-		maximumValue = 1.75
+		minimumValue = TuneSettingsDefaults.minVignetteIntensity
+		maximumValue = TuneSettingsDefaults.maxVignetteIntensity
 		value = (withValue == TuneSettingsDefaults.vignetteIntensity) ?
 			(withValue + 1) : withValue // 1 for immediately applying effect
 		updateLabel(convertValues: false)
