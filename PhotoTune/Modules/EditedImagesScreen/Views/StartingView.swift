@@ -49,7 +49,10 @@ final class AddingView: UIView
 		addSubview(descriptionLabel)
 		addSubview(addingButton)
 		makeConstraints()
-		backgroundColor = .white
+		if #available(iOS 13.0, *){
+			backgroundColor = .systemBackground
+		}
+		else { backgroundColor = .white }
 	}
 
 	@available(*, unavailable)
@@ -57,7 +60,7 @@ final class AddingView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	func makeConstraints() {
+	private func makeConstraints() {
 		addingButton.translatesAutoresizingMaskIntoConstraints = false
 		descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
 		addingLabel.translatesAutoresizingMaskIntoConstraints = false

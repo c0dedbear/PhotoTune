@@ -35,11 +35,13 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		view.addSubview(addingView)
-		addingView.addingButton.addTarget(self, action: #selector(addingButtonPressed), for: .touchUpInside)
-		self.collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		images = presenter.getImages()
-		makeConstraints()
+		setupView()
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
+		images = presenter.getImages()
 	}
 
 	override func collectionView(_ collectionView: UICollectionView,
@@ -50,23 +52,22 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
 													  for: indexPath) as? EditedImagesScreenCell
 		cell?.imageView.image = UIImage(named: images[indexPath.row].previewFileName)
-
-		let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipedCellLeft))
-		swipeLeft.direction = .left
-		cell?.addGestureRecognizer(swipeLeft)
-		cell?.isUserInteractionEnabled = true
-
 		return cell ?? UICollectionViewCell()
 	}
+}
 
-	@objc private func swipedCellLeft(_ sender: UISwipeGestureRecognizer) {
-		guard let cell = sender.view as? EditedImagesScreenCell else { return }
-		guard let itemIndex = self.collectionView.indexPath(for: cell)?.item else { return }
-		images.remove(at: itemIndex)
-		self.collectionView.reloadData()
-	}
+private extension EditedImagesCollectionViewController
+{
+	func setupView() {
+		if #available(iOS 13.0, *){
+			collectionView.backgroundColor = .systemBackground
+		}
+		else { collectionView.backgroundColor = .white }
 
-	private func makeConstraints() {
+		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+		view.addSubview(addingView)
+		addingView.addingButton.addTarget(self, action: #selector(addingButtonPressed), for: .touchUpInside)
+
 		addingView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
 			addingView.leftAnchor.constraint(equalTo: view.leftAnchor),
@@ -74,9 +75,15 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 			addingView.topAnchor.constraint(equalTo: view.topAnchor),
 			addingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 		])
+
+		if images.isEmpty {
+			collectionView.isHidden = true
+			addingView.isHidden = false
+		}
+		else { addingView.isHidden = true }
 	}
 
-	@objc private func addingButtonPressed(_ sender: UIButton) {
+	@objc func addingButtonPressed(_ sender: UIButton) {
 		let alert = UIAlertController(title: "Choose image source", message: nil, preferredStyle: .actionSheet)
 		let imagePicker = UIImagePickerController()
 		imagePicker.delegate = self
@@ -88,7 +95,6 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 			}
 			alert.addAction(cameraAction)
 		}
-
 		if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
 			let photoLibraryAction = UIAlertAction(title: "PhotoLibrary", style: .default) { _ in
 				imagePicker.sourceType = .photoLibrary
@@ -105,12 +111,11 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		cancelAction(alert, sender)
 	}
 
-	private func cancelAction(_ alert: UIAlertController, _ sender: UIButton) {
+	func cancelAction(_ alert: UIAlertController, _ sender: UIButton) {
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		alert.addAction(cancelAction)
 		alert.popoverPresentationController?.sourceView = sender
 		present(alert, animated: true)
-		addingView.isHidden = true
 	}
 }
 
