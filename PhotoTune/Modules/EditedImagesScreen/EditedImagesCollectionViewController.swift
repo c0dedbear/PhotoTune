@@ -11,14 +11,21 @@ import UIKit
 final class EditedImagesCollectionViewController: UICollectionViewController
 {
 	private let presenter: IEditedImagesPresenter
-	private let layout = CustomCollectionViewLayout()
 	private let reuseIdentifier = "Cell"
 	private var images = [EditedImage]()
 	private let addingView = AddingView()
+	private let layout: UICollectionViewLayout = {
+		let layout = UICollectionViewFlowLayout()
+		layout.itemSize = CGSize(width: UIScreen.main.bounds.width / 2 - 30, height: UIScreen.main.bounds.width / 2 - 30)
+		layout.minimumInteritemSpacing = 20
+		layout.minimumLineSpacing = 20
+		layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
+		return layout
+	}()
 
 	init(presenter: IEditedImagesPresenter) {
 		self.presenter = presenter
-		super.init(collectionViewLayout: layout.getLayout())
+		super.init(collectionViewLayout: layout)
 	}
 
 	@available(*, unavailable)
@@ -42,7 +49,7 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 								 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
 													  for: indexPath) as? EditedImagesScreenCell
-		cell?.imageView.image = UIImage(named: images[indexPath.row].imagePath)
+		cell?.imageView.image = UIImage(named: images[indexPath.row].previewFileName)
 
 		let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(swipedCellLeft))
 		swipeLeft.direction = .left
