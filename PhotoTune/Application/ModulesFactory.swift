@@ -10,16 +10,20 @@ import UIKit
 
 final class ModulesFactory
 {
-	func createEditingScreenModule(image: UIImage)
+	func createEditingScreenModule(image: UIImage?, editedImage: EditedImage?)
 		-> UINavigationController {
-			let imageProcessor = ImageProcessor()
+			let storageService = StorageService() // fix: перенести в appdelegate
+			let imageProcessor = ImageProcessor() // fix: перенести в appdelegate
 			let router = EditingScreenRouter()
-			let presenter = EditingScreenPresenter(image: image, imageProcessor: imageProcessor, router: router)
+			let presenter = EditingScreenPresenter(
+				image: image,
+				editedImage: editedImage,
+				imageProcessor: imageProcessor,
+				storageService: storageService,
+				router: router)
 			let editingScreenVC = EditingScreenViewController(presenter: presenter)
 			let navController = UINavigationController(rootViewController: editingScreenVC)
 			presenter.editingScreen = editingScreenVC
-			//fix
-//			router.destinationViewController = EditedPhotoController()
 			return navController
 	}
 }

@@ -10,7 +10,7 @@ import UIKit
 
 protocol IEditingScreenPresenter
 {
-	func getInitialImage() -> UIImage
+	func getInitialImage() -> UIImage?
 	func getFilteredImageFor(filterIndex: Int) -> UIImage?
 
 	func filtersToolPressed()
@@ -35,19 +35,47 @@ protocol IEditingScreenPresenter
 final class EditingScreenPresenter
 {
 	private let router: IEditingScreenRouter
-	private let image: UIImage
+	private let storageService: IStorageService
+	private let image: UIImage?
+	private let editedImage: EditedImage?
 	private var imageProcessor: IImageProcessor
-	private let previews: [(title: String, image: UIImage?)]
+	private var previews: [(title: String, image: UIImage?)] = []
 
 	var editingScreen: IEditingScreen?
 
-	init(image: UIImage, imageProcessor: IImageProcessor, router: IEditingScreenRouter) {
+	private func makePreviews() {
+		if let newImage = image {
+			imageProcessor.currentImage = newImage
+			imageProcessor.tuneSettings = TuneSettings()
+			previews = imageProcessor.filtersPreviews(image: newImage)
+			return
+		}
+
+		if let editedImage = editedImage {
+			storageService.loadImage(filename: editedImage.imageFileName) { image in
+				guard let storedImage = image else {
+					assertionFailure("No stored image")
+					return
+				}
+				imageProcessor.currentImage = storedImage
+				imageProcessor.tuneSettings = editedImage.tuneSettings
+				previews = imageProcessor.filtersPreviews(image: storedImage)
+			}
+		}
+	}
+
+	init(
+		image: UIImage?,
+		editedImage: EditedImage?,
+		imageProcessor: IImageProcessor,
+		storageService: IStorageService,
+		router: IEditingScreenRouter) {
 		self.image = image
-		self.router = router
+		self.editedImage = editedImage
 		self.imageProcessor = imageProcessor
-		self.imageProcessor.currentImage = image
-		self.imageProcessor.tuneSettings = TuneSettings()
-		previews = imageProcessor.filtersPreviews(image: self.image)
+		self.storageService = storageService
+		self.router = router
+		makePreviews()
 	}
 }
 
@@ -58,15 +86,14 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 
 		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
 
-		activityVC.completionWithItemsHandler = { _, _, _, error in
-			if error == nil {
-				//saveImage to Disk
-			}
-		}
 		editingScreen?.showAcitivityVC(activityVC)
 	}
 
-	func getInitialImage() -> UIImage { image }
+	func getInitialImage() -> UIImage? {
+		if let image = image { return image }
+		return imageProcessor.tunedImage
+	}
+
 	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
 		imageProcessor.tuneSettings?.ciFilter = Filter.photoFilters[filterIndex].ciFilter?.name
 		return imageProcessor.tunedImage
