@@ -24,6 +24,24 @@ struct TuneSettings: Equatable, Codable
 			rotationAngle = 0
 		}
 	}
+
+	mutating func resetToActualSettings() {
+		if brightnessIntensity < 0.008 && brightnessIntensity > TuneSettingsDefaults.brightnessIntensity  {
+			brightnessIntensity = TuneSettingsDefaults.brightnessIntensity
+		}
+
+		if vignetteIntensity == 0.25 {
+			vignetteIntensity = TuneSettingsDefaults.vignetteIntensity
+		}
+
+		if contrastIntensity < 1.016 && contrastIntensity > TuneSettingsDefaults.contrastIntensity {
+			contrastIntensity = TuneSettingsDefaults.contrastIntensity
+		}
+
+		if saturationIntensity < 1.016 && saturationIntensity > TuneSettingsDefaults.saturationIntensity {
+			saturationIntensity = TuneSettingsDefaults.saturationIntensity
+		}
+	}
 }
 
 enum TuneSettingsDefaults
