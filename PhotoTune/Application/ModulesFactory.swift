@@ -23,6 +23,16 @@ final class ModulesFactory
 			return navController
 	}
 
+	func createEditedImagesScreenModule() -> UINavigationController {
+		let repository = Repository()
+		let router = EditedImagesRouter(factory: self)
+		let presenter = EditedImagesPresenter(repository: repository, router: router)
+		let viewController = EditedImagesCollectionViewController(presenter: presenter)
+		let navController = UINavigationController(rootViewController: viewController)
+		router.viewController = viewController
+		return navController
+  }
+
 	func createGoogleSearchScreen() -> UINavigationController {
 		let router = GoogleSearchScreenRouter(factory: self)
 		let presenter = GoogleSearchScreenPresenter(router: router)

@@ -13,6 +13,11 @@
 		2247571423C87A610030C9EE /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */; };
 		2247571623C87A710030C9EE /* PhotoCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */; };
 		D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F2BCE23A960A8002DE17E /* EditedImage.swift */; };
+		D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */; };
+		D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8C23C66A6C00D863FF /* StartingView.swift */; };
+		D094AF8F23C66A8E00D863FF /* EditedImagesPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8E23C66A8E00D863FF /* EditedImagesPresenter.swift */; };
+		D094AF9123C66AB400D863FF /* EditedImagesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF9023C66AB400D863FF /* EditedImagesCollectionViewController.swift */; };
+		D094AF9323C66ACB00D863FF /* EditedImagesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF9223C66ACB00D863FF /* EditedImagesRouter.swift */; };
 		D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0CA068823ABACF5006CB5AF /* Repository.swift */; };
 		E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */; };
 		E902890223AE75D400F28FBA /* ImageProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E90288F023AE75D300F28FBA /* ImageProcessor.swift */; };
@@ -54,6 +59,11 @@
 		2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewLayout.swift; sourceTree = "<group>"; };
 		D04F2BCE23A960A8002DE17E /* EditedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImage.swift; sourceTree = "<group>"; };
+		D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesScreenCell.swift; sourceTree = "<group>"; };
+		D094AF8C23C66A6C00D863FF /* StartingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingView.swift; sourceTree = "<group>"; };
+		D094AF8E23C66A8E00D863FF /* EditedImagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesPresenter.swift; sourceTree = "<group>"; };
+		D094AF9023C66AB400D863FF /* EditedImagesCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesCollectionViewController.swift; sourceTree = "<group>"; };
+		D094AF9223C66ACB00D863FF /* EditedImagesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesRouter.swift; sourceTree = "<group>"; };
 		D0CA068823ABACF5006CB5AF /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EditingScreenPresenter.swift; sourceTree = "<group>"; };
 		E90288F023AE75D300F28FBA /* ImageProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageProcessor.swift; sourceTree = "<group>"; };
@@ -125,6 +135,7 @@
 			children = (
 				2247570223C61E880030C9EE /* GoogleSearchScreen */,
 				E93BA17223AA20D500BD5656 /* EditingScreen */,
+				D094AF8823C669E900D863FF /* EditedImagesScreen */,
 			);
 			path = Modules;
 			sourceTree = "<group>";
@@ -137,6 +148,26 @@
 				D0CA068823ABACF5006CB5AF /* Repository.swift */,
 			);
 			path = BusinessLayer;
+			sourceTree = "<group>";
+		};
+		D094AF8823C669E900D863FF /* EditedImagesScreen */ = {
+			isa = PBXGroup;
+			children = (
+				D094AF8923C66A0700D863FF /* Views */,
+				D094AF8E23C66A8E00D863FF /* EditedImagesPresenter.swift */,
+				D094AF9023C66AB400D863FF /* EditedImagesCollectionViewController.swift */,
+				D094AF9223C66ACB00D863FF /* EditedImagesRouter.swift */,
+			);
+			path = EditedImagesScreen;
+			sourceTree = "<group>";
+		};
+		D094AF8923C66A0700D863FF /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */,
+				D094AF8C23C66A6C00D863FF /* StartingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		D0CA068723ABAC68006CB5AF /* Models */ = {
@@ -415,6 +446,7 @@
 				E91518C023B91F6600F18218 /* UISlider+FrameAndBounds.swift in Sources */,
 				E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */,
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
+				D094AF8F23C66A8E00D863FF /* EditedImagesPresenter.swift in Sources */,
 				D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */,
 				E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */,
 				E94D1A7423B13375007A4E86 /* ToolBarImage.swift in Sources */,
@@ -425,6 +457,7 @@
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
 				E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */,
 				E902890723AE75D400F28FBA /* FiltersCollectionViewCell.swift in Sources */,
+				D094AF9123C66AB400D863FF /* EditedImagesCollectionViewController.swift in Sources */,
 				E902890223AE75D400F28FBA /* ImageProcessor.swift in Sources */,
 				2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */,
 				E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */,
@@ -433,6 +466,8 @@
 				E902890A23AE75D400F28FBA /* ToolsCollectionView.swift in Sources */,
 				E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */,
 				2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */,
+				D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */,
+				D094AF9323C66ACB00D863FF /* EditedImagesRouter.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* Repository.swift in Sources */,
 				E94D1AD823B29147007A4E86 /* Filter.swift in Sources */,
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
@@ -440,6 +475,7 @@
 				E910080A23C74CEE00A6A81A /* Float.swift in Sources */,
 				E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
+				D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */,
 				E94D1AD223B23FBA007A4E86 /* ToolSliderView.swift in Sources */,
 				E902893723B0DC7500F28FBA /* EditingView.swift in Sources */,
 				E902890E23AE75D400F28FBA /* EditingScreenRouter.swift in Sources */,
