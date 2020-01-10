@@ -30,7 +30,7 @@ final class ModulesFactory
 		let viewController = EditedImagesCollectionViewController(presenter: presenter)
 		let navController = UINavigationController(rootViewController: viewController)
 		router.viewController = viewController
-    return navController
+		return navController
   }
 
 	func createGoogleSearchScreen() -> UINavigationController {
