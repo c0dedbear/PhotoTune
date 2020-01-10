@@ -26,4 +26,13 @@ final class ModulesFactory
 			presenter.editingScreen = editingScreenVC
 			return navController
 	}
+
+	func createGoogleSearchScreen() -> UINavigationController {
+		let router = GoogleSearchScreenRouter(factory: self)
+		let presenter = GoogleSearchScreenPresenter(router: router)
+		let googleSearchScreenVC = GoogleSearchScreenViewController(presenter: presenter)
+		let navController = UINavigationController(rootViewController: googleSearchScreenVC)
+		presenter.googleSearchScreen = googleSearchScreenVC
+		return navController
+	}
 }

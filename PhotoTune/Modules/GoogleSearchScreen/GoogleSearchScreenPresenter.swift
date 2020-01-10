@@ -14,6 +14,12 @@ protocol IGoogleSearchScreenPresenter
 
 final class GoogleSearchScreenPresenter
 {
+	private let router: IGoogleSearchScreenRouter
+	var googleSearchScreen: IGoogleSearchScreenViewController?
+
+	init(router: IGoogleSearchScreenRouter) {
+		self.router = router
+	}
 }
 
 extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter

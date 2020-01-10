@@ -14,6 +14,12 @@ protocol IGoogleSearchScreenRouter
 
 final class GoogleSearchScreenRouter
 {
+		private var factory: ModulesFactory
+		weak var destinationViewController: EditingScreenViewController?
+
+		init(factory: ModulesFactory) {
+			self.factory = factory
+		}
 }
 
 extension GoogleSearchScreenRouter: IGoogleSearchScreenRouter
