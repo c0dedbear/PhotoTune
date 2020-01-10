@@ -17,12 +17,15 @@ final class GoogleSearchScreenViewController: UIViewController
 	private let presenter: IGoogleSearchScreenPresenter
 	private var timer: Timer?
 	private let searchController = UISearchController(searchResultsController: nil)
+	private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+	private let layout = CustomCollectionViewLayout()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
-		self.title = "Поиск"
+		self.title = "Search"
 		setupSearchBar()
+		setupCollectionView()
 	}
 
 	init(presenter: IGoogleSearchScreenPresenter) {
@@ -42,6 +45,20 @@ final class GoogleSearchScreenViewController: UIViewController
 		searchController.searchBar.delegate = self
 		searchController.definesPresentationContext = true
 	}
+
+	private func setupCollectionView() {
+		collectionView.backgroundColor = .white
+		layout.delegate = self
+		collectionView.collectionViewLayout = layout
+		collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "photoCell")
+		collectionView.dataSource = self
+		view.addSubview(collectionView)
+		collectionView.translatesAutoresizingMaskIntoConstraints = false
+		collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+		collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+		collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+	}
 }
 
 extension GoogleSearchScreenViewController: UISearchBarDelegate
@@ -57,4 +74,35 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 
 extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 {
+}
+
+extension GoogleSearchScreenViewController: UICollectionViewDataSource
+{
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return presenter.getPhotos().count
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
+														for: indexPath) as? ImageCollectionViewCell
+		guard let cell = photoCell else { return UICollectionViewCell() }
+		cell.imageView.image = presenter.getPhotos()[indexPath.item]
+		return cell
+	}
+}
+
+extension GoogleSearchScreenViewController: CustomCollectionViewLayoutDelegate
+{
+	func collectionView(
+		_ collectionView: UICollectionView,
+		heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
+		let itemSize = (collectionView.frame.width -
+			(collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
+		let myImage = presenter.getPhotos()[indexPath.item]
+		let myImageWidth = myImage.size.width
+		let myImageHeight = myImage.size.height
+		let ratio = itemSize / myImageWidth
+		let scaledHeight = myImageHeight * ratio
+		return scaledHeight
+	}
 }

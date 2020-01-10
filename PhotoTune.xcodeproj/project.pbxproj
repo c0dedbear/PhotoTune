@@ -130,6 +130,14 @@
 			path = CollectionView;
 			sourceTree = "<group>";
 		};
+		2247571923C90C140030C9EE /* ReusableViews */ = {
+			isa = PBXGroup;
+			children = (
+				2247571223C87A380030C9EE /* CollectionView */,
+			);
+			path = ReusableViews;
+			sourceTree = "<group>";
+		};
 		D04F2BAA23A7FF79002DE17E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -143,7 +151,6 @@
 		D04F2BCD23A96077002DE17E /* BusinessLayer */ = {
 			isa = PBXGroup;
 			children = (
-				2247571223C87A380030C9EE /* CollectionView */,
 				D0CA068723ABAC68006CB5AF /* Models */,
 				D0CA068823ABACF5006CB5AF /* Repository.swift */,
 			);
@@ -252,6 +259,7 @@
 			children = (
 				E906D76A23A7F9080010CD54 /* Application */,
 				D04F2BCD23A96077002DE17E /* BusinessLayer */,
+				2247571923C90C140030C9EE /* ReusableViews */,
 				D04F2BAA23A7FF79002DE17E /* Modules */,
 				E906D76B23A7F9170010CD54 /* Resources */,
 				E99AD78523C4AD72000E4655 /* Services */,
