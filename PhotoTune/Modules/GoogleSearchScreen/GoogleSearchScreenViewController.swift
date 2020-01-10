@@ -8,8 +8,13 @@
 
 import UIKit
 
+protocol IGoogleSearchScreenViewController
+{
+}
+
 final class GoogleSearchScreenViewController: UIViewController
 {
+	private let presenter: IGoogleSearchScreenPresenter
 	private var timer: Timer?
 	private let searchController = UISearchController(searchResultsController: nil)
 
@@ -18,6 +23,16 @@ final class GoogleSearchScreenViewController: UIViewController
 		view.backgroundColor = .white
 		self.title = "Поиск"
 		setupSearchBar()
+	}
+
+	init(presenter: IGoogleSearchScreenPresenter) {
+		self.presenter = presenter
+		super.init(nibName: nil, bundle: nil)
+	}
+
+	@available(*, unavailable)
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
 	}
 
 	private func setupSearchBar() {
@@ -38,4 +53,8 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 									 block: { _ in
 		})
 	}
+}
+
+extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
+{
 }
