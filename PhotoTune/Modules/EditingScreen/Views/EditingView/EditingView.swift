@@ -55,6 +55,19 @@ final class EditingView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	private func selectFilter() {
+		let actualFilter = toolsDelegate?.loadTuneSettings()?.ciFilter
+		for (index, filter) in Filter.photoFilters.enumerated() where actualFilter == filter.ciFilter?.name {
+			filtersTools.lastSelectedFilter = IndexPath(item: index, section: 0)
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration) { [weak self] in
+			self?.filtersTools.selectItem(
+				at: self?.filtersTools.lastSelectedFilter,
+				animated: false,
+				scrollPosition: .centeredHorizontally)
+		}
+	}
+
 	func setImage(_ image: UIImage?) {
 		imageView.image = image
 	}
@@ -73,7 +86,7 @@ final class EditingView: UIView
 		switch except {
 		case .filters:
 			filtersTools.reloadData()
-			filtersTools.selectItem(at: filtersTools.lastSelectedFilter, animated: false, scrollPosition: .centeredHorizontally)
+			selectFilter()
 			filtersTools.animatedAppearing()
 		case .tune:
 			tuneTools.reloadData()

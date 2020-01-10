@@ -58,7 +58,7 @@ final class ToolSlider: UISlider
 
 	func configureForContrast(withValue: Float) {
 		minimumValue = TuneSettingsDefaults.minContrastIntensity
-		maximumValue = TuneSettingsDefaults.maxBrightnessIntensity
+		maximumValue = TuneSettingsDefaults.maxContrastIntensity
 		value = withValue
 		updateLabel()
 	}
