@@ -9,13 +9,14 @@
 
 import UIKit
 
-class PhotoCollectionViewCell: UICollectionViewCell
+class ImageCollectionViewCell: UICollectionViewCell
 {
 	let imageView = UIImageView()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		addSubview(imageView)
+		imageView.layer.masksToBounds = true
 		makeConstraintsForImageView()
 	}
 
