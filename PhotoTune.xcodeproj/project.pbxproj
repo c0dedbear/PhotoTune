@@ -10,6 +10,8 @@
 		2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */; };
 		2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */; };
 		2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */; };
+		2247571423C87A610030C9EE /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */; };
+		2247571623C87A710030C9EE /* PhotoCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */; };
 		D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F2BCE23A960A8002DE17E /* EditedImage.swift */; };
 		D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */; };
 		D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8C23C66A6C00D863FF /* StartingView.swift */; };
@@ -34,6 +36,7 @@
 		E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E906D75523A7F7D10010CD54 /* AppDelegate.swift */; };
 		E906D75F23A7F7D40010CD54 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E906D75E23A7F7D40010CD54 /* Assets.xcassets */; };
 		E906D76223A7F7D40010CD54 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E906D76023A7F7D40010CD54 /* LaunchScreen.storyboard */; };
+		E910080A23C74CEE00A6A81A /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = E910080923C74CEE00A6A81A /* Float.swift */; };
 		E91518C023B91F6600F18218 /* UISlider+FrameAndBounds.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */; };
 		E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = E930355023ABADB900ADAF52 /* ModulesFactory.swift */; };
 		E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1A7123B13271007A4E86 /* TuneTool.swift */; };
@@ -53,6 +56,8 @@
 		2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenViewController.swift; sourceTree = "<group>"; };
 		2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenPresenter.swift; sourceTree = "<group>"; };
 		2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenRouter.swift; sourceTree = "<group>"; };
+		2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
+		2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewLayout.swift; sourceTree = "<group>"; };
 		D04F2BCE23A960A8002DE17E /* EditedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImage.swift; sourceTree = "<group>"; };
 		D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesScreenCell.swift; sourceTree = "<group>"; };
 		D094AF8C23C66A6C00D863FF /* StartingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingView.swift; sourceTree = "<group>"; };
@@ -79,6 +84,7 @@
 		E906D75E23A7F7D40010CD54 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		E906D76123A7F7D40010CD54 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		E906D76323A7F7D40010CD54 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E910080923C74CEE00A6A81A /* Float.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
 		E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISlider+FrameAndBounds.swift"; sourceTree = "<group>"; };
 		E930355023ABADB900ADAF52 /* ModulesFactory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModulesFactory.swift; sourceTree = "<group>"; };
 		E94D1A7123B13271007A4E86 /* TuneTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneTool.swift; sourceTree = "<group>"; };
@@ -115,6 +121,15 @@
 			path = GoogleSearchScreen;
 			sourceTree = "<group>";
 		};
+		2247571223C87A380030C9EE /* CollectionView */ = {
+			isa = PBXGroup;
+			children = (
+				2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */,
+				2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */,
+			);
+			path = CollectionView;
+			sourceTree = "<group>";
+		};
 		D04F2BAA23A7FF79002DE17E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +143,7 @@
 		D04F2BCD23A96077002DE17E /* BusinessLayer */ = {
 			isa = PBXGroup;
 			children = (
+				2247571223C87A380030C9EE /* CollectionView */,
 				D0CA068723ABAC68006CB5AF /* Models */,
 				D0CA068823ABACF5006CB5AF /* Repository.swift */,
 			);
@@ -239,7 +255,7 @@
 				D04F2BAA23A7FF79002DE17E /* Modules */,
 				E906D76B23A7F9170010CD54 /* Resources */,
 				E99AD78523C4AD72000E4655 /* Services */,
-				E902890F23AE75F100F28FBA /* UIExtensions */,
+				E910080823C74C9E00A6A81A /* Extensions */,
 			);
 			path = PhotoTune;
 			sourceTree = "<group>";
@@ -261,6 +277,23 @@
 				E906D75E23A7F7D40010CD54 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		E910080823C74C9E00A6A81A /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				E902890F23AE75F100F28FBA /* UIExtensions */,
+				E910080B23C74CF300A6A81A /* Foundation */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		E910080B23C74CF300A6A81A /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				E910080923C74CEE00A6A81A /* Float.swift */,
+			);
+			path = Foundation;
 			sourceTree = "<group>";
 		};
 		E93BA17223AA20D500BD5656 /* EditingScreen */ = {
@@ -409,6 +442,7 @@
 				E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				E94D1ADA23B4E0EA007A4E86 /* TuneSettings.swift in Sources */,
 				E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */,
+				2247571623C87A710030C9EE /* PhotoCollectionViewLayout.swift in Sources */,
 				E91518C023B91F6600F18218 /* UISlider+FrameAndBounds.swift in Sources */,
 				E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */,
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
@@ -428,6 +462,7 @@
 				2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */,
 				E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */,
 				E902890323AE75D400F28FBA /* EditingType.swift in Sources */,
+				2247571423C87A610030C9EE /* PhotoCollectionViewCell.swift in Sources */,
 				E902890A23AE75D400F28FBA /* ToolsCollectionView.swift in Sources */,
 				E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */,
 				2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */,
@@ -437,6 +472,7 @@
 				E94D1AD823B29147007A4E86 /* Filter.swift in Sources */,
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
 				E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */,
+				E910080A23C74CEE00A6A81A /* Float.swift in Sources */,
 				E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
 				D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */,

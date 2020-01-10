@@ -73,7 +73,8 @@ final class ToolSlider: UISlider
 	func configureForVignetteIntensity(withValue: Float) {
 		minimumValue = 0.25
 		maximumValue = 1.75
-		value = withValue + 1 // 1 for immediately effect
+		value = (withValue == TuneSettingsDefaults.vignetteIntensity) ?
+			(withValue + 1) : withValue // 1 for immediately applying effect
 		updateLabel(convertValues: false)
 	}
 

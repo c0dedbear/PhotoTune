@@ -214,4 +214,19 @@ extension EditingScreenViewController: IToolCollectionViewDataSource
 	func dataForTuneCell(index: Int) -> TuneTool {
 		presenter.getTuneToolCellDataFor(index: index)
 	}
+
+	func showChangesIndicator(for tuneTool: TuneTool?) -> Bool? {
+		switch tuneTool {
+		case .brightness:
+			return presenter.getTuneSettings()?.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity
+		case .contrast:
+			return presenter.getTuneSettings()?.contrastIntensity != TuneSettingsDefaults.contrastIntensity
+		case .saturation:
+			return presenter.getTuneSettings()?.saturationIntensity != TuneSettingsDefaults.saturationIntensity
+		case .vignette:
+			return presenter.getTuneSettings()?.vignetteIntensity != TuneSettingsDefaults.vignetteIntensity
+		case .none:
+			return nil
+		}
+	}
 }

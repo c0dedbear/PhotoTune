@@ -16,4 +16,5 @@ enum EditingScreenMetrics
 	static let filtersLineSpacing: CGFloat = 30
 	static let tuneToolLineSpacing: CGFloat = 40
 	static let tuneCellTapAnimationDuration = 0.2
+	static let tuneToolIndicatorRadius: CGFloat = 6
 }
