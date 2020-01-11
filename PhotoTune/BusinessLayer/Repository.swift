@@ -10,52 +10,52 @@ import UIKit
 
 protocol IRepository
 {
-	func getImages() -> [EditedImage]
+	func getEditedImages() -> [EditedImage]
+	func updateEditedImages(_ editedImages: [EditedImage])
+	func loadPreviewFor(editedImage: EditedImage) -> UIImage?
 }
 
 final class Repository
 {
-	var images: [EditedImage] {
-		[
-			EditedImage(imageFileName: "images.jpeg",
-						previewFileName: "images.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-2.jpeg",
-						previewFileName: "images-2.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-3.jpeg",
-						previewFileName: "images-3.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-4.jpeg",
-						previewFileName: "images-4.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-5.jpeg",
-						previewFileName: "images-5.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-6.jpeg",
-						previewFileName: "images-6.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-7.jpeg",
-						previewFileName: "images-7.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-			EditedImage(imageFileName: "images-8.jpeg",
-						previewFileName: "images-8.jpeg",
-						editingDate: Date(),
-						tuneSettings: nil),
-		]
+	private var editedImages: [EditedImage]?
+	private let storageService: IStorageService
+
+	init(storageService: IStorageService) {
+		self.storageService = storageService
 	}
 }
 
 extension Repository: IRepository
 {
-	func getImages() -> [EditedImage] {
-		return images
+	func getEditedImages() -> [EditedImage] {
+		if let storedImages = storageService.loadEditedImages() {
+			return storedImages
+		}
+		return [EditedImage]()
+	}
+
+	func updateEditedImages(_ editedImages: [EditedImage]) {
+		if let storedImages = storageService.loadEditedImages() {
+			//search for deleted images
+			for (index, storedEditedImage) in storedImages.enumerated() {
+				if storedImages.contains(editedImages[index]) == false {
+					if storedEditedImage.imageFileName != editedImages[index].imageFileName {
+					storageService.removeFilesAt(filepaths:
+						[storedEditedImage.imageFileName, storedEditedImage.previewFileName], completion: nil)
+					}
+				}
+			}
+		}
+		storageService.saveEditedImages(editedImages)
+	}
+
+	func loadPreviewFor(editedImage: EditedImage) -> UIImage? {
+		var image: UIImage?
+		storageService.loadImage(filename: editedImage.previewFileName) { storedPreview in
+			if let preview = storedPreview {
+				image = preview
+			}
+		}
+		return image
 	}
 }

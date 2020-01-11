@@ -28,7 +28,8 @@ final class ModulesFactory
 	}
 
 	func createEditedImagesScreenModule() -> UINavigationController {
-		let repository = Repository()
+		let storageService = StorageService() // fix: move to appdelegate
+		let repository = Repository(storageService: storageService)
 		let router = EditedImagesRouter(factory: self)
 		let presenter = EditedImagesPresenter(repository: repository, router: router)
 		let viewController = EditedImagesCollectionViewController(presenter: presenter)

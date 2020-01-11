@@ -34,7 +34,7 @@ final class EditingView: UIView
 
 	var heightForCell: CGFloat {
 		if toolCollectionViewDataSource?.editingType == .filters {
-			return imageView.bounds.height / 3
+			return imageView.bounds.height / 3.5
 		}
 		else {
 			return imageView.bounds.height / 5
@@ -60,7 +60,7 @@ final class EditingView: UIView
 		for (index, filter) in Filter.photoFilters.enumerated() where actualFilter == filter.ciFilter?.name {
 			filtersTools.lastSelectedFilter = IndexPath(item: index, section: 0)
 		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.tuneCellTapAnimationDuration) { [weak self] in
+		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.filterSelectionDelay) { [weak self] in
 			self?.filtersTools.selectItem(
 				at: self?.filtersTools.lastSelectedFilter,
 				animated: false,
@@ -127,7 +127,8 @@ private extension EditingView
 		imageView.anchor(top: safeAreaLayoutGuide.topAnchor,
 						 leading: leadingAnchor,
 						 bottom: nil,
-						 trailing: trailingAnchor)
+						 trailing: trailingAnchor,
+						 padding: .init(top: 8, left: 8, bottom: 8, right: 8))
 
 		imageView.heightAnchor.constraint(
 			equalTo: safeAreaLayoutGuide.heightAnchor,

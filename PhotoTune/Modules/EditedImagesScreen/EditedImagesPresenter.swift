@@ -26,5 +26,5 @@ final class EditedImagesPresenter
 
 extension EditedImagesPresenter: IEditedImagesPresenter
 {
-	func getImages() -> [EditedImage] { repository.getImages() }
+	func getImages() -> [EditedImage] { repository.getEditedImages() }
 }
