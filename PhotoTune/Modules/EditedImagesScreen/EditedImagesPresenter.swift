@@ -6,11 +6,12 @@
 //  Copyright © 2020 Mikhail Medvedev. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol IEditedImagesPresenter
 {
 	func getImages() -> [EditedImage]
+	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?)
 }
 
 final class EditedImagesPresenter
@@ -27,4 +28,7 @@ final class EditedImagesPresenter
 extension EditedImagesPresenter: IEditedImagesPresenter
 {
 	func getImages() -> [EditedImage] { repository.getImages() }
+	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?) {
+		router.goToEditingScreen(image: image, editedImage: editedImage)
+	}
 }

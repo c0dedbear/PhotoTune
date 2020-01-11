@@ -54,15 +54,26 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		cell?.imageView.image = UIImage(named: images[indexPath.row].previewFileName)
 		return cell ?? UICollectionViewCell()
 	}
+
+	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		collectionView.deselectItem(at: indexPath, animated: true)
+		let selectedImage = images[indexPath.row]
+		presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+	}
 }
 
 private extension EditedImagesCollectionViewController
 {
 	func setupView() {
-		if #available(iOS 13.0, *){
+		if #available(iOS 13.0, *) {
 			collectionView.backgroundColor = .systemBackground
 		}
 		else { collectionView.backgroundColor = .white }
+
+		title = "PhotoTune"
+		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
+																target: self,
+																action: #selector(addingButtonPressed(_:)))
 
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
@@ -124,7 +135,7 @@ extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate,
 	func imagePickerController(_ picker: UIImagePickerController,
 							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
 		guard let selectedImage = info[.originalImage] as? UIImage else { return }
-		//Передать выбранную картинку в модуль редактирования
 		dismiss(animated: true)
+		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
 	}
 }
