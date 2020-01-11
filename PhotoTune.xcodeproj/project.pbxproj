@@ -252,7 +252,6 @@
 				E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */,
 				E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */,
 				E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */,
-				2247571A23C9E2790030C9EE /* URLExtension.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -328,6 +327,7 @@
 		E910080B23C74CF300A6A81A /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
+				2247571A23C9E2790030C9EE /* URLExtension.swift */,
 				E910080923C74CEE00A6A81A /* Float.swift */,
 			);
 			path = Foundation;
