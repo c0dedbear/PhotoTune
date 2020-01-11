@@ -17,14 +17,14 @@ protocol IGoogleSearchScreenPresenter
 final class GoogleSearchScreenPresenter
 {
 	private let router: IGoogleSearchScreenRouter
-	private let repository: IRepository
+	private let repository: INetworkRepository
 	var googleSearchScreen: IGoogleSearchScreenViewController?
 	private var photos: [GoogleImage]?
 	private let googleRandomImagesQueue = DispatchQueue(label: "googleRandomImagesQueue",
 												qos: .userInteractive,
 												attributes: .concurrent)
 
-	init(repository: IRepository, router: IGoogleSearchScreenRouter) {
+	init(repository: INetworkRepository, router: IGoogleSearchScreenRouter) {
 		self.router = router
 		self.repository = repository
 	}

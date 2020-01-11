@@ -1,5 +1,5 @@
 //
-//  NetworkService.swift
+//  NetworkRepository.swift
 //  PhotoTune
 //
 //  Created by Саша Руцман on 11.01.2020.
@@ -12,14 +12,18 @@ typealias GoogleImageInfoResult = Result<[GoogleImage], ServiceError>
 typealias DataResult = Result<Data, ServiceError>
 typealias ImageResult = Result<UIImage, ServiceError>
 
-protocol INetworkService
+protocol INetworkRepository
 {
 	func getRandomGoogleImagesInfo(_ completion: @escaping (GoogleImageInfoResult) -> Void)
 	func loadImage(urlString: String, _ completion: @escaping (ImageResult) -> Void)
 }
 
-final class NetworkService
+final class NetworkRepository
 {
+	private let googleRandomImagesQueue = DispatchQueue(label: "googleRandomImagesQueue",
+	qos: .userInteractive,
+	attributes: .concurrent)
+
 	private func fetchData(from url: URL, _ completion: @escaping(DataResult) -> Void) {
 		var urlRequest = URLRequest(url: url)
 		urlRequest.setValue("Client-ID \(Constants.accessKey)",
@@ -37,7 +41,7 @@ final class NetworkService
 	}
 }
 
-extension NetworkService: INetworkService
+extension NetworkRepository: INetworkRepository
 {
 	func getRandomGoogleImagesInfo(_ completion: @escaping (GoogleImageInfoResult) -> Void) {
 		if let url = URL.with(string: "photos/random?count=10") {

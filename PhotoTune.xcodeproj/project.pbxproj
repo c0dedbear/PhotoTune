@@ -17,7 +17,7 @@
 		2247572023C9EC860030C9EE /* ServiceErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571F23C9EC860030C9EE /* ServiceErrors.swift */; };
 		2247572223C9ECB30030C9EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572123C9ECB30030C9EE /* Constants.swift */; };
 		2247572423C9ED110030C9EE /* Urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572323C9ED110030C9EE /* Urls.swift */; };
-		2247572A23CA2D010030C9EE /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572923CA2D010030C9EE /* NetworkService.swift */; };
+		2247572C23CA332F0030C9EE /* NetworkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572B23CA332F0030C9EE /* NetworkRepository.swift */; };
 		D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F2BCE23A960A8002DE17E /* EditedImage.swift */; };
 		D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */; };
 		D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8C23C66A6C00D863FF /* StartingView.swift */; };
@@ -70,7 +70,7 @@
 		2247571F23C9EC860030C9EE /* ServiceErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceErrors.swift; sourceTree = "<group>"; };
 		2247572123C9ECB30030C9EE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2247572323C9ED110030C9EE /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
-		2247572923CA2D010030C9EE /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		2247572B23CA332F0030C9EE /* NetworkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRepository.swift; sourceTree = "<group>"; };
 		D04F2BCE23A960A8002DE17E /* EditedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImage.swift; sourceTree = "<group>"; };
 		D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesScreenCell.swift; sourceTree = "<group>"; };
 		D094AF8C23C66A6C00D863FF /* StartingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingView.swift; sourceTree = "<group>"; };
@@ -177,6 +177,7 @@
 			children = (
 				D0CA068723ABAC68006CB5AF /* Models */,
 				D0CA068823ABACF5006CB5AF /* Repository.swift */,
+				2247572B23CA332F0030C9EE /* NetworkRepository.swift */,
 			);
 			path = BusinessLayer;
 			sourceTree = "<group>";
@@ -378,7 +379,6 @@
 			isa = PBXGroup;
 			children = (
 				E99AD78623C4AD9D000E4655 /* StorageService.swift */,
-				2247572923CA2D010030C9EE /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -488,7 +488,6 @@
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
 				D094AF8F23C66A8E00D863FF /* EditedImagesPresenter.swift in Sources */,
 				D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */,
-				2247572A23CA2D010030C9EE /* NetworkService.swift in Sources */,
 				E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */,
 				E94D1A7423B13375007A4E86 /* ToolBarImage.swift in Sources */,
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
@@ -517,6 +516,7 @@
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
 				E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */,
 				E910080A23C74CEE00A6A81A /* Float.swift in Sources */,
+				2247572C23CA332F0030C9EE /* NetworkRepository.swift in Sources */,
 				E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
 				D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */,
