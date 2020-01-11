@@ -71,10 +71,11 @@ private extension EditedImagesCollectionViewController
 		else { collectionView.backgroundColor = .white }
 
 		title = "PhotoTune"
-		navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add,
-																target: self,
-																action: #selector(addingButtonPressed(_:)))
-
+		navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addicon"),
+															style: .plain,
+															target: self,
+															action: #selector(addingButtonPressed(_:)))
+		navigationItem.rightBarButtonItem?.tintColor = .black
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
 		addingView.addingButton.addTarget(self, action: #selector(addingButtonPressed), for: .touchUpInside)
@@ -98,6 +99,7 @@ private extension EditedImagesCollectionViewController
 		let alert = UIAlertController(title: "Choose image source", message: nil, preferredStyle: .actionSheet)
 		let imagePicker = UIImagePickerController()
 		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
 
 		if UIImagePickerController.isSourceTypeAvailable(.camera) {
 			let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
@@ -134,7 +136,7 @@ extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate,
 {
 	func imagePickerController(_ picker: UIImagePickerController,
 							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-		guard let selectedImage = info[.originalImage] as? UIImage else { return }
+		guard let selectedImage = info[.editedImage] as? UIImage else { return }
 		dismiss(animated: true)
 		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
 	}
