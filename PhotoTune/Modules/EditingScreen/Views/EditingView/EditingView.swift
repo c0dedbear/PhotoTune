@@ -127,7 +127,8 @@ private extension EditingView
 		imageView.anchor(top: safeAreaLayoutGuide.topAnchor,
 						 leading: leadingAnchor,
 						 bottom: nil,
-						 trailing: trailingAnchor)
+						 trailing: trailingAnchor,
+						 padding: .init(top: 8, left: 8, bottom: 8, right: 8))
 
 		imageView.heightAnchor.constraint(
 			equalTo: safeAreaLayoutGuide.heightAnchor,

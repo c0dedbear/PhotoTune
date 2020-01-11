@@ -51,7 +51,7 @@ final class ToolSliderView: UIStackView
 		buttonConfigure()
 
 		axis = .vertical
-		distribution = .equalSpacing
+		distribution = .fillProportionally
 		alignment = .fill
 	}
 
