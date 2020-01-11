@@ -87,6 +87,7 @@ extension StorageService: IStorageService
 	func loadEditedImages() -> [EditedImage]? {
 		guard let data = try? Data(contentsOf: archiveURL) else { return nil }
 		let decoder = PropertyListDecoder()
-		return try? decoder.decode([EditedImage].self, from: data)
+		let images = try? decoder.decode([EditedImage].self, from: data)
+		return images
 	}
 }

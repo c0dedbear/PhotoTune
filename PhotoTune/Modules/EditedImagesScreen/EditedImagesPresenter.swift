@@ -27,8 +27,9 @@ final class EditedImagesPresenter
 
 extension EditedImagesPresenter: IEditedImagesPresenter
 {
-	func getImages() -> [EditedImage] { repository.getImages() }
 	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?) {
 		router.goToEditingScreen(image: image, editedImage: editedImage)
 	}
+
+	func getImages() -> [EditedImage] { repository.getEditedImages() }
 }
