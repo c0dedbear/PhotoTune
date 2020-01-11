@@ -91,20 +91,17 @@ final class ToolSliderView: UIStackView
 
 	private func showControls() {
 		currentTuneSettings = parentView?.toolsDelegate?.loadTuneSettings() ?? TuneSettings()
+		intensitySlider.tuneSettings = currentTuneSettings
 		switch currentTuneTool {
 		case .brightness:
-			intensitySlider.configureForBrightness(withValue: savedTuneSettings?.brightnessIntensity
-				?? TuneSettingsDefaults.brightnessIntensity)
+			intensitySlider.configureForBrightness()
 		case .contrast:
-			intensitySlider.configureForContrast(withValue: savedTuneSettings?.contrastIntensity
-				?? TuneSettingsDefaults.contrastIntensity)
+			intensitySlider.configureForContrast()
 		case .saturation:
-			intensitySlider.configureForSaturation(withValue: savedTuneSettings?.saturationIntensity
-				?? TuneSettingsDefaults.saturationIntensity )
+			intensitySlider.configureForSaturation()
 		case .vignette:
-			intensitySlider.configureForVignetteIntensity(withValue: savedTuneSettings?.vignetteIntensity
-				?? TuneSettingsDefaults.vignetteIntensity)
-			intensityChanged()
+			intensitySlider.configureForVignetteIntensity()
+			intensityChanged() //for immediately applying vignette effect
 		case .none: break
 		}
 	}
