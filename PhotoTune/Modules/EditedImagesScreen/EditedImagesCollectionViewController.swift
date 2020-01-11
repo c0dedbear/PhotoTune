@@ -54,16 +54,30 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		cell?.imageView.image = UIImage(named: images[indexPath.row].previewFileName)
 		return cell ?? UICollectionViewCell()
 	}
+
+	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		collectionView.deselectItem(at: indexPath, animated: true)
+		let selectedImage = images[indexPath.row]
+		presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+	}
 }
 
 private extension EditedImagesCollectionViewController
 {
 	func setupView() {
-		if #available(iOS 13.0, *){
+		title = "PhotoTune"
+		navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addicon"),
+															style: .plain,
+															target: self,
+															action: #selector(addingButtonPressed(_:)))
+		if #available(iOS 13.0, *) {
 			collectionView.backgroundColor = .systemBackground
+			navigationItem.rightBarButtonItem?.tintColor = .label
 		}
-		else { collectionView.backgroundColor = .white }
-
+		else {
+			collectionView.backgroundColor = .white
+			navigationItem.rightBarButtonItem?.tintColor = .black
+		}
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
 		addingView.addingButton.addTarget(self, action: #selector(addingButtonPressed), for: .touchUpInside)
@@ -87,6 +101,7 @@ private extension EditedImagesCollectionViewController
 		let alert = UIAlertController(title: "Choose image source", message: nil, preferredStyle: .actionSheet)
 		let imagePicker = UIImagePickerController()
 		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
 
 		if UIImagePickerController.isSourceTypeAvailable(.camera) {
 			let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
@@ -123,8 +138,8 @@ extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate,
 {
 	func imagePickerController(_ picker: UIImagePickerController,
 							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-		guard let selectedImage = info[.originalImage] as? UIImage else { return }
-		//Передать выбранную картинку в модуль редактирования
+		guard let selectedImage = info[.editedImage] as? UIImage else { return }
 		dismiss(animated: true)
+		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
 	}
 }

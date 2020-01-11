@@ -6,10 +6,11 @@
 //  Copyright © 2020 Mikhail Medvedev. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol IEditedImagesRouter
 {
+	func goToEditingScreen(image: UIImage?, editedImage: EditedImage?)
 }
 
 final class EditedImagesRouter
@@ -25,4 +26,8 @@ final class EditedImagesRouter
 
 extension EditedImagesRouter: IEditedImagesRouter
 {
+	func goToEditingScreen(image: UIImage?, editedImage: EditedImage?) {
+		let editingScreenViewController = factory.createEditingScreenModule(image: image, editedImage: editedImage)
+		viewController?.navigationController?.present(editingScreenViewController, animated: true)
+	}
 }

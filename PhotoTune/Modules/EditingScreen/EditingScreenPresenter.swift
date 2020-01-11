@@ -99,11 +99,13 @@ final class EditingScreenPresenter
 					self?.storageService.saveEditedImages([editedImage])
 				}
 			}
+			self?.editingScreen?.dismiss()
 		}
 	}
 
 	private func saveExistingImage() {
-		guard let editedImage = editedImage else { fatalError(ErrorMessages.saveNewImagesAsExisting) }
+		guard var editedImage = editedImage else { fatalError(ErrorMessages.saveNewImagesAsExisting) }
+		editedImage.tuneSettings = imageProcessor.tuneSettings
 		guard let previewImage = self.imageProcessor.tunedImage else { fatalError(ErrorMessages.nothingToSave) }
 		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
@@ -113,6 +115,7 @@ final class EditingScreenPresenter
 					currentEditedImages.insert(editedImage, at: index)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
+				self?.editingScreen?.dismiss()
 			}
 		}
 	}
@@ -129,7 +132,6 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		else {
 			saveExistingImage()
 		}
-		editingScreen?.dismiss()
 	}
 
 	func onShareTapped() {
