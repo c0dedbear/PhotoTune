@@ -16,6 +16,7 @@ protocol IEditingScreen
 	func showTuneTools()
 	func showRotationTool()
 	func showAcitivityVC(_ vc: UIActivityViewController)
+	func dismiss()
 }
 
 final class EditingScreenViewController: UIViewController
@@ -121,9 +122,7 @@ private extension EditingScreenViewController
 	}
 
 	// MARK: Objc Handling Methods
-	@objc private func cancelTapped() {
-		//dismiss VC
-	}
+	@objc private func cancelTapped() { presenter.onCancelTapped() }
 
 	@objc private func shareTapped() { presenter.onShareTapped() }
 
@@ -157,6 +156,7 @@ extension EditingScreenViewController: IEditingScreen
 {
 	var currentImage: UIImage? { editingView.currentImage }
 
+	func dismiss() { dismiss(animated: true, completion: nil) }
 	func showAcitivityVC(_ vc: UIActivityViewController) { present(vc, animated: true) }
 	func showFiltersTool() { editingView.hideAllToolsViews(except: .filters) }
 	func showTuneTools() { editingView.hideAllToolsViews(except: .tune) }

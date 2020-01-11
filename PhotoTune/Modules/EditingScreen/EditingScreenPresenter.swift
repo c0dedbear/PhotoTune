@@ -30,6 +30,8 @@ protocol IEditingScreenPresenter
 	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
 
 	func onShareTapped()
+	func onCancelTapped()
+	func onSaveTapped()
 }
 
 final class EditingScreenPresenter
@@ -81,6 +83,12 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func onCancelTapped() { editingScreen?.dismiss() }
+
+	func onSaveTapped() {
+		//save image
+	}
+
 	func onShareTapped() {
 		guard let data = editingScreen?.currentImage?.pngData() else { return }
 
