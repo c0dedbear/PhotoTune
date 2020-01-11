@@ -30,6 +30,8 @@ protocol IEditingScreenPresenter
 	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
 
 	func onShareTapped()
+	func onCancelTapped()
+	func onSaveTapped()
 }
 
 final class EditingScreenPresenter
@@ -42,27 +44,6 @@ final class EditingScreenPresenter
 	private var previews: [(title: String, image: UIImage?)] = []
 
 	var editingScreen: IEditingScreen?
-
-	private func makePreviews() {
-		if let newImage = image {
-			imageProcessor.currentImage = newImage
-			imageProcessor.tuneSettings = TuneSettings()
-			previews = imageProcessor.filtersPreviews(image: newImage)
-			return
-		}
-
-		if let editedImage = editedImage {
-			storageService.loadImage(filename: editedImage.imageFileName) { image in
-				guard let storedImage = image else {
-					assertionFailure("No stored image")
-					return
-				}
-				imageProcessor.currentImage = storedImage
-				imageProcessor.tuneSettings = editedImage.tuneSettings
-				previews = imageProcessor.filtersPreviews(image: storedImage)
-			}
-		}
-	}
 
 	init(
 		image: UIImage?,
@@ -77,10 +58,80 @@ final class EditingScreenPresenter
 		self.router = router
 		makePreviews()
 	}
+
+	private func makePreviews() {
+		if let newImage = image {
+			imageProcessor.currentImage = newImage
+			imageProcessor.tuneSettings = TuneSettings()
+			previews = imageProcessor.filtersPreviews(image: newImage)
+			return
+		}
+
+		if let editedImage = editedImage {
+			storageService.loadImage(filename: editedImage.imageFileName) { image in
+				guard let storedImage = image else {
+					assertionFailure(ErrorMessages.noStoredData)
+					return
+				}
+				imageProcessor.currentImage = storedImage
+				imageProcessor.tuneSettings = editedImage.tuneSettings
+				previews = imageProcessor.filtersPreviews(image: storedImage)
+			}
+		}
+	}
+
+	private func saveImageAsNew() {
+		guard let currentImage = imageProcessor.currentImage else { fatalError(ErrorMessages.nothingToSave) }
+		guard let previewImage = self.imageProcessor.tunedImage else { fatalError(ErrorMessages.nothingToSave) }
+		let filename = UUID().uuidString
+		let previewFileName = "preview_" + filename
+		let editedImage = EditedImage(imageFileName: filename,
+									  previewFileName: previewFileName,
+									  editingDate: Date(),
+									  tuneSettings: imageProcessor.tuneSettings)
+		storageService.storeImage(currentImage, filename: filename) { [weak self] in
+			self?.storageService.storeImage(previewImage, filename: previewFileName) {
+				if var existingEditedImages = self?.storageService.loadEditedImages() {
+					existingEditedImages.append(editedImage)
+					self?.storageService.saveEditedImages(existingEditedImages)
+				}
+				else {
+					self?.storageService.saveEditedImages([editedImage])
+				}
+			}
+		}
+	}
+
+	private func saveExistingImage() {
+		guard let editedImage = editedImage else { fatalError(ErrorMessages.saveNewImagesAsExisting) }
+		guard let previewImage = self.imageProcessor.tunedImage else { fatalError(ErrorMessages.nothingToSave) }
+		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
+			if var currentEditedImages = self?.storageService.loadEditedImages() {
+				for (index, item) in currentEditedImages.reversed().enumerated()
+					where item.imageFileName == editedImage.imageFileName {
+					currentEditedImages.remove(at: index)
+					currentEditedImages.insert(editedImage, at: index)
+				}
+				self?.storageService.saveEditedImages(currentEditedImages)
+			}
+		}
+	}
 }
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func onCancelTapped() { editingScreen?.dismiss() }
+
+	func onSaveTapped() {
+		if image != nil {
+			saveImageAsNew()
+		}
+		else {
+			saveExistingImage()
+		}
+		editingScreen?.dismiss()
+	}
+
 	func onShareTapped() {
 		guard let data = editingScreen?.currentImage?.pngData() else { return }
 
