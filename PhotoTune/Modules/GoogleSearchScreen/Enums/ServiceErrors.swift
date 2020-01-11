@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ServiceError: Error
+enum NetworkError: Error
 {
 	case sessionError(Error)
 	case notFound(Error)

@@ -8,9 +8,9 @@
 
 import UIKit
 
-typealias GoogleImageInfoResult = Result<[GoogleImage], ServiceError>
-typealias DataResult = Result<Data, ServiceError>
-typealias ImageResult = Result<UIImage, ServiceError>
+typealias GoogleImageInfoResult = Result<[GoogleImage], NetworkError>
+typealias DataResult = Result<Data, NetworkError>
+typealias ImageResult = Result<UIImage, NetworkError>
 
 protocol INetworkRepository
 {
@@ -53,7 +53,7 @@ extension NetworkRepository: INetworkRepository
 						completion(.success(googleImages))
 					}
 					catch {
-						completion(.failure(ServiceError.dataError(error)))
+						completion(.failure(NetworkError.dataError(error)))
 						return
 					}
 				case .failure(let error):

@@ -128,6 +128,7 @@
 		2247570223C61E880030C9EE /* GoogleSearchScreen */ = {
 			isa = PBXGroup;
 			children = (
+				2247571E23C9EC780030C9EE /* Enums */,
 				2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */,
 				2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */,
 				2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */,
@@ -290,7 +291,6 @@
 				D04F2BAA23A7FF79002DE17E /* Modules */,
 				E906D76B23A7F9170010CD54 /* Resources */,
 				E99AD78523C4AD72000E4655 /* Services */,
-				2247571E23C9EC780030C9EE /* Enums */,
 				E910080823C74C9E00A6A81A /* Extensions */,
 			);
 			path = PhotoTune;
