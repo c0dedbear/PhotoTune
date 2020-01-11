@@ -65,17 +65,19 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 private extension EditedImagesCollectionViewController
 {
 	func setupView() {
-		if #available(iOS 13.0, *) {
-			collectionView.backgroundColor = .systemBackground
-		}
-		else { collectionView.backgroundColor = .white }
-
 		title = "PhotoTune"
 		navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addicon"),
 															style: .plain,
 															target: self,
 															action: #selector(addingButtonPressed(_:)))
-		navigationItem.rightBarButtonItem?.tintColor = .black
+		if #available(iOS 13.0, *) {
+			collectionView.backgroundColor = .systemBackground
+			navigationItem.rightBarButtonItem?.tintColor = .label
+		}
+		else {
+			collectionView.backgroundColor = .white
+			navigationItem.rightBarButtonItem?.tintColor = .black
+		}
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
 		addingView.addingButton.addTarget(self, action: #selector(addingButtonPressed), for: .touchUpInside)
