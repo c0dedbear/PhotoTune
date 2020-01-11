@@ -11,6 +11,7 @@ import UIKit
 final class ToolSlider: UISlider
 {
 	private let label = UILabel()
+	var tuneSettings: TuneSettings?
 
 	init() {
 		super.init(frame: .zero)
@@ -49,32 +50,37 @@ final class ToolSlider: UISlider
 		}
 	}
 
-	func configureForBrightness(withValue: Float) {
+	func configureForBrightness() {
 		minimumValue = TuneSettingsDefaults.minBrightnessIntensity
 		maximumValue = TuneSettingsDefaults.maxBrightnessIntensity
-		value = withValue
+		value = tuneSettings?.brightnessIntensity ?? TuneSettingsDefaults.brightnessIntensity
 		updateLabel()
 	}
 
-	func configureForContrast(withValue: Float) {
+	func configureForContrast() {
 		minimumValue = TuneSettingsDefaults.minContrastIntensity
 		maximumValue = TuneSettingsDefaults.maxContrastIntensity
-		value = withValue
+		value = tuneSettings?.contrastIntensity ?? TuneSettingsDefaults.contrastIntensity
 		updateLabel()
 	}
 
-	func configureForSaturation(withValue: Float) {
+	func configureForSaturation() {
 		minimumValue = TuneSettingsDefaults.minSaturationIntensity
 		maximumValue = TuneSettingsDefaults.maxSaturationIntensity
-		value = withValue
+		value = tuneSettings?.saturationIntensity ?? TuneSettingsDefaults.saturationIntensity
 		updateLabel()
 	}
 
-	func configureForVignetteIntensity(withValue: Float) {
+	func configureForVignetteIntensity() {
 		minimumValue = TuneSettingsDefaults.minVignetteIntensity
 		maximumValue = TuneSettingsDefaults.maxVignetteIntensity
-		value = (withValue == TuneSettingsDefaults.vignetteIntensity) ?
-			(withValue + 1) : withValue // 1 for immediately applying effect
+		if let vigInt = tuneSettings?.vignetteIntensity {
+		value = (vigInt == TuneSettingsDefaults.vignetteIntensity) ?
+				(vigInt + 1) : vigInt // 1 for immediately applying effect
+		}
+		else {
+			value = TuneSettingsDefaults.vignetteIntensity
+		}
 		updateLabel(convertValues: false)
 	}
 
