@@ -123,12 +123,8 @@ private extension EditingScreenViewController
 
 	// MARK: Objc Handling Methods
 	@objc private func cancelTapped() { presenter.onCancelTapped() }
-
 	@objc private func shareTapped() { presenter.onShareTapped() }
-
-	@objc private func saveTapped() {
-		//save edited image
-	}
+	@objc private func saveTapped() { presenter.onSaveTapped() }
 
 	@objc private func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }
@@ -167,14 +163,12 @@ extension EditingScreenViewController: IEditingScreen
 extension EditingScreenViewController: IToolViewDelegate
 {
 	func rotateClockwise() {
-		// rotate right
 		presenter.onRotateClockwiseTapped { image in
 			editingView.setImage(image)
 		}
 	}
 
 	func rotateAntiClockwise() {
-		// rotate left
 		presenter.onRotateAntiClockwiseTapped { image in
 		editingView.setImage(image)
 		}
