@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EditedImage: Codable
+struct EditedImage: Codable, Equatable
 {
 	let imageFileName: String
 	let previewFileName: String
