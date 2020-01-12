@@ -28,6 +28,7 @@ extension EditedImagesRouter: IEditedImagesRouter
 {
 	func goToEditingScreen(image: UIImage?, editedImage: EditedImage?) {
 		let editingScreenViewController = factory.createEditingScreenModule(image: image, editedImage: editedImage)
+		editingScreenViewController.modalPresentationStyle = .fullScreen
 		viewController?.navigationController?.present(editingScreenViewController, animated: true)
 	}
 }
