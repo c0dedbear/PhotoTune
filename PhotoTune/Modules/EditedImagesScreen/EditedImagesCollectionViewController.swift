@@ -164,6 +164,7 @@ private extension EditedImagesCollectionViewController
 			navigationController?.navigationBar.tintColor = .black
 			collectionView.backgroundColor = .white
 		}
+		deleteBarButton.tintColor = .red
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
 		addingView.addingButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -213,7 +214,7 @@ private extension EditedImagesCollectionViewController
 			}
 			alert.addAction(photoLibraryAction)
 		}
-		let findAction = UIAlertAction(title: "Find with Google", style: .default) { _ in
+		let findAction = UIAlertAction(title: "Find with Unsplash", style: .default) { _ in
 			self.presenter.transferToSearchScreen()
 		}
 		alert.addAction(findAction)
@@ -238,6 +239,7 @@ private extension EditedImagesCollectionViewController
 	@objc func deleteButtonTapped() {
 		guard let selectedIndexPaths = self.collectionView.indexPathsForSelectedItems else { return }
 		presenter.deleteImagesFromStorage(selectedIndexPaths)
+		mode = .view
 		checkNumberOfItems()
 	}
 }
