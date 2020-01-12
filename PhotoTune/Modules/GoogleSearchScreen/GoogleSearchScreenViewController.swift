@@ -79,6 +79,9 @@ final class GoogleSearchScreenViewController: UIViewController
 			self.presenter.loadImage(urlString: self.photos[index].urls.regular, index: index, cell: false)
 		}
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		if #available(iOS 13.0, *) {
+			alert.view.tintColor = .label
+		}
 		alert.addAction(cancelAction)
 		alert.addAction(selectAction)
 		present(alert, animated: true)
