@@ -51,7 +51,7 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 	}
 
 	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath]) {
-		for indexPath in selectedIndexPaths {
+		for indexPath in selectedIndexPaths.sorted(by: { $0.row > $1.row }) {
 			images.remove(at: indexPath.row)
 		}
 		repository.removeAllEditedImages(except: images)

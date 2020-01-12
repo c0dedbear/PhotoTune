@@ -17,8 +17,7 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 {
 	enum Mode
 	{
-		case view
-		case select
+		case view, select
 	}
 
 	private let presenter: IEditedImagesPresenter
@@ -33,15 +32,15 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		return layout
 	}()
 
-	private var dictionarySelectedIndexPath: [IndexPath: Bool] = [:]
+	private var dictionarySelectedIndexPaths: [IndexPath: Bool] = [:]
 	private var mode: Mode = .view {
 		didSet {
 			switch mode {
 			case .view:
-				for (key, value) in dictionarySelectedIndexPath where value {
+				for (key, value) in dictionarySelectedIndexPaths where value {
 					collectionView.deselectItem(at: key, animated: true)
 		  		}
-		  		dictionarySelectedIndexPath.removeAll()
+		  		dictionarySelectedIndexPaths.removeAll()
 				navigationItem.rightBarButtonItem = addBarButton
 				editBarButton.title = "Edit"
 				collectionView.allowsMultipleSelection = false
@@ -95,6 +94,7 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 		presenter.loadImages()
+		checkNumberOfItems()
 	}
 }
 
@@ -119,13 +119,13 @@ extension EditedImagesCollectionViewController
 			let selectedImage = presenter.getImages()[indexPath.row]
 			presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
 		case .select:
-			dictionarySelectedIndexPath[indexPath] = true
+			dictionarySelectedIndexPaths[indexPath] = true
 		}
 	}
 
 	override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
 		if mode == .select {
-			dictionarySelectedIndexPath[indexPath] = false
+			dictionarySelectedIndexPaths[indexPath] = false
 		}
 	}
 }
@@ -155,16 +155,12 @@ private extension EditedImagesCollectionViewController
 		navigationItem.leftBarButtonItem = editBarButton
 
 		if #available(iOS 13.0, *) {
+			navigationController?.navigationBar.tintColor = .label
 			collectionView.backgroundColor = .systemBackground
-			navigationItem.rightBarButtonItem?.tintColor = .label
-			navigationItem.leftBarButtonItem?.tintColor = .label
-			deleteBarButton.tintColor = .label
 		}
 		else {
+			navigationController?.navigationBar.tintColor = .black
 			collectionView.backgroundColor = .white
-			navigationItem.rightBarButtonItem?.tintColor = .black
-			navigationItem.leftBarButtonItem?.tintColor = .black
-			deleteBarButton.tintColor = .black
 		}
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
@@ -177,12 +173,22 @@ private extension EditedImagesCollectionViewController
 			addingView.topAnchor.constraint(equalTo: view.topAnchor),
 			addingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 		])
+		checkNumberOfItems()
+	}
 
+	func checkNumberOfItems() {
 		if presenter.getImages().isEmpty {
-			collectionView.isHidden = true
 			addingView.isHidden = false
+			editBarButton.title = "Edit"
+			editBarButton.isEnabled = false
+			deleteBarButton.isEnabled = false
+			navigationItem.rightBarButtonItem = addBarButton
 		}
-		else { addingView.isHidden = true }
+		else {
+			addingView.isHidden = true
+			editBarButton.isEnabled = true
+			deleteBarButton.isEnabled = true
+		}
 	}
 
 	@objc func addButtonTapped(_ sender: UIButton) {
@@ -205,7 +211,6 @@ private extension EditedImagesCollectionViewController
 			}
 			alert.addAction(photoLibraryAction)
 		}
-
 		let findAction = UIAlertAction(title: "Find with Google", style: .default) { _ in
 			self.presenter.transferToSearchScreen()
 		}
@@ -220,7 +225,6 @@ private extension EditedImagesCollectionViewController
 		alert.popoverPresentationController?.sourceView = sender
 		present(alert, animated: true)
 	}
-
 	@objc func editButtonTapped() {
 		if presenter.getImages().count > 0 {
 			if mode == .view {
@@ -229,12 +233,9 @@ private extension EditedImagesCollectionViewController
 			else { mode = .view }
 		}
 	}
-
 	@objc func deleteButtonTapped() {
 		guard let selectedIndexPaths = self.collectionView.indexPathsForSelectedItems else { return }
-		print(selectedIndexPaths)
-		print(dictionarySelectedIndexPath)
 		presenter.deleteImagesFromStorage(selectedIndexPaths)
-		//collectionView.deleteItems(at: selectedIndexes)
+		checkNumberOfItems()
 	}
 }
