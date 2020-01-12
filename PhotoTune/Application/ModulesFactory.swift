@@ -33,6 +33,7 @@ final class ModulesFactory
 		let router = EditedImagesRouter(factory: self)
 		let presenter = EditedImagesPresenter(repository: repository, router: router)
 		let viewController = EditedImagesCollectionViewController(presenter: presenter)
+		presenter.inject(viewController: viewController)
 		let navController = UINavigationController(rootViewController: viewController)
 		router.viewController = viewController
 		return navController

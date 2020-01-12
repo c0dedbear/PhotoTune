@@ -39,8 +39,8 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		setupView()
 		presenter.loadImages()
+		setupView()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -83,7 +83,6 @@ extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate,
 extension EditedImagesCollectionViewController: IEditedImagesCollectionViewController
 {
 	func updateCollectionView() {
-		print("reload")
 		collectionView.reloadData()
 	}
 }
@@ -116,13 +115,11 @@ private extension EditedImagesCollectionViewController
 			addingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 		])
 
-		addingView.isHidden = true
-
-//		if images.isEmpty {
-//			collectionView.isHidden = true
-//			addingView.isHidden = false
-//		}
-//		else { addingView.isHidden = true }
+		if presenter.getImages().isEmpty {
+			collectionView.isHidden = true
+			addingView.isHidden = false
+		}
+		else { addingView.isHidden = true }
 	}
 
 	@objc func addingButtonPressed(_ sender: UIButton) {

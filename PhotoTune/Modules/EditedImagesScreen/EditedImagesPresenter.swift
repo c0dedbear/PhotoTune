@@ -27,6 +27,10 @@ final class EditedImagesPresenter
 		self.repository = repository
 		self.router = router
 	}
+
+	func inject(viewController: IEditedImagesCollectionViewController) {
+		self.viewController = viewController
+	}
 }
 
 extension EditedImagesPresenter: IEditedImagesPresenter
@@ -37,8 +41,7 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 
 	func loadImages() {
 		images = repository.getEditedImages()
-		print(images.count)
-		self.viewController?.updateCollectionView()
+		viewController?.updateCollectionView()
 	}
 
 	func getImages() -> [EditedImage] { images }
