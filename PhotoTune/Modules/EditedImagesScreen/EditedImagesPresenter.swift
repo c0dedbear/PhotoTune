@@ -13,6 +13,7 @@ protocol IEditedImagesPresenter
 	func getImages() -> [EditedImage]
 	func loadImages()
 	func getPreviewFor(editedImage: EditedImage) -> UIImage?
+	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath])
 	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?)
 }
 
@@ -42,6 +43,13 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 	func loadImages() {
 		images = repository.getEditedImages()
 		viewController?.updateCollectionView()
+	}
+
+	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath]) {
+		for indexPath in selectedIndexPaths {
+			images.remove(at: indexPath.row)
+		}
+		repository.updateEditedImages(images)
 	}
 
 	func getImages() -> [EditedImage] { images }

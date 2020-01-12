@@ -15,6 +15,12 @@ protocol IEditedImagesCollectionViewController: AnyObject
 
 final class EditedImagesCollectionViewController: UICollectionViewController
 {
+	enum Mode
+	{
+	  case view
+	  case select
+	}
+
 	private let presenter: IEditedImagesPresenter
 	private let reuseIdentifier = "Cell"
 	private let addingView = AddingView()
@@ -25,6 +31,44 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		layout.minimumLineSpacing = 20
 		layout.sectionInset = UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20)
 		return layout
+	}()
+
+	private var dictionarySelectedIndexPath: [IndexPath: Bool] = [:]
+	private var mode: Mode = .view {
+		didSet {
+			switch mode {
+			case .view:
+				for (key, value) in dictionarySelectedIndexPath where value {
+					collectionView.deselectItem(at: key, animated: true)
+		  		}
+		  		dictionarySelectedIndexPath.removeAll()
+				navigationItem.rightBarButtonItem = addBarButton
+				editBarButton.title = "Edit"
+				collectionView.allowsMultipleSelection = false
+			case .select:
+				navigationItem.rightBarButtonItem = deleteBarButton
+				editBarButton.title = "Cancel"
+		  		collectionView.allowsMultipleSelection = true
+			}
+		}
+	}
+
+	private lazy var editBarButton: UIBarButtonItem = {
+		let barButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
+	  return barButtonItem
+	}()
+
+	private lazy var deleteBarButton: UIBarButtonItem = {
+		let barButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped))
+	  return barButtonItem
+	}()
+
+	private lazy var addBarButton: UIBarButtonItem = {
+		let barButtonItem = UIBarButtonItem(image: UIImage(named: "addicon"),
+											style: .plain,
+											target: self,
+											action: #selector(addButtonTapped))
+		return barButtonItem
 	}()
 
 	init(presenter: IEditedImagesPresenter) {
@@ -64,9 +108,20 @@ extension EditedImagesCollectionViewController
 	}
 
 	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		collectionView.deselectItem(at: indexPath, animated: true)
-		let selectedImage = presenter.getImages()[indexPath.row]
-		presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+		switch mode {
+		case .view:
+			collectionView.deselectItem(at: indexPath, animated: true)
+			let selectedImage = presenter.getImages()[indexPath.row]
+			presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+		case .select:
+			dictionarySelectedIndexPath[indexPath] = true
+		}
+	}
+
+	override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+		if mode == .select {
+			dictionarySelectedIndexPath[indexPath] = false
+		}
 	}
 }
 
@@ -91,21 +146,22 @@ private extension EditedImagesCollectionViewController
 {
 	func setupView() {
 		title = "PhotoTune"
-		navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addicon"),
-															style: .plain,
-															target: self,
-															action: #selector(addingButtonPressed(_:)))
+		navigationItem.rightBarButtonItem = addBarButton
+		navigationItem.leftBarButtonItem = editBarButton
+
 		if #available(iOS 13.0, *) {
 			collectionView.backgroundColor = .systemBackground
 			navigationItem.rightBarButtonItem?.tintColor = .label
+			navigationItem.leftBarButtonItem?.tintColor = .label
 		}
 		else {
 			collectionView.backgroundColor = .white
 			navigationItem.rightBarButtonItem?.tintColor = .black
+			navigationItem.leftBarButtonItem?.tintColor = .black
 		}
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
-		addingView.addingButton.addTarget(self, action: #selector(addingButtonPressed), for: .touchUpInside)
+		addingView.addingButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
 		addingView.translatesAutoresizingMaskIntoConstraints = false
 		NSLayoutConstraint.activate([
@@ -122,7 +178,7 @@ private extension EditedImagesCollectionViewController
 		else { addingView.isHidden = true }
 	}
 
-	@objc func addingButtonPressed(_ sender: UIButton) {
+	@objc func addButtonTapped(_ sender: UIButton) {
 		let alert = UIAlertController(title: "Choose image source", message: nil, preferredStyle: .actionSheet)
 		let imagePicker = UIImagePickerController()
 		imagePicker.delegate = self
@@ -156,5 +212,22 @@ private extension EditedImagesCollectionViewController
 		alert.addAction(cancelAction)
 		alert.popoverPresentationController?.sourceView = sender
 		present(alert, animated: true)
+	}
+
+	@objc func editButtonTapped() {
+		if presenter.getImages().count > 0 {
+			if mode == .view {
+				mode = .select
+			}
+			else { mode = .view }
+		}
+	}
+
+	@objc func deleteButtonTapped() {
+		guard let selectedIndexPaths = self.collectionView.indexPathsForSelectedItems else { return }
+		print(selectedIndexPaths)
+		print(dictionarySelectedIndexPath)
+		presenter.deleteImagesFromStorage(selectedIndexPaths)
+		//self.collectionView.deleteItems(at: selectedIndexes)
 	}
 }
