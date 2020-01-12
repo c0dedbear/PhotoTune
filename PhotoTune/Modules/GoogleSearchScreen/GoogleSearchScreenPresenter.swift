@@ -43,7 +43,7 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 			}
 		}
 	}
-	
+
 	func getImages(with searchTerm: String) {
 		self.repository.getGoogleImagesInfo(with: searchTerm) { [weak self] googleImagesResult in
 			guard let self = self else { return }
