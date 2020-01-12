@@ -17,6 +17,24 @@ final class AppDelegate: UIResponder, UIApplicationDelegate
 	func application(
 		_ application: UIApplication,
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+		// MARK: Services
+		let storageService = StorageService()
+		let imageProcessor = ImageProcessor()
+
+		// MARK: Repositories
+		let storageRepository = Repository(storageService: storageService)
+		let networkRepository = NetworkRepository()
+
+		// MARK: Create Initial Screen
+		let factory = ModulesFactory(
+			storageService: storageService,
+			storageRepository: storageRepository,
+			networkRepository: networkRepository,
+			imageProcessor: imageProcessor)
+
+		window = UIWindow(frame: UIScreen.main.bounds)
+		window?.rootViewController = factory.createEditedImagesScreenModule()
+		window?.makeKeyAndVisible()
 
 		return true
 	}
