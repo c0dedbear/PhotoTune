@@ -78,8 +78,14 @@ final class EditingScreenPresenter
 	}
 
 	private func saveImageAsNew() {
-		guard let currentImage = imageProcessor.currentImage else { fatalError(ErrorMessages.nothingToSave) }
-		guard let previewImage = self.imageProcessor.tunedImage else { fatalError(ErrorMessages.nothingToSave) }
+		guard let currentImage = imageProcessor.currentImage else {
+			editingScreen?.showAlertController(title: ErrorMessages.error, message: ErrorMessages.nothingToSave, dismiss: true)
+			return
+		}
+		guard let previewImage = self.imageProcessor.tunedImage else {
+			editingScreen?.showAlertController(title: ErrorMessages.error, message: ErrorMessages.nothingToSave, dismiss: true)
+			return
+		}
 		let filename = UUID().uuidString
 		let previewFileName = "preview_" + filename
 		let editedImage = EditedImage(imageFileName: filename,
@@ -101,9 +107,21 @@ final class EditingScreenPresenter
 	}
 
 	private func saveExistingImage() {
-		guard var editedImage = editedImage else { fatalError(ErrorMessages.saveNewImagesAsExisting) }
+		guard var editedImage = editedImage else {
+			editingScreen?.showAlertController(
+				title: ErrorMessages.error,
+				message: ErrorMessages.saveNewImagesAsExisting,
+				dismiss: true)
+			return
+		}
+
+		guard let previewImage = self.imageProcessor.tunedImage else {
+			editingScreen?.showAlertController(title: ErrorMessages.error, message: ErrorMessages.nothingToSave, dismiss: true)
+			return
+		}
+
 		editedImage.tuneSettings = imageProcessor.tuneSettings
-		guard let previewImage = self.imageProcessor.tunedImage else { fatalError(ErrorMessages.nothingToSave) }
+
 		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
 				for (index, item) in currentEditedImages.enumerated()

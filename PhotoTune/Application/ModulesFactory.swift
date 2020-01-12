@@ -37,8 +37,9 @@ final class ModulesFactory
   }
 
 	func createGoogleSearchScreen() -> UINavigationController {
+		let repository = NetworkRepository()
 		let router = GoogleSearchScreenRouter(factory: self)
-		let presenter = GoogleSearchScreenPresenter(router: router)
+		let presenter = GoogleSearchScreenPresenter(repository: repository, router: router)
 		let googleSearchScreenVC = GoogleSearchScreenViewController(presenter: presenter)
 		let navController = UINavigationController(rootViewController: googleSearchScreenVC)
 		presenter.googleSearchScreen = googleSearchScreenVC
