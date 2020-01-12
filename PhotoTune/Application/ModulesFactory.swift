@@ -10,10 +10,25 @@ import UIKit
 
 final class ModulesFactory
 {
+	private let storageService: IStorageService
+	private let storageRepository: IRepository
+	private let networkRepository: INetworkRepository
+	private let imageProcessor: IImageProcessor
+
+	init(
+		storageService: IStorageService,
+		storageRepository: IRepository,
+		networkRepository: INetworkRepository,
+		imageProcessor: IImageProcessor
+	) {
+		self.storageService = storageService
+		self.storageRepository = storageRepository
+		self.networkRepository = networkRepository
+		self.imageProcessor = imageProcessor
+	}
+
 	func createEditingScreenModule(image: UIImage?, editedImage: EditedImage?)
 		-> UINavigationController {
-			let storageService = StorageService() // fix: перенести в appdelegate
-			let imageProcessor = ImageProcessor() // fix: перенести в appdelegate
 			let presenter = EditingScreenPresenter(
 				image: image,
 				editedImage: editedImage,
@@ -26,8 +41,7 @@ final class ModulesFactory
 	}
 
 	func createEditedImagesScreenModule() -> UINavigationController {
-		let storageService = StorageService() // fix: move to appdelegate
-		let repository = Repository(storageService: storageService)
+		let repository = storageRepository
 		let router = EditedImagesRouter(factory: self)
 		let presenter = EditedImagesPresenter(repository: repository, router: router)
 		let viewController = EditedImagesCollectionViewController(presenter: presenter)
@@ -35,7 +49,7 @@ final class ModulesFactory
 		let navController = UINavigationController(rootViewController: viewController)
 		router.viewController = viewController
 		return navController
-  }
+	}
 
 	func createGoogleSearchScreen() -> UINavigationController {
 		let repository = NetworkRepository()
