@@ -144,7 +144,7 @@ private extension EditedImagesCollectionViewController
 		}
 
 		let findAction = UIAlertAction(title: "Find with Google", style: .default) { _ in
-			//Переход в модуль поиска
+			self.presenter.transferToSearchScreen()
 		}
 		alert.addAction(findAction)
 
