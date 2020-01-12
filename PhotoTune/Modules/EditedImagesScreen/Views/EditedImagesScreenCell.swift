@@ -16,7 +16,10 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 	}
 
 	private func configureCell() {
-		imageView.contentMode = .center
+		layer.shadowRadius = 15
+		layer.shadowOpacity = 0.5
+		layer.shadowOffset = CGSize(width: 5, height: 5)
+		imageView.contentMode = .scaleAspectFill
 		imageView.clipsToBounds = true
 		imageView.layer.cornerRadius = 20
 	}
