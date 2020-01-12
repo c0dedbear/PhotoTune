@@ -38,8 +38,7 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 				DispatchQueue.main.async {
 					self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
 				}
-			case .failure(let error):
-				print(error.localizedDescription)
+			case .failure: break
 			}
 		}
 	}
@@ -52,8 +51,7 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 				DispatchQueue.main.async {
 					self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
 				}
-			case .failure(let error):
-				print(error.localizedDescription)
+			case .failure: break
 			}
 		}
 	}
@@ -71,8 +69,7 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 					self.router.goToTheEditingScreen(image: image)
 				}
 			}
-		case .failure(let error):
-			print(error.localizedDescription)
+		case .failure: break
 			}
 		}
 	}
