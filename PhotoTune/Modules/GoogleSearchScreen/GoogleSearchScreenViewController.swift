@@ -32,10 +32,6 @@ final class GoogleSearchScreenViewController: UIViewController
 		presenter.getRandomImages()
 	}
 
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-	}
-
 	init(presenter: IGoogleSearchScreenPresenter) {
 		self.presenter = presenter
 		super.init(nibName: nil, bundle: nil)
@@ -60,12 +56,26 @@ final class GoogleSearchScreenViewController: UIViewController
 		collectionView.collectionViewLayout = layout
 		collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "photoCell")
 		collectionView.dataSource = self
+		collectionView.delegate = self
 		view.addSubview(collectionView)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
 		collectionView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
 		collectionView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+	}
+
+	private func presentAlert(index: Int) {
+		let alert = UIAlertController(title: "Select an image",
+									  message: "By clicking on the \"Select\" button, you will enter the editing mode",
+									  preferredStyle: .alert)
+		let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+			self.presenter.loadImage(urlString: self.photos[index].urls.regular, index: index, cell: false)
+		}
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		alert.addAction(cancelAction)
+		alert.addAction(selectAction)
+		present(alert, animated: true)
 	}
 }
 
@@ -76,6 +86,7 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 		timer = Timer.scheduledTimer(withTimeInterval: 0.5,
 									 repeats: false,
 									 block: { _ in
+										self.presenter.getImages(with: searchText)
 		})
 	}
 }
@@ -90,7 +101,7 @@ extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 
 	func updatePhotosArray(photosInfo: [GoogleImage]) {
 		self.photos = photosInfo
-		collectionView.reloadData()
+		self.collectionView.reloadData()
 	}
 }
 
@@ -104,23 +115,23 @@ extension GoogleSearchScreenViewController: UICollectionViewDataSource
 		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
-		presenter.loadImage(urlString: photos[indexPath.item].urls.small, index: indexPath.item)
+		presenter.loadImage(urlString: photos[indexPath.item].urls.small, index: indexPath.item, cell: true)
+		cell.layoutIfNeeded()
 		return cell
+	}
+}
+
+extension GoogleSearchScreenViewController: UICollectionViewDelegate
+{
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		presentAlert(index: indexPath.item)
 	}
 }
 
 extension GoogleSearchScreenViewController: CustomCollectionViewLayoutDelegate
 {
-	func collectionView(
-		_ collectionView: UICollectionView,
-		heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-		let itemSize = (collectionView.frame.width -
-			(collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
-		let myImage = photos[indexPath.item]
-		let myImageWidth = CGFloat(myImage.width)
-		let myImageHeight = CGFloat(myImage.height)
-		let ratio = itemSize / myImageWidth
-		let scaledHeight = myImageHeight * ratio
-		return scaledHeight
+	func collectionView(_ layout: CustomCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		let photo = photos[indexPath.item]
+		return CGSize(width: photo.width, height: photo.height)
 	}
 }

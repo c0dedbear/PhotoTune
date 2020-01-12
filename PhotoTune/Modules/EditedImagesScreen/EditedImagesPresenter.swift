@@ -15,6 +15,7 @@ protocol IEditedImagesPresenter
 	func getPreviewFor(editedImage: EditedImage) -> UIImage?
 	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath])
 	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?)
+	func transferToSearchScreen()
 }
 
 final class EditedImagesPresenter
@@ -38,6 +39,10 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 {
 	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?) {
 		router.goToEditingScreen(image: image, editedImage: editedImage)
+	}
+
+	func transferToSearchScreen() {
+		router.goToSearchScreen()
 	}
 
 	func loadImages() {

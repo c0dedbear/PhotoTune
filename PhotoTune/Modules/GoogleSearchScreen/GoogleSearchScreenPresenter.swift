@@ -11,7 +11,8 @@ import UIKit
 protocol IGoogleSearchScreenPresenter
 {
 	func getRandomImages()
-	func loadImage(urlString: String, index: Int)
+	func getImages(with searchTerm: String)
+	func loadImage(urlString: String, index: Int, cell: Bool)
 }
 
 final class GoogleSearchScreenPresenter
@@ -20,9 +21,6 @@ final class GoogleSearchScreenPresenter
 	private let repository: INetworkRepository
 	var googleSearchScreen: IGoogleSearchScreenViewController?
 	private var photos: [GoogleImage]?
-	private let googleRandomImagesQueue = DispatchQueue(label: "googleRandomImagesQueue",
-												qos: .userInteractive,
-												attributes: .concurrent)
 
 	init(repository: INetworkRepository, router: IGoogleSearchScreenRouter) {
 		self.router = router
@@ -33,29 +31,45 @@ final class GoogleSearchScreenPresenter
 extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 {
 	func getRandomImages() {
-		googleRandomImagesQueue.async { [weak self] in
+		self.repository.getRandomGoogleImagesInfo{ [weak self] googleImagesResult in
 			guard let self = self else { return }
-			self.repository.getRandomGoogleImagesInfo{ [weak self] googleImagesResult in
-				guard let self = self else { return }
-				switch googleImagesResult {
-				case .success(let data):
-					DispatchQueue.main.async {
-						self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
-					}
-				case .failure(let error):
-					print(error.localizedDescription)
+			switch googleImagesResult {
+			case .success(let data):
+				DispatchQueue.main.async {
+					self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
 				}
+			case .failure(let error):
+				print(error.localizedDescription)
 			}
 		}
 	}
 
-	func loadImage(urlString: String, index: Int) {
+	func getImages(with searchTerm: String) {
+		self.repository.getGoogleImagesInfo(with: searchTerm) { [weak self] googleImagesResult in
+			guard let self = self else { return }
+			switch googleImagesResult {
+			case .success(let data):
+				DispatchQueue.main.async {
+					self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
+				}
+			case .failure(let error):
+				print(error.localizedDescription)
+			}
+		}
+	}
+
+	func loadImage(urlString: String, index: Int, cell: Bool) {
 		self.repository.loadImage(urlString: urlString) { [weak self] imageResult in
 		guard let self = self else { return }
 		switch imageResult {
 		case .success(let image):
 			DispatchQueue.main.async {
-				self.googleSearchScreen?.updateCellImage(index: index, image: image)
+				if cell {
+					self.googleSearchScreen?.updateCellImage(index: index, image: image)
+				}
+				else {
+					self.router.goToTheEditingScreen(image: image)
+				}
 			}
 		case .failure(let error):
 			print(error.localizedDescription)

@@ -7,6 +7,12 @@
 //
 import Foundation
 
+struct SearchResults: Decodable
+{
+	let total: Int
+	let results: [GoogleImage]
+}
+
 struct GoogleImage: Decodable
 {
 	let id: String
