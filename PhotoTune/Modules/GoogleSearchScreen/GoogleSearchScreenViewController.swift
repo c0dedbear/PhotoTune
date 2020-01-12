@@ -76,6 +76,7 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 		timer = Timer.scheduledTimer(withTimeInterval: 0.5,
 									 repeats: false,
 									 block: { _ in
+										self.presenter.getImages(with: searchText)
 		})
 	}
 }
@@ -90,7 +91,7 @@ extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 
 	func updatePhotosArray(photosInfo: [GoogleImage]) {
 		self.photos = photosInfo
-		collectionView.reloadData()
+		self.collectionView.reloadData()
 	}
 }
 
@@ -105,22 +106,15 @@ extension GoogleSearchScreenViewController: UICollectionViewDataSource
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
 		presenter.loadImage(urlString: photos[indexPath.item].urls.small, index: indexPath.item)
+		cell.layoutIfNeeded()
 		return cell
 	}
 }
 
 extension GoogleSearchScreenViewController: CustomCollectionViewLayoutDelegate
 {
-	func collectionView(
-		_ collectionView: UICollectionView,
-		heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
-		let itemSize = (collectionView.frame.width -
-			(collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
-		let myImage = photos[indexPath.item]
-		let myImageWidth = CGFloat(myImage.width)
-		let myImageHeight = CGFloat(myImage.height)
-		let ratio = itemSize / myImageWidth
-		let scaledHeight = myImageHeight * ratio
-		return scaledHeight
+	func collectionView(_ layout: CustomCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		let photo = photos[indexPath.item]
+		return CGSize(width: photo.width, height: photo.height)
 	}
 }

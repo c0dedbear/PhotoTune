@@ -4,78 +4,170 @@
 //
 //  Created by Саша Руцман on 10.01.2020.
 //  Copyright © 2020 Mikhail Medvedev. All rights reserved.
-//
+//  swiftlint:disable function_body_length
 
 import UIKit
 
 protocol CustomCollectionViewLayoutDelegate: AnyObject
 {
-	func collectionView(_ collectionView: UICollectionView, heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat
+	func collectionView(_ layout: CustomCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
 }
 
 final class CustomCollectionViewLayout: UICollectionViewLayout
 {
 	weak var delegate: CustomCollectionViewLayoutDelegate?
-	private let numberOfColumns = 2
-	private let cellPadding: CGFloat = 6
-	private var cache: [UICollectionViewLayoutAttributes] = []
-	private var contentHeight: CGFloat = 0
-	private var contentWidth: CGFloat {
-		guard let collectionView = collectionView else {
-			return 0
+	// MARK: - Public properties
+	var topInset: CGFloat = 16 {
+		didSet {
+			invalidateLayout()
 		}
-		let insets = collectionView.contentInset
-		return collectionView.bounds.width - (insets.left + insets.right)
 	}
-	override var collectionViewContentSize: CGSize {
-		return CGSize(width: contentWidth, height: contentHeight)
+	// MARK: - Private properties
+	private var layoutAttributes = [UICollectionViewLayoutAttributes]()
+	private var frames = [CGRect]()
+	private var pagingViewAttributes: UICollectionViewLayoutAttributes?
+	private var contentHeight: CGFloat = 0
+	// MARK: - Private computed properties
+	private var numberOfColumns: Int {
+		guard let collectionView = collectionView else { return 1 }
+		let numberOfColumns = CustomCollectionViewLayout.numberOfColumns(for: collectionView.frame.width)
+		return min(numberOfColumns, 3)
+	}
+	private var isSingleColumn: Bool {
+		return numberOfColumns == 1
+	}
+	private var itemSpacing: CGFloat {
+		return isSingleColumn ? 1 : 16
+	}
+	private var columnWidth: CGFloat {
+		if isSingleColumn { return collectionViewContentSize.width }
+		return (collectionViewContentSize.width - (CGFloat(numberOfColumns - 1) * itemSpacing)) / CGFloat(numberOfColumns)
 	}
 
-	override func prepare() {
-		guard
-			cache.isEmpty == true,
-			let collectionView = collectionView
-			else {
-				return
+	override var collectionViewContentSize: CGSize {
+		guard let collectionView = collectionView else {
+			return CGSize.zero
 		}
-		let columnWidth = contentWidth / CGFloat(numberOfColumns)
-		var xOffset: [CGFloat] = []
-		for column in 0..<numberOfColumns {
-			xOffset.append(CGFloat(column) * columnWidth)
+		var width = collectionView.frame.width
+		if isSingleColumn == false {
+			width -= (collectionView.layoutMargins.left + collectionView.layoutMargins.right)
 		}
-		var column = 0
-		var yOffset: [CGFloat] = .init(repeating: 0, count: numberOfColumns)
-		for item in 0..<collectionView.numberOfItems(inSection: 0) {
-			let indexPath = IndexPath(item: item, section: 0)
-			let photoHeight = delegate?.collectionView(
-				collectionView,
-				heightForPhotoAtIndexPath: indexPath) ?? 180
-			let height = cellPadding * 2 + photoHeight
-			let frame = CGRect(x: xOffset[column],
-							   y: yOffset[column],
-							   width: columnWidth,
-							   height: height)
-			let insetFrame = frame.insetBy(dx: cellPadding, dy: cellPadding)
-			let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
-			attributes.frame = insetFrame
-			cache.append(attributes)
-			contentHeight = max(contentHeight, frame.maxY)
-			yOffset[column] = yOffset[column] + height
-			column = column < (numberOfColumns - 1) ? (column + 1) : 0
-		}
+		return CGSize(width: width, height: contentHeight)
 	}
 
 	override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-		var visibleLayoutAttributes: [UICollectionViewLayoutAttributes] = []
-		for attributes in cache {
-			if attributes.frame.intersects(rect) {
-				visibleLayoutAttributes.append(attributes)
+		var attributes = [UICollectionViewLayoutAttributes]()
+		var firstFrameIndex: Int = 0
+		var lastFrameIndex: Int = frames.count
+		for index in 0 ..< lastFrameIndex {
+			if rect.intersects(frames[index]) {
+				firstFrameIndex = index
+				break
 			}
 		}
-		return visibleLayoutAttributes
+		for index in (0 ..< frames.count).reversed() {
+			if rect.intersects(frames[index]) {
+				lastFrameIndex = min((index + 1), layoutAttributes.count)
+				break
+			}
+		}
+		for index in firstFrameIndex ..< lastFrameIndex {
+			let attr = layoutAttributes[index]
+			attributes.append(attr)
+		}
+		if let pagingViewAttributes = pagingViewAttributes, pagingViewAttributes.frame.intersects(rect) {
+			attributes.append(pagingViewAttributes)
+		}
+		return attributes
 	}
 
 	override func layoutAttributesForItem(at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
-		return cache[indexPath.item]
+		return layoutAttributes[indexPath.item]
+	}
+
+	override func layoutAttributesForSupplementaryView(ofKind elementKind: String,
+													   at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
+		if elementKind == UICollectionView.elementKindSectionFooter {
+			return pagingViewAttributes
+		}
+		return nil
+	}
+
+	override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
+		guard let bounds = collectionView?.bounds else { return false }
+		return bounds.width != newBounds.width
+	}
+
+	override func prepare() {
+		super.prepare()
+		reset()
+		guard let collectionView = collectionView, let delegate = delegate, self.numberOfColumns > 0 else {
+			return
+		}
+		let itemSpacing = self.itemSpacing
+		let numberOfColumns = self.numberOfColumns
+		let isSingleColumn = self.isSingleColumn
+		let columnWidth = self.columnWidth
+		var columnHeights = [CGFloat](repeating: topInset, count: numberOfColumns)
+
+		func originForColumn(_ column: Int) -> CGPoint {
+			let pointX = isSingleColumn ? 0 : collectionView.layoutMargins.left + CGFloat(column) * (columnWidth + itemSpacing)
+			let pointY = columnHeights[column]
+			return CGPoint(x: pointX, y: pointY)
+		}
+
+		func indexOfNextColumn() -> Int {
+			guard let minHeight = columnHeights.min() else {
+				return 0
+			}
+			return columnHeights.firstIndex(where: { $0 == minHeight }) ?? 0
+		}
+		var numberOfItems = 0
+		(0 ..< collectionView.numberOfSections).forEach {
+			numberOfItems += collectionView.numberOfItems(inSection: $0)
+		}
+		for index in 0 ..< numberOfItems {
+			let indexPath = IndexPath(item: index, section: 0)
+			let itemSize = delegate.collectionView(self, sizeForItemAt: indexPath)
+			let attributes = UICollectionViewLayoutAttributes(forCellWith: indexPath)
+			let columnIndex = indexOfNextColumn()
+			let origin = originForColumn(columnIndex)
+			let size = self.itemSize(from: itemSize, with: columnWidth)
+			columnHeights[columnIndex] = origin.y + size.height + itemSpacing
+			attributes.frame = CGRect(origin: origin, size: size)
+			layoutAttributes.append(attributes)
+			frames.append(attributes.frame)
+		}
+		contentHeight = columnHeights.max() ?? 0
+		if numberOfItems > 0 {
+			let pagingViewIndexPath = IndexPath(item: numberOfItems - 1, section: 0)
+			let pagingViewAttributes =
+				UICollectionViewLayoutAttributes(forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter,
+																		with: pagingViewIndexPath)
+			pagingViewAttributes.frame = CGRect(x: 0, y: contentHeight, width: collectionView.frame.width, height: 44)
+			self.pagingViewAttributes = pagingViewAttributes
+			contentHeight += 44
+		}
+		else {
+			self.pagingViewAttributes = nil
+		}
+		contentHeight += itemSpacing
+	}
+
+	private func reset() {
+		pagingViewAttributes = nil
+		layoutAttributes.removeAll()
+		frames.removeAll()
+		contentHeight = 0
+	}
+
+	// MARK: - Utilities
+	class func numberOfColumns(for width: CGFloat, itemSpacing: CGFloat = 16, minimumWidth: CGFloat = 150) -> Int {
+		return Int(floor(width - itemSpacing) / (minimumWidth + itemSpacing))
+	}
+
+	private func itemSize(from size: CGSize, with columnWidth: CGFloat) -> CGSize {
+		let height = size.height * columnWidth / size.width
+		return CGSize(width: floor(columnWidth), height: floor(height))
 	}
 }
