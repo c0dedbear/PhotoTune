@@ -344,7 +344,6 @@
 				E902893823B1125700F28FBA /* Views */,
 				E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */,
 				E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */,
-				E90288F023AE75D300F28FBA /* ImageProcessor.swift */,
 			);
 			path = EditingScreen;
 			sourceTree = "<group>";
@@ -381,6 +380,7 @@
 		E99AD78523C4AD72000E4655 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E90288F023AE75D300F28FBA /* ImageProcessor.swift */,
 				E99AD78623C4AD9D000E4655 /* StorageService.swift */,
 			);
 			path = Services;
