@@ -26,7 +26,8 @@ struct TuneSettings: Equatable, Codable
 	}
 
 	mutating func resetToActualSettings() {
-		if brightnessIntensity < TuneSettingsDefaults.brightnessIntensityStep && brightnessIntensity > TuneSettingsDefaults.brightnessIntensity  {
+		if brightnessIntensity < TuneSettingsDefaults.brightnessIntensityStep
+			&& brightnessIntensity > TuneSettingsDefaults.brightnessIntensity  {
 			brightnessIntensity = TuneSettingsDefaults.brightnessIntensity
 		}
 
@@ -34,11 +35,13 @@ struct TuneSettings: Equatable, Codable
 			vignetteIntensity = TuneSettingsDefaults.vignetteIntensity
 		}
 
-		if contrastIntensity < TuneSettingsDefaults.contrastIntensityStep && contrastIntensity > TuneSettingsDefaults.contrastIntensity {
+		if contrastIntensity < TuneSettingsDefaults.contrastIntensityStep
+			&& contrastIntensity > TuneSettingsDefaults.contrastIntensity {
 			contrastIntensity = TuneSettingsDefaults.contrastIntensity
 		}
 
-		if saturationIntensity < TuneSettingsDefaults.saturationIntensityStep && saturationIntensity > TuneSettingsDefaults.saturationIntensity {
+		if saturationIntensity < TuneSettingsDefaults.saturationIntensityStep
+			&& saturationIntensity > TuneSettingsDefaults.saturationIntensity {
 			saturationIntensity = TuneSettingsDefaults.saturationIntensity
 		}
 	}
