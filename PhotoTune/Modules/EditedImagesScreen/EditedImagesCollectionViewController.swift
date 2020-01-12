@@ -91,13 +91,18 @@ private extension EditedImagesCollectionViewController
 {
 	func setupView() {
 		title = "PhotoTune"
+
 		navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "addicon"),
 															style: .plain,
 															target: self,
 															action: #selector(addingButtonPressed(_:)))
+		let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+
 		if #available(iOS 13.0, *) {
 			collectionView.backgroundColor = .systemBackground
 			navigationItem.rightBarButtonItem?.tintColor = .label
+			backButton.tintColor = .label
+			navigationItem.backBarButtonItem = backButton
 		}
 		else {
 			collectionView.backgroundColor = .white

@@ -36,6 +36,6 @@ extension EditedImagesRouter: IEditedImagesRouter
 	func goToSearchScreen() {
 		let searchScreenViewController = factory.createGoogleSearchScreen()
 		searchScreenViewController.modalPresentationStyle = .fullScreen
-		viewController?.navigationController?.present(searchScreenViewController, animated: true)
+		viewController?.navigationController?.pushViewController(searchScreenViewController, animated: true)
 	}
 }

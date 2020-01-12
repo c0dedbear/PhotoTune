@@ -48,6 +48,12 @@ final class GoogleSearchScreenViewController: UIViewController
 		navigationItem.hidesSearchBarWhenScrolling = false
 		searchController.searchBar.delegate = self
 		searchController.definesPresentationContext = true
+		if #available(iOS 13.0, *) {
+			searchController.searchBar.tintColor = .label
+		}
+		else {
+			searchController.searchBar.tintColor = .black
+		}
 	}
 
 	private func setupCollectionView() {
