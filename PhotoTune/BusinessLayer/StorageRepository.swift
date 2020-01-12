@@ -1,5 +1,5 @@
 //
-//  Repository.swift
+//  StorageRepository.swift
 //  PhotoTune
 //
 //  Created by MacBook Air on 19.12.2019.
@@ -8,14 +8,14 @@
 
 import UIKit
 
-protocol IRepository
+protocol IStorageRepository
 {
 	func getEditedImages() -> [EditedImage]
 	func updateEditedImages(_ editedImages: [EditedImage])
 	func loadPreviewFor(editedImage: EditedImage) -> UIImage?
 }
 
-final class Repository
+final class StorageRepository
 {
 	private var editedImages: [EditedImage]?
 	private let storageService: IStorageService
@@ -25,7 +25,7 @@ final class Repository
 	}
 }
 
-extension Repository: IRepository
+extension StorageRepository: IStorageRepository
 {
 	func getEditedImages() -> [EditedImage] {
 		if let storedImages = storageService.loadEditedImages() {

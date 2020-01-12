@@ -11,13 +11,13 @@ import UIKit
 final class ModulesFactory
 {
 	private let storageService: IStorageService
-	private let storageRepository: IRepository
+	private let storageRepository: IStorageRepository
 	private let networkRepository: INetworkRepository
 	private let imageProcessor: IImageProcessor
 
 	init(
 		storageService: IStorageService,
-		storageRepository: IRepository,
+		storageRepository: IStorageRepository,
 		networkRepository: INetworkRepository,
 		imageProcessor: IImageProcessor
 	) {
