@@ -51,14 +51,13 @@ final class ModulesFactory
 		return navController
 	}
 
-	func createGoogleSearchScreen() -> UINavigationController {
+	func createGoogleSearchScreen() -> GoogleSearchScreenViewController {
 		let repository = NetworkRepository()
 		let router = GoogleSearchScreenRouter(factory: self)
 		let presenter = GoogleSearchScreenPresenter(repository: repository, router: router)
 		let googleSearchScreenVC = GoogleSearchScreenViewController(presenter: presenter)
-		let navController = UINavigationController(rootViewController: googleSearchScreenVC)
 		router.viewController = googleSearchScreenVC
 		presenter.googleSearchScreen = googleSearchScreenVC
-		return navController
+		return googleSearchScreenVC
 	}
 }

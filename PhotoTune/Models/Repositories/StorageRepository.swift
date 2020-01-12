@@ -13,6 +13,7 @@ protocol IStorageRepository
 	func getEditedImages() -> [EditedImage]
 	func updateEditedImages(_ editedImages: [EditedImage])
 	func loadPreviewFor(editedImage: EditedImage) -> UIImage?
+	func removeAllEditedImages(except: [EditedImage])
 }
 
 final class StorageRepository
@@ -36,17 +37,31 @@ extension StorageRepository: IStorageRepository
 
 	func updateEditedImages(_ editedImages: [EditedImage]) {
 		if let storedImages = storageService.loadEditedImages() {
-			//search for deleted images
 			for (index, storedEditedImage) in storedImages.enumerated() {
+				guard index < editedImages.count else { continue }
 				if storedImages.contains(editedImages[index]) == false {
 					if storedEditedImage.imageFileName != editedImages[index].imageFileName {
-					storageService.removeFilesAt(filepaths:
-						[storedEditedImage.imageFileName, storedEditedImage.previewFileName], completion: nil)
+						storageService.removeFilesAt(filepaths:
+							[storedEditedImage.imageFileName, storedEditedImage.previewFileName], completion: nil)
 					}
 				}
 			}
 		}
 		storageService.saveEditedImages(editedImages)
+	}
+
+	func removeAllEditedImages(except: [EditedImage]) {
+		var deletionPaths = [String]()
+		guard let storedImages = storageService.loadEditedImages() else { return }
+		for storedImage in storedImages {
+			if except.contains(storedImage) == false {
+				deletionPaths.append(storedImage.imageFileName)
+				deletionPaths.append(storedImage.previewFileName)
+			}
+		}
+		storageService.removeFilesAt(filepaths: deletionPaths) { [weak self] in
+			self?.storageService.saveEditedImages(except)
+		}
 	}
 
 	func loadPreviewFor(editedImage: EditedImage) -> UIImage? {

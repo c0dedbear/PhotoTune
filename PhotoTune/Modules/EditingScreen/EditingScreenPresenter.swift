@@ -67,7 +67,7 @@ final class EditingScreenPresenter
 		if let editedImage = editedImage {
 			storageService.loadImage(filename: editedImage.imageFileName) { image in
 				guard let storedImage = image else {
-					assertionFailure(ErrorMessages.noStoredData)
+					assertionFailure(AlertMessages.noStoredData)
 					return
 				}
 				imageProcessor.currentImage = storedImage
@@ -79,11 +79,11 @@ final class EditingScreenPresenter
 
 	private func saveImageAsNew() {
 		guard let currentImage = imageProcessor.currentImage else {
-			editingScreen?.showAlertController(title: ErrorMessages.error, message: ErrorMessages.nothingToSave, dismiss: true)
+			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
 		guard let previewImage = self.imageProcessor.tunedImage else {
-			editingScreen?.showAlertController(title: ErrorMessages.error, message: ErrorMessages.nothingToSave, dismiss: true)
+			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
 		let filename = UUID().uuidString
@@ -108,15 +108,15 @@ final class EditingScreenPresenter
 
 	private func saveExistingImage() {
 		guard var editedImage = editedImage else {
-			editingScreen?.showAlertController(
-				title: ErrorMessages.error,
-				message: ErrorMessages.saveNewImagesAsExisting,
+			editingScreen?.showErrorAlert(
+				title: AlertMessages.error,
+				message: AlertMessages.saveNewImagesAsExisting,
 				dismiss: true)
 			return
 		}
 
 		guard let previewImage = self.imageProcessor.tunedImage else {
-			editingScreen?.showAlertController(title: ErrorMessages.error, message: ErrorMessages.nothingToSave, dismiss: true)
+			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
 
@@ -138,7 +138,9 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func onCancelTapped() { editingScreen?.dismiss(toRoot: false, completion: nil) }
+	func onCancelTapped() {
+		editingScreen?.showAttentionAlert(title: AlertMessages.cancelTappedTitle, message: AlertMessages.cancelTappedMessage)
+	}
 
 	func onSaveTapped() {
 		if image != nil {
