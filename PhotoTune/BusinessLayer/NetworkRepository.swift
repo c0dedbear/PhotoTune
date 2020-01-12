@@ -15,13 +15,14 @@ typealias ImageResult = Result<UIImage, NetworkError>
 protocol INetworkRepository
 {
 	func getRandomGoogleImagesInfo(_ completion: @escaping (GoogleImageInfoResult) -> Void)
+	func getGoogleImagesInfo(with searchTerm: String, _ completion: @escaping (GoogleImageInfoResult) -> Void)
 	func loadImage(urlString: String, _ completion: @escaping (ImageResult) -> Void)
 }
 
 final class NetworkRepository
 {
-	private let googleRandomImagesQueue = DispatchQueue(label: "googleRandomImagesQueue",
-	qos: .userInteractive,
+	private let fetchDataQueue = DispatchQueue(label: "fetchDataQueue",
+											   qos: .userInteractive,
 	attributes: .concurrent)
 
 	private func fetchData(from url: URL, _ completion: @escaping(DataResult) -> Void) {
@@ -29,12 +30,14 @@ final class NetworkRepository
 		urlRequest.setValue("Client-ID \(Constants.accessKey)",
 							forHTTPHeaderField: "Authorization")
 		let task = URLSession.shared.dataTask(with: urlRequest) { data, _, error in
-			if let newError = error {
-				completion(.failure(.sessionError(newError)))
-				return
-			}
-			if let data = data {
-				completion(.success(data))
+			self.fetchDataQueue.async {
+				if let newError = error {
+					completion(.failure(.sessionError(newError)))
+					return
+				}
+				if let data = data {
+					completion(.success(data))
+				}
 			}
 		}
 		task.resume()
@@ -51,6 +54,26 @@ extension NetworkRepository: INetworkRepository
 					do {
 						let googleImages = try JSONDecoder().decode([GoogleImage].self, from: data)
 						completion(.success(googleImages))
+					}
+					catch {
+						completion(.failure(NetworkError.dataError(error)))
+						return
+					}
+				case .failure(let error):
+					completion(.failure(error))
+				}
+			}
+		}
+	}
+
+	func getGoogleImagesInfo(with searchTerm: String, _ completion: @escaping (GoogleImageInfoResult) -> Void) {
+		if let url = URL.with(string: "search/photos?per_page=10&query=\(searchTerm)&page=1") {
+			fetchData(from: url) { dataResult in
+				switch dataResult {
+				case .success(let data):
+					do {
+						let googleImages = try JSONDecoder().decode(SearchResults.self, from: data)
+						completion(.success(googleImages.results))
 					}
 					catch {
 						completion(.failure(NetworkError.dataError(error)))
