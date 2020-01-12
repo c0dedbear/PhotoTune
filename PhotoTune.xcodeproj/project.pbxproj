@@ -56,6 +56,7 @@
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
 		E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AD78623C4AD9D000E4655 /* StorageService.swift */; };
 		E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* AlertMessages.swift */; };
+		E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -110,6 +111,7 @@
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
 		E99AD78623C4AD9D000E4655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		E9AD494B23CA04B600D65B95 /* AlertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessages.swift; sourceTree = "<group>"; };
+		E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Constraints.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +244,7 @@
 				E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */,
 				E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */,
 				E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */,
+				E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -491,6 +494,7 @@
 				E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */,
 				E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
+				E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */,
 				2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */,
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
 				E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */,
