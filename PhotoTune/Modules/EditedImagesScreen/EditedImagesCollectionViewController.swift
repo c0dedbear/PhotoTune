@@ -97,12 +97,11 @@ private extension EditedImagesCollectionViewController
 															target: self,
 															action: #selector(addingButtonPressed(_:)))
 		let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+		navigationItem.backBarButtonItem = backButton
 
 		if #available(iOS 13.0, *) {
 			collectionView.backgroundColor = .systemBackground
 			navigationItem.rightBarButtonItem?.tintColor = .label
-			backButton.tintColor = .label
-			navigationItem.backBarButtonItem = backButton
 		}
 		else {
 			collectionView.backgroundColor = .white
