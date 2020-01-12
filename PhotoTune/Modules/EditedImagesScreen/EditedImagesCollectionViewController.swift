@@ -153,6 +153,8 @@ private extension EditedImagesCollectionViewController
 		title = "PhotoTune"
 		navigationItem.rightBarButtonItem = addBarButton
 		navigationItem.leftBarButtonItem = editBarButton
+		let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+		navigationItem.backBarButtonItem = backButton
 
 		if #available(iOS 13.0, *) {
 			navigationController?.navigationBar.tintColor = .label

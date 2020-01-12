@@ -163,8 +163,12 @@ extension EditingScreenViewController: IEditingScreen
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
 		if toRoot {
-			self.view.window?.rootViewController?.dismiss(
-				animated: true, completion: completion)
+			if let rootScreen = self.view.window?.rootViewController as? UINavigationController
+			{
+				dismiss(animated: true) {
+					rootScreen.popToRootViewController(animated: false)
+				}
+			}
 		}
 		else {
 			dismiss(animated: true, completion: completion)
