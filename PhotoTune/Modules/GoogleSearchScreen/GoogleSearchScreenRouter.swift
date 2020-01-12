@@ -6,16 +6,17 @@
 //  Copyright © 2020 Mikhail Medvedev. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 protocol IGoogleSearchScreenRouter
 {
+	func goToTheEditingScreen(image: UIImage)
 }
 
 final class GoogleSearchScreenRouter
 {
 		private var factory: ModulesFactory
-		weak var destinationViewController: EditingScreenViewController?
+		weak var viewController: GoogleSearchScreenViewController?
 
 		init(factory: ModulesFactory) {
 			self.factory = factory
@@ -24,4 +25,9 @@ final class GoogleSearchScreenRouter
 
 extension GoogleSearchScreenRouter: IGoogleSearchScreenRouter
 {
+	func goToTheEditingScreen(image: UIImage) {
+		let editingScreenViewController = factory.createEditingScreenModule(image: image, editedImage: nil)
+		editingScreenViewController.modalPresentationStyle = .fullScreen
+		viewController?.navigationController?.present(editingScreenViewController, animated: true)
+	}
 }

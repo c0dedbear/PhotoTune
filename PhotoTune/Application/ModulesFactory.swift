@@ -57,6 +57,7 @@ final class ModulesFactory
 		let presenter = GoogleSearchScreenPresenter(repository: repository, router: router)
 		let googleSearchScreenVC = GoogleSearchScreenViewController(presenter: presenter)
 		let navController = UINavigationController(rootViewController: googleSearchScreenVC)
+		router.viewController = googleSearchScreenVC
 		presenter.googleSearchScreen = googleSearchScreenVC
 		return navController
 	}
