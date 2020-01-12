@@ -22,7 +22,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate
 		let imageProcessor = ImageProcessor()
 
 		// MARK: Repositories
-		let storageRepository = Repository(storageService: storageService)
+		let storageRepository = StorageRepository(storageService: storageService)
 		let networkRepository = NetworkRepository()
 
 		// MARK: Create Initial Screen

@@ -21,24 +21,27 @@ struct TuneSettings: Equatable, Codable
 	mutating func limitRotationAngle() {
 		if rotationAngle > TuneSettingsDefaults.rotationPositiveAngleLimit ||
 			rotationAngle < TuneSettingsDefaults.rotationNegativeAngleLimit {
-			rotationAngle = 0
+			rotationAngle = TuneSettingsDefaults.rotationAngle
 		}
 	}
 
 	mutating func resetToActualSettings() {
-		if brightnessIntensity < 0.008 && brightnessIntensity > TuneSettingsDefaults.brightnessIntensity  {
+		if brightnessIntensity < TuneSettingsDefaults.brightnessIntensityStep
+			&& brightnessIntensity > TuneSettingsDefaults.brightnessIntensity  {
 			brightnessIntensity = TuneSettingsDefaults.brightnessIntensity
 		}
 
-		if vignetteIntensity == 0.25 {
+		if vignetteIntensity == TuneSettingsDefaults.minVignetteIntensity {
 			vignetteIntensity = TuneSettingsDefaults.vignetteIntensity
 		}
 
-		if contrastIntensity < 1.016 && contrastIntensity > TuneSettingsDefaults.contrastIntensity {
+		if contrastIntensity < TuneSettingsDefaults.contrastIntensityStep
+			&& contrastIntensity > TuneSettingsDefaults.contrastIntensity {
 			contrastIntensity = TuneSettingsDefaults.contrastIntensity
 		}
 
-		if saturationIntensity < 1.016 && saturationIntensity > TuneSettingsDefaults.saturationIntensity {
+		if saturationIntensity < TuneSettingsDefaults.saturationIntensityStep
+			&& saturationIntensity > TuneSettingsDefaults.saturationIntensity {
 			saturationIntensity = TuneSettingsDefaults.saturationIntensity
 		}
 	}
@@ -49,14 +52,17 @@ enum TuneSettingsDefaults
 	static let brightnessIntensity: Float = 0
 	static let minBrightnessIntensity: Float = -0.3
 	static let maxBrightnessIntensity: Float = 0.3
+	static let brightnessIntensityStep: Float = 0.008
 
 	static let contrastIntensity: Float = 1
 	static let minContrastIntensity: Float = 0.25
 	static let maxContrastIntensity: Float = 1.75
+	static let contrastIntensityStep: Float = 1.016
 
 	static let saturationIntensity: Float = 1
 	static let minSaturationIntensity: Float = 0.25
 	static let maxSaturationIntensity: Float = 1.75
+	static let saturationIntensityStep: Float = 1.016
 
 	static let vignetteIntensity: Float = 0
 	static let minVignetteIntensity: Float = 0.25

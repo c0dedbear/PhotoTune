@@ -20,12 +20,12 @@ protocol IEditedImagesPresenter
 
 final class EditedImagesPresenter
 {
-	private let repository: IRepository
+	private let repository: IStorageRepository
 	private let router: IEditedImagesRouter
 	weak var viewController: IEditedImagesCollectionViewController?
 	private var images = [EditedImage]()
 
-	init(repository: IRepository, router: IEditedImagesRouter) {
+	init(repository: IStorageRepository, router: IEditedImagesRouter) {
 		self.repository = repository
 		self.router = router
 	}
