@@ -17,8 +17,8 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 {
 	enum Mode
 	{
-	  case view
-	  case select
+		case view
+		case select
 	}
 
 	private let presenter: IEditedImagesPresenter
@@ -54,13 +54,18 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 	}
 
 	private lazy var editBarButton: UIBarButtonItem = {
-		let barButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(editButtonTapped))
-	  return barButtonItem
+		let barButtonItem = UIBarButtonItem(title: "Edit",
+											style: .plain,
+											target: self,
+											action: #selector(editButtonTapped))
+		return barButtonItem
 	}()
 
 	private lazy var deleteBarButton: UIBarButtonItem = {
-		let barButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(deleteButtonTapped))
-	  return barButtonItem
+		let barButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
+											target: self,
+											action: #selector(deleteButtonTapped))
+		return barButtonItem
 	}()
 
 	private lazy var addBarButton: UIBarButtonItem = {
@@ -103,7 +108,7 @@ extension EditedImagesCollectionViewController
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
 													  for: indexPath) as? EditedImagesScreenCell
 		let editedImage = presenter.getImages()[indexPath.row]
-		cell?.imageView.image = presenter.getPreviewFor(editedImage: editedImage)
+		cell?.imageView.image = presenter.getPreviewFor(editedImage)
 		return cell ?? UICollectionViewCell()
 	}
 
@@ -153,11 +158,13 @@ private extension EditedImagesCollectionViewController
 			collectionView.backgroundColor = .systemBackground
 			navigationItem.rightBarButtonItem?.tintColor = .label
 			navigationItem.leftBarButtonItem?.tintColor = .label
+			deleteBarButton.tintColor = .label
 		}
 		else {
 			collectionView.backgroundColor = .white
 			navigationItem.rightBarButtonItem?.tintColor = .black
 			navigationItem.leftBarButtonItem?.tintColor = .black
+			deleteBarButton.tintColor = .black
 		}
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
@@ -228,6 +235,6 @@ private extension EditedImagesCollectionViewController
 		print(selectedIndexPaths)
 		print(dictionarySelectedIndexPath)
 		presenter.deleteImagesFromStorage(selectedIndexPaths)
-		//self.collectionView.deleteItems(at: selectedIndexes)
+		//collectionView.deleteItems(at: selectedIndexes)
 	}
 }

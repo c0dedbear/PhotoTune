@@ -12,7 +12,7 @@ protocol IEditedImagesPresenter
 {
 	func getImages() -> [EditedImage]
 	func loadImages()
-	func getPreviewFor(editedImage: EditedImage) -> UIImage?
+	func getPreviewFor(_ editedImage: EditedImage) -> UIImage?
 	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath])
 	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?)
 	func transferToSearchScreen()
@@ -59,7 +59,7 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 
 	func getImages() -> [EditedImage] { images }
 
-	func getPreviewFor(editedImage: EditedImage) -> UIImage? {
+	func getPreviewFor(_ editedImage: EditedImage) -> UIImage? {
 		repository.loadPreviewFor(editedImage: editedImage)
 	}
 }

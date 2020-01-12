@@ -22,16 +22,16 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 	}
 
 	override var isHighlighted: Bool {
-	  didSet {
-		highlightIndicator.isHidden = !isHighlighted
-	  }
+		didSet {
+			highlightIndicator.isHidden = !isHighlighted
+		}
 	}
 
 	override var isSelected: Bool {
-	  didSet {
-		highlightIndicator.isHidden = !isSelected
-		selectIndicator.isHidden = !isSelected
-	  }
+		didSet {
+			highlightIndicator.isHidden = !isSelected
+			selectIndicator.isHidden = !isSelected
+		}
 	}
 
 	private func configureCell() {
