@@ -195,7 +195,7 @@ extension EditingScreenViewController: IEditingScreen
 	func showAttentionAlert(title: String?, message: String?) {
 		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let yesAction = UIAlertAction(title: "Yes", style: .destructive) { [weak self] _ in
-			self?.dismiss(toRoot: true, completion: nil)
+			self?.dismiss(toRoot: false, completion: nil)
 		}
 		let cancelAction = UIAlertAction(title: "No", style: .cancel)
 		if #available(iOS 13.0, *) {
