@@ -14,13 +14,11 @@ final class ModulesFactory
 		-> UINavigationController {
 			let storageService = StorageService() // fix: перенести в appdelegate
 			let imageProcessor = ImageProcessor() // fix: перенести в appdelegate
-			let router = EditingScreenRouter()
 			let presenter = EditingScreenPresenter(
 				image: image,
 				editedImage: editedImage,
 				imageProcessor: imageProcessor,
-				storageService: storageService,
-				router: router)
+				storageService: storageService)
 			let editingScreenVC = EditingScreenViewController(presenter: presenter)
 			let navController = UINavigationController(rootViewController: editingScreenVC)
 			presenter.editingScreen = editingScreenVC
