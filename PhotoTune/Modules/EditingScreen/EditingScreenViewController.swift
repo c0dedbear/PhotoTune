@@ -16,7 +16,8 @@ protocol IEditingScreen
 	func showTuneTools()
 	func showRotationTool()
 	func showAcitivityVC(_ vc: UIActivityViewController)
-	func showAlertController(title: String?, message: String?, dismiss: Bool)
+	func showErrorAlert(title: String?, message: String?, dismiss: Bool)
+	func showAttentionAlert(title: String?, message: String?)
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
 }
 
@@ -62,6 +63,13 @@ final class EditingScreenViewController: UIViewController
 private extension EditingScreenViewController
 {
 	func setupNavigationBar() {
+		if #available(iOS 13.0, *) {
+			navigationController?.navigationBar.tintColor = .label
+		}
+		else {
+			navigationController?.navigationBar.tintColor = .black
+		}
+
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
 			target: self,
@@ -168,12 +176,29 @@ extension EditingScreenViewController: IEditingScreen
 	func showTuneTools() { editingView.hideAllToolsViews(except: .tune) }
 	func showRotationTool() { editingView.hideAllToolsViews(except: .rotation) }
 
-	func showAlertController(title: String?, message: String?, dismiss: Bool) {
+	func showErrorAlert(title: String?, message: String?, dismiss: Bool) {
 		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let okAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
 			if dismiss { self?.dismiss(toRoot: true, completion: nil) }
 		}
+		if #available(iOS 13.0, *) {
+			ac.view.tintColor = .label
+		}
 		ac.addAction(okAction)
+		present(ac, animated: true)
+	}
+
+	func showAttentionAlert(title: String?, message: String?) {
+		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let yesAction = UIAlertAction(title: "Yes", style: .destructive) { [weak self] _ in
+			self?.dismiss(toRoot: true, completion: nil)
+		}
+		let cancelAction = UIAlertAction(title: "No", style: .cancel)
+		if #available(iOS 13.0, *) {
+			ac.view.tintColor = .label
+		}
+		ac.addAction(yesAction)
+		ac.addAction(cancelAction)
 		present(ac, animated: true)
 	}
 }

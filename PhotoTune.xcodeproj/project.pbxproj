@@ -55,7 +55,7 @@
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
 		E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AD78623C4AD9D000E4655 /* StorageService.swift */; };
-		E9AD494C23CA04B600D65B95 /* ErrorMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* ErrorMessages.swift */; };
+		E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* AlertMessages.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,7 +109,7 @@
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
 		E99AD78623C4AD9D000E4655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
-		E9AD494B23CA04B600D65B95 /* ErrorMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessages.swift; sourceTree = "<group>"; };
+		E9AD494B23CA04B600D65B95 /* AlertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,7 +219,7 @@
 				E94D1A7323B13375007A4E86 /* ToolBarImage.swift */,
 				E94D1A7123B13271007A4E86 /* TuneTool.swift */,
 				E94D1AD723B29147007A4E86 /* Filter.swift */,
-				E9AD494B23CA04B600D65B95 /* ErrorMessages.swift */,
+				E9AD494B23CA04B600D65B95 /* AlertMessages.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -489,7 +489,7 @@
 				E94D1A7423B13375007A4E86 /* ToolBarImage.swift in Sources */,
 				E906D75623A7F7D10010CD54 /* AppDelegate.swift in Sources */,
 				E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */,
-				E9AD494C23CA04B600D65B95 /* ErrorMessages.swift in Sources */,
+				E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
 				2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */,
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
