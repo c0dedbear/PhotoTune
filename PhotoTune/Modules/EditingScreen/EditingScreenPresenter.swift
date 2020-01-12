@@ -36,7 +36,6 @@ protocol IEditingScreenPresenter
 
 final class EditingScreenPresenter
 {
-	private let router: IEditingScreenRouter
 	private let storageService: IStorageService
 	private let image: UIImage?
 	private let editedImage: EditedImage?
@@ -49,13 +48,11 @@ final class EditingScreenPresenter
 		image: UIImage?,
 		editedImage: EditedImage?,
 		imageProcessor: IImageProcessor,
-		storageService: IStorageService,
-		router: IEditingScreenRouter) {
+		storageService: IStorageService) {
 		self.image = image
 		self.editedImage = editedImage
 		self.imageProcessor = imageProcessor
 		self.storageService = storageService
-		self.router = router
 		makePreviews()
 	}
 
@@ -99,7 +96,7 @@ final class EditingScreenPresenter
 					self?.storageService.saveEditedImages([editedImage])
 				}
 			}
-			self?.editingScreen?.dismiss()
+			self?.editingScreen?.dismiss(toRoot: true, completion: nil)
 		}
 	}
 
@@ -115,7 +112,7 @@ final class EditingScreenPresenter
 					currentEditedImages.insert(editedImage, at: index)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
-				self?.editingScreen?.dismiss()
+				self?.editingScreen?.dismiss(toRoot: true, completion: nil)
 			}
 		}
 	}
@@ -123,7 +120,7 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func onCancelTapped() { editingScreen?.dismiss() }
+	func onCancelTapped() { editingScreen?.dismiss(toRoot: false, completion: nil) }
 
 	func onSaveTapped() {
 		if image != nil {

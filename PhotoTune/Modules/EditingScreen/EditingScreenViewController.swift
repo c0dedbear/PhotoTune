@@ -16,7 +16,7 @@ protocol IEditingScreen
 	func showTuneTools()
 	func showRotationTool()
 	func showAcitivityVC(_ vc: UIActivityViewController)
-	func dismiss()
+	func dismiss(toRoot: Bool, completion: (() -> Void)?)
 }
 
 final class EditingScreenViewController: UIViewController
@@ -152,7 +152,16 @@ extension EditingScreenViewController: IEditingScreen
 {
 	var currentImage: UIImage? { editingView.currentImage }
 
-	func dismiss() { dismiss(animated: true, completion: nil) }
+	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
+		if toRoot {
+			self.view.window?.rootViewController?.dismiss(
+				animated: true, completion: completion)
+		}
+		else {
+			dismiss(animated: true, completion: completion)
+		}
+	}
+
 	func showAcitivityVC(_ vc: UIActivityViewController) { present(vc, animated: true) }
 	func showFiltersTool() { editingView.hideAllToolsViews(except: .filters) }
 	func showTuneTools() { editingView.hideAllToolsViews(except: .tune) }
