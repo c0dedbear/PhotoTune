@@ -171,16 +171,6 @@
 			path = Modules;
 			sourceTree = "<group>";
 		};
-		D04F2BCD23A96077002DE17E /* BusinessLayer */ = {
-			isa = PBXGroup;
-			children = (
-				D0CA068723ABAC68006CB5AF /* Models */,
-				D0CA068823ABACF5006CB5AF /* StorageRepository.swift */,
-				2247572B23CA332F0030C9EE /* NetworkRepository.swift */,
-			);
-			path = BusinessLayer;
-			sourceTree = "<group>";
-		};
 		D094AF8823C669E900D863FF /* EditedImagesScreen */ = {
 			isa = PBXGroup;
 			children = (
@@ -204,6 +194,7 @@
 		D0CA068723ABAC68006CB5AF /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E90BACDA23CB99150004AC86 /* Repositories */,
 				D04F2BCE23A960A8002DE17E /* EditedImage.swift */,
 				E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */,
 				2247571C23C9E8720030C9EE /* GoogleImage.swift */,
@@ -284,7 +275,7 @@
 			isa = PBXGroup;
 			children = (
 				E906D76A23A7F9080010CD54 /* Application */,
-				D04F2BCD23A96077002DE17E /* BusinessLayer */,
+				D0CA068723ABAC68006CB5AF /* Models */,
 				2247571923C90C140030C9EE /* ReusableViews */,
 				D04F2BAA23A7FF79002DE17E /* Modules */,
 				E906D76B23A7F9170010CD54 /* Resources */,
@@ -311,6 +302,15 @@
 				E906D75E23A7F7D40010CD54 /* Assets.xcassets */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		E90BACDA23CB99150004AC86 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				D0CA068823ABACF5006CB5AF /* StorageRepository.swift */,
+				2247572B23CA332F0030C9EE /* NetworkRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		E910080823C74C9E00A6A81A /* Extensions */ = {
