@@ -225,6 +225,7 @@ private extension EditedImagesCollectionViewController
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		alert.addAction(cancelAction)
 		alert.popoverPresentationController?.sourceView = sender
+		alert.pruneNegativeWidthConstraints()
 		present(alert, animated: true)
 	}
 	@objc func editButtonTapped() {
