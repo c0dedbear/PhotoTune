@@ -106,7 +106,7 @@ final class EditingScreenPresenter
 		guard let previewImage = self.imageProcessor.tunedImage else { fatalError(ErrorMessages.nothingToSave) }
 		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
-				for (index, item) in currentEditedImages.reversed().enumerated()
+				for (index, item) in currentEditedImages.enumerated()
 					where item.imageFileName == editedImage.imageFileName {
 					currentEditedImages.remove(at: index)
 					currentEditedImages.insert(editedImage, at: index)
