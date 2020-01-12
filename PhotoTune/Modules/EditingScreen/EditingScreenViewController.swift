@@ -29,7 +29,7 @@ final class EditingScreenViewController: UIViewController
 	private var currentEditingType: EditingType = .filters {
 		didSet {
 			if currentEditingType == .tune {
-				navigationItem.titleView = autoEnchaneButton
+				navigationItem.titleView = autoEnchanceButton
 			}
 			else {
 				navigationItem.titleView = nil
@@ -38,7 +38,7 @@ final class EditingScreenViewController: UIViewController
 		}
 	}
 
-	private let autoEnchaneButton = AutoEnchanceButton()
+	private let autoEnchanceButton = AutoEnchanceButton()
 	private let editingView = EditingView()
 	private var toolBarButtons = [ToolBarButton]()
 
@@ -58,6 +58,7 @@ final class EditingScreenViewController: UIViewController
 		view = editingView
 		editingView.toolsDelegate = self
 		editingView.toolCollectionViewDataSource = self
+		autoEnchanceButton.addTarget(self, action: #selector(autoEnchanceTapped), for: .touchUpInside)
 	}
 
 	override func viewDidLoad() {
@@ -144,6 +145,7 @@ private extension EditingScreenViewController
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
+	@objc func autoEnchanceTapped() { presenter.onAutoEnchanceTapped() }
 
 	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }

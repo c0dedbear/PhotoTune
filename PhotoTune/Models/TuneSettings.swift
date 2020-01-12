@@ -11,6 +11,7 @@ import CoreImage
 struct TuneSettings: Equatable, Codable
 {
 	var ciFilter: String?
+	var autoEnchancement = false
 	var brightnessIntensity = TuneSettingsDefaults.brightnessIntensity
 	var contrastIntensity = TuneSettingsDefaults.contrastIntensity
 	var saturationIntensity = TuneSettingsDefaults.saturationIntensity

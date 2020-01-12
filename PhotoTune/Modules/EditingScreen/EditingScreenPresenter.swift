@@ -32,6 +32,7 @@ protocol IEditingScreenPresenter
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
+	func onAutoEnchanceTapped()
 }
 
 final class EditingScreenPresenter
@@ -138,6 +139,10 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func onAutoEnchanceTapped() {
+		//image proccessing
+	}
+
 	func onCancelTapped() {
 		editingScreen?.showAttentionAlert(title: AlertMessages.cancelTappedTitle, message: AlertMessages.cancelTappedMessage)
 	}
