@@ -12,7 +12,7 @@ protocol IGoogleSearchScreenPresenter
 {
 	func getRandomImages()
 	func getImages(with searchTerm: String)
-	func loadImage(urlString: String, index: Int)
+	func loadImage(urlString: String, index: Int, cell: Bool)
 }
 
 final class GoogleSearchScreenPresenter
@@ -58,13 +58,18 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 		}
 	}
 
-	func loadImage(urlString: String, index: Int) {
+	func loadImage(urlString: String, index: Int, cell: Bool) {
 		self.repository.loadImage(urlString: urlString) { [weak self] imageResult in
 		guard let self = self else { return }
 		switch imageResult {
 		case .success(let image):
 			DispatchQueue.main.async {
-				self.googleSearchScreen?.updateCellImage(index: index, image: image)
+				if cell {
+					self.googleSearchScreen?.updateCellImage(index: index, image: image)
+				}
+				else {
+					self.router.goToTheEditingScreen(image: image)
+				}
 			}
 		case .failure(let error):
 			print(error.localizedDescription)
