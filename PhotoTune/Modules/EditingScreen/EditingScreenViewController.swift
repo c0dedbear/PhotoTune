@@ -17,6 +17,7 @@ protocol IEditingScreen
 	func showRotationTool()
 	func showAcitivityVC(_ vc: UIActivityViewController)
 	func dismiss()
+	func showAlertController(title: String?, message: String?, dismiss: Bool)
 }
 
 final class EditingScreenViewController: UIViewController
@@ -122,11 +123,11 @@ private extension EditingScreenViewController
 	}
 
 	// MARK: Objc Handling Methods
-	@objc private func cancelTapped() { presenter.onCancelTapped() }
-	@objc private func shareTapped() { presenter.onShareTapped() }
-	@objc private func saveTapped() { presenter.onSaveTapped() }
+	@objc func cancelTapped() { presenter.onCancelTapped() }
+	@objc func shareTapped() { presenter.onShareTapped() }
+	@objc func saveTapped() { presenter.onSaveTapped() }
 
-	@objc private func toolBarButtonTapped(_ sender: ToolBarButton) {
+	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }
 		guard editingType != currentEditingType else { return }
 
@@ -157,6 +158,15 @@ extension EditingScreenViewController: IEditingScreen
 	func showFiltersTool() { editingView.hideAllToolsViews(except: .filters) }
 	func showTuneTools() { editingView.hideAllToolsViews(except: .tune) }
 	func showRotationTool() { editingView.hideAllToolsViews(except: .rotation) }
+
+	func showAlertController(title: String?, message: String?, dismiss: Bool) {
+		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let okAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
+			if dismiss { self?.dismiss() }
+		}
+		ac.addAction(okAction)
+		present(ac, animated: true)
+	}
 }
 
 // MARK: - IToolViewDelegate
