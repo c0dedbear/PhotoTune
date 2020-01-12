@@ -10,6 +10,8 @@ import UIKit
 
 protocol IGoogleSearchScreenViewController
 {
+	func updateCellImage(index: Int, image: UIImage)
+	func updatePhotosArray(photosInfo: [GoogleImage])
 }
 
 final class GoogleSearchScreenViewController: UIViewController
@@ -19,6 +21,7 @@ final class GoogleSearchScreenViewController: UIViewController
 	private let searchController = UISearchController(searchResultsController: nil)
 	private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 	private let layout = CustomCollectionViewLayout()
+	private var photos = [GoogleImage]()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -26,6 +29,11 @@ final class GoogleSearchScreenViewController: UIViewController
 		self.title = "Search"
 		setupSearchBar()
 		setupCollectionView()
+		presenter.getRandomImages()
+	}
+
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 	}
 
 	init(presenter: IGoogleSearchScreenPresenter) {
@@ -74,19 +82,29 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 
 extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 {
+	func updateCellImage(index: Int, image: UIImage) {
+		guard let cell = self.collectionView.cellForItem(at: IndexPath(row: index,
+																	   section: 0)) as? ImageCollectionViewCell else { return }
+		cell.imageView.image = image
+	}
+
+	func updatePhotosArray(photosInfo: [GoogleImage]) {
+		self.photos = photosInfo
+		collectionView.reloadData()
+	}
 }
 
 extension GoogleSearchScreenViewController: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return presenter.getPhotos().count
+		return photos.count
 	}
 
 	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
-		cell.imageView.image = presenter.getPhotos()[indexPath.item]
+		presenter.loadImage(urlString: photos[indexPath.item].urls.small, index: indexPath.item)
 		return cell
 	}
 }
@@ -98,9 +116,9 @@ extension GoogleSearchScreenViewController: CustomCollectionViewLayoutDelegate
 		heightForPhotoAtIndexPath indexPath: IndexPath) -> CGFloat {
 		let itemSize = (collectionView.frame.width -
 			(collectionView.contentInset.left + collectionView.contentInset.right + 10)) / 2
-		let myImage = presenter.getPhotos()[indexPath.item]
-		let myImageWidth = myImage.size.width
-		let myImageHeight = myImage.size.height
+		let myImage = photos[indexPath.item]
+		let myImageWidth = CGFloat(myImage.width)
+		let myImageHeight = CGFloat(myImage.height)
 		let ratio = itemSize / myImageWidth
 		let scaledHeight = myImageHeight * ratio
 		return scaledHeight
