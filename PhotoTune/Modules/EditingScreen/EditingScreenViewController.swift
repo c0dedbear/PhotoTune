@@ -27,9 +27,18 @@ final class EditingScreenViewController: UIViewController
 	private let presenter: IEditingScreenPresenter
 
 	private var currentEditingType: EditingType = .filters {
-		didSet { title = currentEditingType.rawValue }
+		didSet {
+			if currentEditingType == .tune {
+				navigationItem.titleView = autoEnchaneButton
+			}
+			else {
+				navigationItem.titleView = nil
+				title = currentEditingType.rawValue
+			}
+		}
 	}
 
+	private let autoEnchaneButton = AutoEnchanceButton()
 	private let editingView = EditingView()
 	private var toolBarButtons = [ToolBarButton]()
 
@@ -57,6 +66,7 @@ final class EditingScreenViewController: UIViewController
 		setupToolBar()
 		editingView.hideAllToolsViews(except: currentEditingType)
 		editingView.setImage(presenter.getInitialImage())
+		currentEditingType = .filters
 	}
 }
 	// MARK: - Private Methods
