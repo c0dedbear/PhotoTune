@@ -8,11 +8,15 @@
 
 import UIKit
 
+protocol IEditedImagesCollectionViewController: AnyObject
+{
+	func updateCollectionView()
+}
+
 final class EditedImagesCollectionViewController: UICollectionViewController
 {
 	private let presenter: IEditedImagesPresenter
 	private let reuseIdentifier = "Cell"
-	private var images = [EditedImage]()
 	private let addingView = AddingView()
 	private let layout: UICollectionViewLayout = {
 		let layout = UICollectionViewFlowLayout()
@@ -35,30 +39,51 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-		images = presenter.getImages()
+		presenter.loadImages()
 		setupView()
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
-		images = presenter.getImages()
+		presenter.loadImages()
 	}
+}
 
+extension EditedImagesCollectionViewController
+{
 	override func collectionView(_ collectionView: UICollectionView,
-								 numberOfItemsInSection section: Int) -> Int { images.count }
+								 numberOfItemsInSection section: Int) -> Int { presenter.getImages().count }
 
 	override func collectionView(_ collectionView: UICollectionView,
 								 cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
 													  for: indexPath) as? EditedImagesScreenCell
-		cell?.imageView.image = UIImage(named: images[indexPath.row].previewFileName)
+		let editedImage = presenter.getImages()[indexPath.row]
+		cell?.imageView.image = presenter.getPreviewFor(editedImage: editedImage)
 		return cell ?? UICollectionViewCell()
 	}
 
 	override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		collectionView.deselectItem(at: indexPath, animated: true)
-		let selectedImage = images[indexPath.row]
+		let selectedImage = presenter.getImages()[indexPath.row]
 		presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+	}
+}
+
+extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate
+{
+	func imagePickerController(_ picker: UIImagePickerController,
+							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+		guard let selectedImage = info[.editedImage] as? UIImage else { return }
+		dismiss(animated: true)
+		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
+	}
+}
+
+extension EditedImagesCollectionViewController: IEditedImagesCollectionViewController
+{
+	func updateCollectionView() {
+		collectionView.reloadData()
 	}
 }
 
@@ -90,7 +115,7 @@ private extension EditedImagesCollectionViewController
 			addingView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
 		])
 
-		if images.isEmpty {
+		if presenter.getImages().isEmpty {
 			collectionView.isHidden = true
 			addingView.isHidden = false
 		}
@@ -131,15 +156,5 @@ private extension EditedImagesCollectionViewController
 		alert.addAction(cancelAction)
 		alert.popoverPresentationController?.sourceView = sender
 		present(alert, animated: true)
-	}
-}
-
-extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate
-{
-	func imagePickerController(_ picker: UIImagePickerController,
-							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-		guard let selectedImage = info[.editedImage] as? UIImage else { return }
-		dismiss(animated: true)
-		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
 	}
 }
