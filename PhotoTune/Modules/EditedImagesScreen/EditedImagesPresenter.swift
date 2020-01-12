@@ -49,7 +49,8 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 		for indexPath in selectedIndexPaths {
 			images.remove(at: indexPath.row)
 		}
-		repository.updateEditedImages(images)
+		repository.removeAllEditedImages(except: images)
+		viewController?.updateCollectionView()
 	}
 
 	func getImages() -> [EditedImage] { images }
