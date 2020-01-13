@@ -36,6 +36,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate
 		window?.rootViewController = factory.createEditedImagesScreenModule()
 		window?.makeKeyAndVisible()
 
+		if #available(iOS 13.0, *) {
+			window?.backgroundColor = .systemBackground
+			window?.tintColor = .label
+		}
+		else {
+			window?.backgroundColor = .white
+			window?.tintColor = .black
+		}
+
 		return true
 	}
 }

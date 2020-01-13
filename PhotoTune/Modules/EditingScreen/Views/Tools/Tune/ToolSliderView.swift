@@ -64,15 +64,6 @@ final class ToolSliderView: UIStackView
 		cancel.addTarget(self, action: #selector(cancelTapped), for: .touchUpInside)
 		done.addTarget(self, action: #selector(doneTapped), for: .touchUpInside)
 
-		if #available(iOS 13.0, *) {
-			cancel.setTitleColor(.label, for: .normal)
-			done.setTitleColor(.label, for: .normal)
-		}
-		else {
-			cancel.setTitleColor(.black, for: .normal)
-			done.setTitleColor(.black, for: .normal)
-		}
-
 		let horizontalStack = UIStackView()
 		horizontalStack.addArrangedSubview(cancel)
 		horizontalStack.addArrangedSubview(done)
