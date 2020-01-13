@@ -119,7 +119,6 @@ final class ToolSliderView: UIStackView
 			intensitySlider.updateLabel()
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = intensitySlider.value
-			currentTuneSettings.vignetteRadius = intensitySlider.value + 1
 			intensitySlider.updateLabel(convertValues: false)
 		case .none: break
 		}

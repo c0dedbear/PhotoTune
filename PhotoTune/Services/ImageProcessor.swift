@@ -21,12 +21,25 @@ protocol IImageProcessor
 
 final class ImageProcessor
 {
+	private var currentFilter: CIFilter? {
+		didSet {
+			guard let currentImage = currentImage else { return }
+			let beginImage = CIImage(image: currentImage)
+			currentFilter?.setValue(beginImage, forKey: kCIInputImageKey)
+			currentCIImage = beginImage
+			appleTuneSettings()
+		}
+	}
+
+	private var currentCIImage: CIImage?
+
 	var currentImage: UIImage?
 	var tunedImage: UIImage?
+
 	var tuneSettings: TuneSettings? {
 		didSet {
 			tuneSettings?.limitRotationAngle()
-			appleTuneSettings()
+			currentFilter = CIFilter(name: tuneSettings?.ciFilter ?? "")
 		}
 	}
 
@@ -77,30 +90,20 @@ final class ImageProcessor
 	}
 
 	private func appleTuneSettings() {
-		guard let image = currentImage else { return }
 
-		let ciInput: CIImage
+		guard var ciInput = currentCIImage else { return }
 
-		if let ciContext = image.ciImage {
-			ciInput = ciContext
-		}
-		else {
-			guard let ciImage = CIImage(image: image) else  { return }
-			ciInput = ciImage
-		}
+		ciInput = colorControls(ciInput: ciInput) ?? CIImage()
+		ciInput = rotateImage(ciImage: ciInput) ?? CIImage()
+		ciInput = vignette(ciInput: ciInput) ?? CIImage()
 
-		let colorControlsOutput = colorControls(ciInput: ciInput)
-		let vignetteOutput = vignette(ciInput: colorControlsOutput)
-		let rotationOutput = rotateImage(ciImage: vignetteOutput)
-
-		if let photoFilterOutput = photoFilter(ciInput: rotationOutput) {
+		if let photoFilterOutput = photoFilter(ciInput: ciInput) {
 			guard let cgImage = context.createCGImage(photoFilterOutput, from: photoFilterOutput.extent) else { return }
 			tunedImage = UIImage(cgImage: cgImage)
 			return
 		}
 
-		guard let ciChainOutput = rotationOutput else { return }
-		guard let cgImage = context.createCGImage(ciChainOutput, from: ciChainOutput.extent) else { return }
+		guard let cgImage = context.createCGImage(ciInput, from: ciInput.extent) else { return }
 		tunedImage = UIImage(cgImage: cgImage)
 	}
 }
