@@ -10,7 +10,7 @@ import UIKit
 
 protocol IToolViewDelegate: AnyObject
 {
-	func imageWithFilter(index: Int) -> UIImage?
+	func applyFilterToImageWith(index: Int)
 	func applyTuneSettings(_ settings: TuneSettings)
 	func loadTuneSettings() -> TuneSettings?
 	func rotateClockwise()

@@ -15,19 +15,24 @@ protocol IImageProcessor
 	var currentImage: UIImage? { get set }
 	var tuneSettings: TuneSettings? { get set }
 	var tunedImage: UIImage? { get set }
+	var outputSource: IEditingScreenPresenter? { get set }
 
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 }
 
 final class ImageProcessor
 {
+	var outputSource: IEditingScreenPresenter?
+
 	private var currentFilter: CIFilter? {
 		didSet {
 			guard let currentImage = currentImage else { return }
 			let beginImage = CIImage(image: currentImage)
 			currentFilter?.setValue(beginImage, forKey: kCIInputImageKey)
 			currentCIImage = beginImage
-			appleTuneSettings()
+			DispatchQueue.global(qos: .userInteractive).async {
+				self.appleTuneSettings()
+			}
 		}
 	}
 
@@ -107,22 +112,23 @@ final class ImageProcessor
 
 		guard var ciInput = currentCIImage else { return }
 
-		if tuneSettings?.autoEnchancement == true {
-				ciInput = autoEnchance(ciInput: ciInput) ?? CIImage()
-			}
-
 		ciInput = colorControls(ciInput: ciInput) ?? CIImage()
 		ciInput = rotateImage(ciImage: ciInput) ?? CIImage()
 		ciInput = vignette(ciInput: ciInput) ?? CIImage()
 
+		if tuneSettings?.autoEnchancement == true {
+			ciInput = autoEnchance(ciInput: ciInput) ?? CIImage()
+		}
+
 		if let photoFilterOutput = photoFilter(ciInput: ciInput) {
-			guard let cgImage = context.createCGImage(photoFilterOutput, from: photoFilterOutput.extent) else { return }
-			tunedImage = UIImage(cgImage: cgImage)
-			return
+			ciInput = photoFilterOutput
 		}
 
 		guard let cgImage = context.createCGImage(ciInput, from: ciInput.extent) else { return }
 		tunedImage = UIImage(cgImage: cgImage)
+		DispatchQueue.main.async { [weak self] in
+			self?.outputSource?.updateImage(image: self?.tunedImage)
+		}
 	}
 }
 

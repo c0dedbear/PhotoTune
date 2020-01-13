@@ -11,7 +11,7 @@ import UIKit
 protocol IEditingScreenPresenter
 {
 	func getInitialImage() -> UIImage?
-	func getFilteredImageFor(filterIndex: Int) -> UIImage?
+	func getFilteredImageFor(filterIndex: Int)
 
 	func filtersToolPressed()
 	func tuneToolPressed()
@@ -24,15 +24,16 @@ protocol IEditingScreenPresenter
 	func getTuneToolCellDataFor(index: Int) -> TuneTool
 
 	func getTuneSettings() -> TuneSettings?
-	func onSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
+	func onSaveTuneSettingsTapped(save settings: TuneSettings)
 
-	func onRotateClockwiseTapped(image: (UIImage?) -> Void)
-	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
+	func onRotateClockwiseTapped()
+	func onRotateAntiClockwiseTapped()
 
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
-	func onAutoEnchanceTapped(image: (UIImage?) -> Void)
+	func updateImage(image: UIImage?)
+	func onAutoEnchanceTapped()
 }
 
 final class EditingScreenPresenter
@@ -54,6 +55,7 @@ final class EditingScreenPresenter
 		self.editedImage = editedImage
 		self.imageProcessor = imageProcessor
 		self.storageService = storageService
+		self.imageProcessor.outputSource = self
 		makePreviews()
 	}
 
@@ -139,9 +141,12 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func onAutoEnchanceTapped(image: (UIImage?) -> Void) {
+	func updateImage(image: UIImage?) {
+		editingScreen?.updateImageView(image: image)
+	}
+
+	func onAutoEnchanceTapped() {
 		imageProcessor.tuneSettings?.autoEnchancement.toggle()
-		image(imageProcessor.tunedImage)
 	}
 
 	func onCancelTapped() {
@@ -170,9 +175,8 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		return imageProcessor.tunedImage
 	}
 
-	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
+	func getFilteredImageFor(filterIndex: Int) {
 		imageProcessor.tuneSettings?.ciFilter = Filter.photoFilters[filterIndex].ciFilter?.name
-		return imageProcessor.tunedImage
 	}
 
 	func filtersToolPressed() { editingScreen?.showFiltersTool() }
@@ -186,18 +190,15 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	func getFiltersCount() -> Int { Filter.photoFilters.count }
 
 	func getTuneSettings() -> TuneSettings? { imageProcessor.tuneSettings }
-	func onSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void) {
+	func onSaveTuneSettingsTapped(save settings: TuneSettings) {
 		imageProcessor.tuneSettings = settings
-		image(imageProcessor.tunedImage)
 	}
 
-	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void) {
+	func onRotateAntiClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
-		image(imageProcessor.tunedImage)
 	}
 
-	func onRotateClockwiseTapped(image: (UIImage?) -> Void) {
+	func onRotateClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
-		image(imageProcessor.tunedImage)
 	}
 }

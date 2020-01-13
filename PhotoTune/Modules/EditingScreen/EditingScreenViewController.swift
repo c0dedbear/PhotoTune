@@ -19,6 +19,7 @@ protocol IEditingScreen
 	func showErrorAlert(title: String?, message: String?, dismiss: Bool)
 	func showAttentionAlert(title: String?, message: String?)
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
+	func updateImageView(image: UIImage?)
 }
 
 final class EditingScreenViewController: UIViewController
@@ -146,10 +147,9 @@ private extension EditingScreenViewController
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
 	@objc func autoEnchanceTapped() {
+		editingView.showActivityIndicator()
 		autoEnchanceButton.isSelected.toggle()
-		presenter.onAutoEnchanceTapped { image in
-			editingView.setImage(image)
-		}
+		presenter.onAutoEnchanceTapped()
 	}
 
 	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
@@ -176,6 +176,13 @@ private extension EditingScreenViewController
 	// MARK: - IEditingScreen
 extension EditingScreenViewController: IEditingScreen
 {
+	func updateImageView(image: UIImage?) {
+		DispatchQueue.main.async { [weak self] in
+			self?.editingView.setImage(image)
+			self?.editingView.removeActivityIndicator()
+		}
+	}
+
 	var currentImage: UIImage? { editingView.currentImage }
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
@@ -228,15 +235,11 @@ extension EditingScreenViewController: IEditingScreen
 extension EditingScreenViewController: IToolViewDelegate
 {
 	func rotateClockwise() {
-		presenter.onRotateClockwiseTapped { image in
-			editingView.setImage(image)
-		}
+		presenter.onRotateClockwiseTapped()
 	}
 
 	func rotateAntiClockwise() {
-		presenter.onRotateAntiClockwiseTapped { image in
-		editingView.setImage(image)
-		}
+		presenter.onRotateAntiClockwiseTapped()
 	}
 
 	func loadTuneSettings() -> TuneSettings? {
@@ -246,12 +249,10 @@ extension EditingScreenViewController: IToolViewDelegate
 	}
 
 	func applyTuneSettings(_ settings: TuneSettings) {
-		presenter.onSaveTuneSettingsTapped(save: settings) { image in
-			editingView.setImage(image)
-		}
+		presenter.onSaveTuneSettingsTapped(save: settings)
 	}
 
-	func imageWithFilter(index: Int) -> UIImage? {
+	func applyFilterToImageWith(index: Int ) {
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }

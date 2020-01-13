@@ -19,9 +19,7 @@ extension EditingView: UICollectionViewDelegate
 
 		switch toolCollectionViewDataSource?.editingType {
 		case .filters:
-			if let filteredImage = toolsDelegate?.imageWithFilter(index: indexPath.item) {
-				setImage(filteredImage)
-			}
+			toolsDelegate?.applyFilterToImageWith(index: indexPath.item)
 			toolsCollectionView.lastSelectedFilter = indexPath
 		case .tune:
 			guard let tuneToolCell = cell as? TuneToolCollectionViewCell else { return }

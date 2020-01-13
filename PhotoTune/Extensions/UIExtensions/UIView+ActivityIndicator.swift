@@ -30,9 +30,8 @@ extension UIView
 		let loadingView = UIView()
 		loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
 		loadingView.center = self.center
-		loadingView.backgroundColor = UIColor.systemGray.withAlphaComponent(0.7)
+		loadingView.backgroundColor = .clear
 		loadingView.clipsToBounds = true
-		loadingView.layer.cornerRadius = 10
 
 		let actInd = UIActivityIndicatorView()
 		actInd.frame = CGRect(x: 0, y: 0, width: 40, height: 40)
