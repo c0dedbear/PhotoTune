@@ -17,6 +17,9 @@ enum Filter
 	static let vignette: (title: String, ciFilter: CIFilter?, image: UIImage?)
 		= ("Vignette", CIFilter(name: "CIVignette"), nil)
 
+	static let sharpness: (title: String, ciFilter: CIFilter?, image: UIImage?)
+	= ("Sharpness", CIFilter(name: "CIUnsharpMask"), nil)
+
 	static let transform: (title: String, ciFilter: CIFilter?, image: UIImage?)
 		= ("Transform", CIFilter(name: "CIAffineTransform"), nil)
 

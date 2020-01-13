@@ -75,6 +75,14 @@ final class ImageProcessor
 		return colorFilter.outputImage
 	}
 
+	private func sharpness(ciInput: CIImage?) -> CIImage? {
+		guard let sharpFilter = Filter.sharpness.ciFilter else { return nil }
+		sharpFilter.setValue(ciInput, forKey: kCIInputImageKey)
+		sharpFilter.setValue(tuneSettings?.sharpnessIntensity, forKey: kCIInputIntensityKey)
+		sharpFilter.setValue(tuneSettings?.sharpnessRadius, forKey: kCIInputRadiusKey)
+		return sharpFilter.outputImage
+	}
+
 	private func vignette(ciInput: CIImage?) -> CIImage? {
 		guard let vignetteFilter = Filter.vignette.ciFilter else { return nil }
 		vignetteFilter.setValue(ciInput, forKey: kCIInputImageKey)
@@ -115,6 +123,7 @@ final class ImageProcessor
 		currentCIImage = colorControls(ciInput: currentCIImage)
 		currentCIImage = rotateImage(ciImage: currentCIImage)
 		currentCIImage = vignette(ciInput: currentCIImage)
+		currentCIImage = sharpness(ciInput: currentCIImage)
 
 		if let photoFilterOutput = photoFilter(ciInput: currentCIImage) {
 			currentCIImage = photoFilterOutput

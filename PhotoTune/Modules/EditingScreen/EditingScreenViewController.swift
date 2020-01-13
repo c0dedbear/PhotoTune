@@ -261,15 +261,18 @@ extension EditingScreenViewController: IToolCollectionViewDataSource
 	}
 
 	func showChangesIndicator(for tuneTool: TuneTool?) -> Bool? {
+		guard let settings = presenter.getTuneSettings() else { return nil }
 		switch tuneTool {
 		case .brightness:
-			return presenter.getTuneSettings()?.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity
+			return settings.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity
 		case .contrast:
-			return presenter.getTuneSettings()?.contrastIntensity != TuneSettingsDefaults.contrastIntensity
+			return settings.contrastIntensity != TuneSettingsDefaults.contrastIntensity
 		case .saturation:
-			return presenter.getTuneSettings()?.saturationIntensity != TuneSettingsDefaults.saturationIntensity
+			return settings.saturationIntensity != TuneSettingsDefaults.saturationIntensity
+		case .sharpness:
+			return settings.sharpnessIntensity != TuneSettingsDefaults.sharpnessIntensity
 		case .vignette:
-			return presenter.getTuneSettings()?.vignetteIntensity != TuneSettingsDefaults.vignetteIntensity
+			return settings.vignetteIntensity != TuneSettingsDefaults.vignetteIntensity
 		case .none:
 			return nil
 		}
