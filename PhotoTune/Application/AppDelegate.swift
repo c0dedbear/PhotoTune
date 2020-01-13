@@ -19,17 +19,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate
 		didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		// MARK: Services
 		let storageService = StorageService()
+		let networkService = NetworkService()
 		let imageProcessor = ImageProcessor()
 
 		// MARK: Repositories
 		let storageRepository = StorageRepository(storageService: storageService)
-		let networkRepository = NetworkRepository()
 
 		// MARK: Create Initial Screen
 		let factory = ModulesFactory(
 			storageService: storageService,
+			networkService: networkService,
 			storageRepository: storageRepository,
-			networkRepository: networkRepository,
 			imageProcessor: imageProcessor)
 
 		window = UIWindow(frame: UIScreen.main.bounds)

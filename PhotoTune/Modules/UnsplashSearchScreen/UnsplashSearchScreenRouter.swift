@@ -1,5 +1,5 @@
 //
-//  GoogleSearchScreenRouter.swift
+//  UnsplashSearchScreenRouter.swift
 //  PhotoTune
 //
 //  Created by Саша Руцман on 08.01.2020.
@@ -8,22 +8,22 @@
 
 import UIKit
 
-protocol IGoogleSearchScreenRouter
+protocol IUnsplashSearchScreenRouter
 {
 	func goToTheEditingScreen(image: UIImage)
 }
 
-final class GoogleSearchScreenRouter
+final class UnsplashSearchScreenRouter
 {
 		private var factory: ModulesFactory
-		weak var viewController: GoogleSearchScreenViewController?
+		weak var viewController: UnsplashSearchScreenViewController?
 
 		init(factory: ModulesFactory) {
 			self.factory = factory
 		}
 }
 
-extension GoogleSearchScreenRouter: IGoogleSearchScreenRouter
+extension UnsplashSearchScreenRouter: IUnsplashSearchScreenRouter
 {
 	func goToTheEditingScreen(image: UIImage) {
 		let editingScreenViewController = factory.createEditingScreenModule(image: image, editedImage: nil)
