@@ -28,9 +28,11 @@ final class ImageProcessor
 		didSet {
 			guard let currentImage = currentImage else { return }
 			let beginImage = CIImage(image: currentImage)
-			currentFilter?.setValue(beginImage, forKey: kCIInputImageKey)
 			currentCIImage = beginImage
 			DispatchQueue.global(qos: .userInteractive).async {
+				if self.tuneSettings?.autoEnchancement == true {
+					self.currentCIImage = self.autoEnchance(ciInput: self.currentCIImage) ?? CIImage()
+				}
 				self.appleTuneSettings()
 			}
 		}
@@ -96,7 +98,7 @@ final class ImageProcessor
 
 	private func autoEnchance(ciInput: CIImage?) -> CIImage? {
 		if var ciImage = ciInput {
-			let adjustments = ciImage.autoAdjustmentFilters()
+			let adjustments = ciImage.autoAdjustmentFilters(options: [.redEye: false])
 			for filter in adjustments {
 				filter.setValue(ciImage, forKey: kCIInputImageKey)
 				if let outputImage = filter.outputImage {
@@ -110,23 +112,18 @@ final class ImageProcessor
 
 	private func appleTuneSettings() {
 
-		guard var ciInput = currentCIImage else { return }
+		currentCIImage = colorControls(ciInput: currentCIImage)
+		currentCIImage = rotateImage(ciImage: currentCIImage)
+		currentCIImage = vignette(ciInput: currentCIImage)
 
-		ciInput = colorControls(ciInput: ciInput) ?? CIImage()
-		ciInput = rotateImage(ciImage: ciInput) ?? CIImage()
-		ciInput = vignette(ciInput: ciInput) ?? CIImage()
-
-		if tuneSettings?.autoEnchancement == true {
-			ciInput = autoEnchance(ciInput: ciInput) ?? CIImage()
+		if let photoFilterOutput = photoFilter(ciInput: currentCIImage) {
+			currentCIImage = photoFilterOutput
 		}
 
-		if let photoFilterOutput = photoFilter(ciInput: ciInput) {
-			ciInput = photoFilterOutput
-		}
-
-		guard let cgImage = context.createCGImage(ciInput, from: ciInput.extent) else { return }
-		tunedImage = UIImage(cgImage: cgImage)
+		guard let ciOuput = currentCIImage else { return }
+		guard let cgImage = context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
 		DispatchQueue.main.async { [weak self] in
+			self?.tunedImage = UIImage(cgImage: cgImage)
 			self?.outputSource?.updateImage(image: self?.tunedImage)
 		}
 	}
