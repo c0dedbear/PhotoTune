@@ -52,7 +52,7 @@ final class ImageProcessor
 
 	private let context = CIContext()
 
-	func filteredImageForPreview(image: UIImage, with filter: CIFilter?) -> UIImage? {
+	private func filteredImageForPreview(image: UIImage, with filter: CIFilter?) -> UIImage? {
 		guard let filter = filter else { return image }
 		let ciInput = CIImage(image: image)
 		filter.setValue(ciInput, forKey: kCIInputImageKey)
