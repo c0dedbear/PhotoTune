@@ -145,7 +145,12 @@ private extension EditingScreenViewController
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
-	@objc func autoEnchanceTapped() { presenter.onAutoEnchanceTapped() }
+	@objc func autoEnchanceTapped() {
+		autoEnchanceButton.isSelected.toggle()
+		presenter.onAutoEnchanceTapped { image in
+			editingView.setImage(image)
+		}
+	}
 
 	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }
@@ -235,7 +240,9 @@ extension EditingScreenViewController: IToolViewDelegate
 	}
 
 	func loadTuneSettings() -> TuneSettings? {
-		presenter.getTuneSettings()
+		let settings = presenter.getTuneSettings()
+		autoEnchanceButton.isSelected = (settings?.autoEnchancement == true) ? true : false
+		return settings
 	}
 
 	func applyTuneSettings(_ settings: TuneSettings) {

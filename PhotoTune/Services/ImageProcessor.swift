@@ -89,9 +89,27 @@ final class ImageProcessor
 		return filter.outputImage
 	}
 
+	private func autoEnchance(ciInput: CIImage?) -> CIImage? {
+		if var ciImage = ciInput {
+			let adjustments = ciImage.autoAdjustmentFilters()
+			for filter in adjustments {
+				filter.setValue(ciImage, forKey: kCIInputImageKey)
+				if let outputImage = filter.outputImage {
+					ciImage = outputImage
+				}
+			}
+			return ciImage
+		}
+		return nil
+	}
+
 	private func appleTuneSettings() {
 
 		guard var ciInput = currentCIImage else { return }
+
+		if tuneSettings?.autoEnchancement == true {
+				ciInput = autoEnchance(ciInput: ciInput) ?? CIImage()
+			}
 
 		ciInput = colorControls(ciInput: ciInput) ?? CIImage()
 		ciInput = rotateImage(ciImage: ciInput) ?? CIImage()

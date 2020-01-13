@@ -32,7 +32,7 @@ protocol IEditingScreenPresenter
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
-	func onAutoEnchanceTapped()
+	func onAutoEnchanceTapped(image: (UIImage?) -> Void)
 }
 
 final class EditingScreenPresenter
@@ -139,8 +139,9 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func onAutoEnchanceTapped() {
-		//image proccessing
+	func onAutoEnchanceTapped(image: (UIImage?) -> Void) {
+		imageProcessor.tuneSettings?.autoEnchancement.toggle()
+		image(imageProcessor.tunedImage)
 	}
 
 	func onCancelTapped() {
