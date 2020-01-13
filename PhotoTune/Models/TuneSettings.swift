@@ -12,12 +12,18 @@ struct TuneSettings: Equatable, Codable
 {
 	var ciFilter: String?
 	var autoEnchancement = false
+
 	var brightnessIntensity = TuneSettingsDefaults.brightnessIntensity
 	var contrastIntensity = TuneSettingsDefaults.contrastIntensity
 	var saturationIntensity = TuneSettingsDefaults.saturationIntensity
+
 	var vignetteIntensity = TuneSettingsDefaults.vignetteIntensity
 	var vignetteRadius = TuneSettingsDefaults.vignetteRadius
+
 	var rotationAngle = TuneSettingsDefaults.rotationAngle
+
+	var sharpnessIntensity = TuneSettingsDefaults.sharpnessIntensity
+	var sharpnessRadius = TuneSettingsDefaults.sharpnessRadius
 
 	mutating func limitRotationAngle() {
 		if rotationAngle > TuneSettingsDefaults.rotationPositiveAngleLimit ||
@@ -44,6 +50,11 @@ struct TuneSettings: Equatable, Codable
 		if saturationIntensity < TuneSettingsDefaults.saturationIntensityStep
 			&& saturationIntensity > TuneSettingsDefaults.saturationIntensity {
 			saturationIntensity = TuneSettingsDefaults.saturationIntensity
+		}
+
+		if (sharpnessIntensity - TuneSettingsDefaults.sharpnessIntensity) < TuneSettingsDefaults.sharpnessIntensityStep
+			&& sharpnessIntensity > TuneSettingsDefaults.sharpnessIntensity {
+			sharpnessIntensity = TuneSettingsDefaults.sharpnessIntensity
 		}
 	}
 }
@@ -74,4 +85,10 @@ enum TuneSettingsDefaults
 	static let rotationPositiveAngleLimit: CGFloat = 6.2
 	static let rotationNegativeAngleLimit: CGFloat = -6.2
 	static let rotationAngleStep: CGFloat = 90 * (.pi / 180)
+
+	static let sharpnessIntensity: Float = 0.5
+	static let sharpnessRadius: Float = 2.5
+	static let minSharpnessIntensity: Float = -0.5
+	static let maxSharpnessIntensity: Float = 1.5
+	static let sharpnessIntensityStep: Float = 0.018
 }

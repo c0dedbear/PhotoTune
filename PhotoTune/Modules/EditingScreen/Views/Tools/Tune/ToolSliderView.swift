@@ -90,6 +90,8 @@ final class ToolSliderView: UIStackView
 			intensitySlider.configureForContrast()
 		case .saturation:
 			intensitySlider.configureForSaturation()
+		case .sharpness:
+			intensitySlider.configureForSharpness()
 		case .vignette:
 			intensitySlider.configureForVignetteIntensity()
 			intensityChanged() //for immediately applying vignette effect
@@ -107,6 +109,9 @@ final class ToolSliderView: UIStackView
 			intensitySlider.updateLabel()
 		case .saturation:
 			currentTuneSettings.saturationIntensity = intensitySlider.value
+			intensitySlider.updateLabel()
+		case .sharpness:
+			currentTuneSettings.sharpnessIntensity = intensitySlider.value
 			intensitySlider.updateLabel()
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = intensitySlider.value
@@ -126,6 +131,9 @@ final class ToolSliderView: UIStackView
 		case .saturation:
 			currentTuneSettings.saturationIntensity = savedTuneSettings?.saturationIntensity
 				?? TuneSettingsDefaults.saturationIntensity
+		case .sharpness:
+			currentTuneSettings.sharpnessIntensity = savedTuneSettings?.sharpnessIntensity
+				?? TuneSettingsDefaults.sharpnessIntensity
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = savedTuneSettings?.vignetteIntensity
 				?? TuneSettingsDefaults.vignetteIntensity

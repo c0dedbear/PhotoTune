@@ -71,6 +71,13 @@ final class ToolSlider: UISlider
 		updateLabel()
 	}
 
+	func configureForSharpness() {
+		minimumValue = TuneSettingsDefaults.minSharpnessIntensity
+		maximumValue = TuneSettingsDefaults.maxSharpnessIntensity
+		value = tuneSettings?.sharpnessIntensity ?? TuneSettingsDefaults.sharpnessIntensity
+		updateLabel()
+	}
+
 	func configureForVignetteIntensity() {
 		minimumValue = TuneSettingsDefaults.minVignetteIntensity
 		maximumValue = TuneSettingsDefaults.maxVignetteIntensity

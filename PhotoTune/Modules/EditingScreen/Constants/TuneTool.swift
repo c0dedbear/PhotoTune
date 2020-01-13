@@ -18,6 +18,7 @@ enum TuneTool: CaseIterable, Equatable
 			TuneTool.contrast(),
 			TuneTool.saturation(),
 			TuneTool.vignette(),
+			TuneTool.sharpness(),
 		]
 	}
 
@@ -26,16 +27,15 @@ enum TuneTool: CaseIterable, Equatable
 		case .brightness(let title, let image),
 			 .contrast(let title, let image),
 			 .saturation(let title, let image),
-			 .vignette(let title, let image):
+			 .vignette(let title, let image),
+			 .sharpness(let title, let image):
 			return (title, image)
 		}
 	}
 
 	case brightness(title: String = "Brightness", image: UIImage? = UIImage(named: "brightness"))
-
 	case contrast(title: String = "Contrast", image: UIImage? = UIImage(named: "contrast"))
-
 	case saturation(title: String = "Saturation", image: UIImage? = UIImage(named: "saturation"))
-
 	case vignette(title: String = "Vignette", image: UIImage? = UIImage(named: "vignette"))
+	case sharpness(title: String = "Sharpness", image: UIImage? = UIImage(named: "sharpness"))
 }
