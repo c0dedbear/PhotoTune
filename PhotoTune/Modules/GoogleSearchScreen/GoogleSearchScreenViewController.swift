@@ -90,7 +90,7 @@ final class GoogleSearchScreenViewController: UIViewController
 									  message: "By clicking on the \"Select\" button, you will enter the editing mode",
 									  preferredStyle: .alert)
 		let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
-			self.presenter.loadImage(urlString: self.photos[index].urls.regular, index: index, cell: false)
+					self.presenter.loadImage(urlString: self.photos[index].urls.regular, cell: false) { _ in }
 		}
 		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
 		alert.addAction(cancelAction)
@@ -157,7 +157,10 @@ extension GoogleSearchScreenViewController: UICollectionViewDataSource
 		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
-		presenter.loadImage(urlString: photos[indexPath.item].urls.small, index: indexPath.item, cell: true)
+		presenter.loadImage(urlString: photos[indexPath.item].urls.small,
+							cell: true) { image in
+			cell.imageView.image = image
+		}
 		cell.layoutIfNeeded()
 		return cell
 	}
