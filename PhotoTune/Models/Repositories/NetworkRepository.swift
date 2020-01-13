@@ -31,8 +31,8 @@ final class NetworkRepository
 							forHTTPHeaderField: "Authorization")
 		let task = URLSession.shared.dataTask(with: urlRequest) { data, _, error in
 			self.fetchDataQueue.async {
-				if let newError = error {
-					completion(.failure(.sessionError(newError)))
+				if error != nil {
+					completion(.failure(.sessionError))
 					return
 				}
 				if let data = data {
@@ -56,7 +56,7 @@ extension NetworkRepository: INetworkRepository
 						completion(.success(googleImages))
 					}
 					catch {
-						completion(.failure(NetworkError.dataError(error)))
+						completion(.failure(NetworkError.dataError))
 						return
 					}
 				case .failure(let error):
@@ -76,7 +76,7 @@ extension NetworkRepository: INetworkRepository
 						completion(.success(googleImages.results))
 					}
 					catch {
-						completion(.failure(NetworkError.dataError(error)))
+						completion(.failure(NetworkError.dataError))
 						return
 					}
 				case .failure(let error):

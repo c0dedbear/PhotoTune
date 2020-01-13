@@ -36,9 +36,20 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 			switch googleImagesResult {
 			case .success(let data):
 				DispatchQueue.main.async {
-					self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
+					if data.count == 0 {
+						self.googleSearchScreen?.checkResultOfRequest(isEmpty: true, errorText: "", searchTerm: nil)
+					}
+					else {
+						self.googleSearchScreen?.checkResultOfRequest(isEmpty: false, errorText: "", searchTerm: nil)
+						self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
+					}
 				}
-			case .failure: break
+			case .failure(let error):
+				DispatchQueue.main.async {
+					self.googleSearchScreen?.checkResultOfRequest(isEmpty: true,
+																  errorText: error.localizedDescription,
+																  searchTerm: nil)
+				}
 			}
 		}
 	}
@@ -49,9 +60,20 @@ extension GoogleSearchScreenPresenter: IGoogleSearchScreenPresenter
 			switch googleImagesResult {
 			case .success(let data):
 				DispatchQueue.main.async {
-					self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
+					if data.count == 0 {
+						self.googleSearchScreen?.checkResultOfRequest(isEmpty: true, errorText: "", searchTerm: searchTerm)
+					}
+					else {
+						self.googleSearchScreen?.checkResultOfRequest(isEmpty: false, errorText: "", searchTerm: nil)
+						self.googleSearchScreen?.updatePhotosArray(photosInfo: data)
+					}
 				}
-			case .failure: break
+			case .failure(let error):
+				DispatchQueue.main.async {
+					self.googleSearchScreen?.checkResultOfRequest(isEmpty: true,
+																  errorText: error.localizedDescription,
+																  searchTerm: nil)
+				}
 			}
 		}
 	}

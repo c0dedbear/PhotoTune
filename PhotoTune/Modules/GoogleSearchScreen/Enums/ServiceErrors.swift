@@ -10,8 +10,21 @@ import Foundation
 
 enum NetworkError: Error
 {
-	case sessionError(Error)
-	case notFound(Error)
-	case dataError(Error)
+	case sessionError
+	case dataError
 	case statusCode(Int)
+}
+
+extension NetworkError: LocalizedError
+{
+	var errorDescription: String? {
+		switch self {
+		case .sessionError:
+			return NSLocalizedString("Check your internet connection", comment: "")
+		case .dataError:
+			return NSLocalizedString("Error loading", comment: "")
+		case .statusCode(let code):
+			return NSLocalizedString("Status code: \(code)", comment: "")
+		}
+	}
 }
