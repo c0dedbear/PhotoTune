@@ -138,7 +138,6 @@ private extension EditingScreenViewController
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
 	@objc func autoEnchanceTapped() {
-		editingView.showActivityIndicator()
 		autoEnchanceButton.isSelected.toggle()
 		presenter.onAutoEnchanceTapped()
 	}
@@ -170,7 +169,6 @@ extension EditingScreenViewController: IEditingScreen
 	func updateImageView(image: UIImage?) {
 		DispatchQueue.main.async { [weak self] in
 			self?.editingView.setImage(image)
-			self?.editingView.removeActivityIndicator()
 		}
 	}
 

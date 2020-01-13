@@ -19,6 +19,8 @@ final class AutoEnchanceButton: UIButton
 		else {
 			setImage(UIImage(named: "autoEnchance"), for: .normal)
 		}
+		frame.size.width = 72
+		frame.size.height = 72
 	}
 
 	@available(*, unavailable)
