@@ -155,16 +155,12 @@ private extension EditedImagesCollectionViewController
 		navigationItem.leftBarButtonItem = editBarButton
 		let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
 		navigationItem.backBarButtonItem = backButton
+		deleteBarButton.tintColor = .red
 
 		if #available(iOS 13.0, *) {
-			navigationController?.navigationBar.tintColor = .label
 			collectionView.backgroundColor = .systemBackground
 		}
-		else {
-			navigationController?.navigationBar.tintColor = .black
-			collectionView.backgroundColor = .white
-		}
-		deleteBarButton.tintColor = .red
+		else { collectionView.backgroundColor = .white }
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
 		addingView.addingButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -205,6 +201,7 @@ private extension EditedImagesCollectionViewController
 				imagePicker.sourceType = .camera
 				self.present(imagePicker, animated: true)
 			}
+			cameraAction.setValue(UIImage(named: "camera"), forKey: "image")
 			alert.addAction(cameraAction)
 		}
 		if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
@@ -212,11 +209,14 @@ private extension EditedImagesCollectionViewController
 				imagePicker.sourceType = .photoLibrary
 				self.present(imagePicker, animated: true)
 			}
+			photoLibraryAction.setValue(UIImage(named: "image-gallery"), forKey: "image")
 			alert.addAction(photoLibraryAction)
 		}
+
 		let findAction = UIAlertAction(title: "Find with Unsplash", style: .default) { _ in
 			self.presenter.transferToSearchScreen()
 		}
+		findAction.setValue(UIImage(named: "unsplash"), forKey: "image")
 		alert.addAction(findAction)
 
 		cancelAction(alert, sender)

@@ -75,13 +75,6 @@ final class EditingScreenViewController: UIViewController
 private extension EditingScreenViewController
 {
 	func setupNavigationBar() {
-		if #available(iOS 13.0, *) {
-			navigationController?.navigationBar.tintColor = .label
-		}
-		else {
-			navigationController?.navigationBar.tintColor = .black
-		}
-
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
 			target: self,
@@ -121,13 +114,11 @@ private extension EditingScreenViewController
 			filtersButton.setImage(UIImage(systemName: "f.circle"), for: .normal)
 			tuneButton.setImage(UIImage(systemName: "slider.horizontal.3"), for: .normal)
 			rotateButton.setImage(UIImage(systemName: "crop.rotate"), for: .normal)
-			navigationController?.toolbar.tintColor = .label
 		}
 		else {
 			filtersButton.setImage(ToolBarImage.filters, for: .normal)
 			tuneButton.setImage(ToolBarImage.tune, for: .normal)
 			rotateButton.setImage(ToolBarImage.rotation, for: .normal)
-			navigationController?.toolbar.tintColor = .black
 		}
 
 		let filtersBarButton = UIBarButtonItem(customView: filtersButton)
@@ -209,9 +200,6 @@ extension EditingScreenViewController: IEditingScreen
 		let okAction = UIAlertAction(title: "OK", style: .cancel) { [weak self] _ in
 			if dismiss { self?.dismiss(toRoot: true, completion: nil) }
 		}
-		if #available(iOS 13.0, *) {
-			ac.view.tintColor = .label
-		}
 		ac.addAction(okAction)
 		present(ac, animated: true)
 	}
@@ -222,9 +210,6 @@ extension EditingScreenViewController: IEditingScreen
 			self?.dismiss(toRoot: false, completion: nil)
 		}
 		let cancelAction = UIAlertAction(title: "No", style: .cancel)
-		if #available(iOS 13.0, *) {
-			ac.view.tintColor = .label
-		}
 		ac.addAction(yesAction)
 		ac.addAction(cancelAction)
 		present(ac, animated: true)
