@@ -12,6 +12,7 @@ protocol IGoogleSearchScreenViewController
 {
 	func updateCellImage(index: Int, image: UIImage)
 	func updatePhotosArray(photosInfo: [GoogleImage])
+	func checkResultOfRequest(isEmpty: Bool, errorText: String, searchTerm: String?)
 }
 
 final class GoogleSearchScreenViewController: UIViewController
@@ -22,6 +23,7 @@ final class GoogleSearchScreenViewController: UIViewController
 	private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 	private let layout = CustomCollectionViewLayout()
 	private var photos = [GoogleImage]()
+	private let searchStubLabel = UILabel()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -29,6 +31,7 @@ final class GoogleSearchScreenViewController: UIViewController
 		self.title = "Search"
 		setupSearchBar()
 		setupCollectionView()
+		setupSearchStubLabel()
 		presenter.getRandomImages()
 	}
 
@@ -71,6 +74,18 @@ final class GoogleSearchScreenViewController: UIViewController
 		collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 	}
 
+	private func setupSearchStubLabel() {
+		view.backgroundColor = .white
+		view.addSubview(searchStubLabel)
+		searchStubLabel.textColor = .gray
+		searchStubLabel.numberOfLines = 0
+		searchStubLabel.textAlignment = .center
+		searchStubLabel.isHidden = true
+		searchStubLabel.translatesAutoresizingMaskIntoConstraints = false
+		searchStubLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+		searchStubLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+	}
+
 	private func presentAlert(index: Int) {
 		let alert = UIAlertController(title: "Select an image",
 									  message: "By clicking on the \"Select\" button, you will enter the editing mode",
@@ -95,7 +110,12 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 		timer = Timer.scheduledTimer(withTimeInterval: 0.5,
 									 repeats: false,
 									 block: { _ in
-										self.presenter.getImages(with: searchText)
+										if searchText.isEmpty {
+											return
+										}
+										else {
+											self.presenter.getImages(with: searchText)
+										}
 		})
 	}
 }
@@ -111,6 +131,23 @@ extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 	func updatePhotosArray(photosInfo: [GoogleImage]) {
 		self.photos = photosInfo
 		self.collectionView.reloadData()
+	}
+
+	func checkResultOfRequest(isEmpty: Bool, errorText: String, searchTerm: String?) {
+		if isEmpty {
+			self.collectionView.isHidden = true
+			self.searchStubLabel.isHidden = false
+			if searchTerm != nil {
+				self.searchStubLabel.text = "Nothing found of query \"\(searchController.searchBar.text ?? "")\""
+			}
+			else {
+				self.searchStubLabel.text = errorText
+			}
+		}
+		else {
+			self.collectionView.isHidden = false
+			self.searchStubLabel.isHidden = true
+		}
 	}
 }
 
