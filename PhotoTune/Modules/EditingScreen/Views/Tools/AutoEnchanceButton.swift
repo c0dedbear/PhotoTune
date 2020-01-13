@@ -14,7 +14,7 @@ final class AutoEnchanceButton: UIButton
 		super.init(frame: .zero)
 		if #available(iOS 13.0, *) {
 			setImage(UIImage(systemName: "bolt.badge.a"), for: .normal)
-			setImage(UIImage(systemName: "bolt.badge.a.filled"), for: .selected)
+			setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .selected)
 		}
 		else {
 			setImage(UIImage(named: "autoEnchance"), for: .normal)

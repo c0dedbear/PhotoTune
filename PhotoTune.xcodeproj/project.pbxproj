@@ -54,6 +54,7 @@
 		E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
+		E98382F123CBEA9900508D9E /* UIView+ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98382F023CBEA9900508D9E /* UIView+ActivityIndicator.swift */; };
 		E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AD78623C4AD9D000E4655 /* StorageService.swift */; };
 		E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* AlertMessages.swift */; };
 		E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */; };
@@ -110,6 +111,7 @@
 		E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
+		E98382F023CBEA9900508D9E /* UIView+ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ActivityIndicator.swift"; sourceTree = "<group>"; };
 		E99AD78623C4AD9D000E4655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		E9AD494B23CA04B600D65B95 /* AlertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessages.swift; sourceTree = "<group>"; };
 		E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Constraints.swift"; sourceTree = "<group>"; };
@@ -244,6 +246,7 @@
 		E902890F23AE75F100F28FBA /* UIExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				E98382F023CBEA9900508D9E /* UIView+ActivityIndicator.swift */,
 				E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */,
 				E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */,
 				E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */,
@@ -489,6 +492,7 @@
 				E91518C023B91F6600F18218 /* UISlider+FrameAndBounds.swift in Sources */,
 				E902890423AE75D400F28FBA /* EditingScreenMetrics.swift in Sources */,
 				2247572023C9EC860030C9EE /* ServiceErrors.swift in Sources */,
+				E98382F123CBEA9900508D9E /* UIView+ActivityIndicator.swift in Sources */,
 				E902890123AE75D400F28FBA /* EditingScreenPresenter.swift in Sources */,
 				D094AF8F23C66A8E00D863FF /* EditedImagesPresenter.swift in Sources */,
 				D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */,
