@@ -36,4 +36,11 @@ enum Filter
 		("Instant", CIFilter(name: "CIPhotoEffectInstant"), nil),
 		("Mono", CIFilter(name: "CIColorMonochrome"), nil),
 	]
+
+	static let controlsChainFilters = [
+		Filter.colorControls.ciFilter,
+		Filter.sharpness.ciFilter,
+		Filter.vignette.ciFilter,
+		Filter.transform.ciFilter,
+	]
 }

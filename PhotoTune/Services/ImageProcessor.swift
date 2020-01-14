@@ -12,41 +12,46 @@ import UIKit
 
 protocol IImageProcessor
 {
-	var currentImage: UIImage? { get set }
-	var tuneSettings: TuneSettings? { get set }
+	var initialImage: UIImage? { get set }
+	var resizedImage: UIImage? { get }
 	var tunedImage: UIImage? { get set }
-	var outputSource: IEditingScreenPresenter? { get set }
 
+	var tuneSettings: TuneSettings? { get set }
+	var outputSource: IImageProcessorOutputSource? { get set }
+
+	func resizedImage(_ image: UIImage?, for size: CGSize) -> UIImage?
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
+}
+
+protocol IImageProcessorOutputSource
+{
+	var scaleFactor: CGFloat { get }
+	var scale: CGAffineTransform { get }
+	var size: CGSize { get }
+
+	func updateImage(image: UIImage?)
 }
 
 final class ImageProcessor
 {
-	var outputSource: IEditingScreenPresenter?
-
-	private var currentFilter: CIFilter? {
-		didSet {
-			guard let currentImage = currentImage else { return }
-			let beginImage = CIImage(image: currentImage)
-			currentCIImage = beginImage
-			DispatchQueue.global(qos: .userInteractive).async {
-				if self.tuneSettings?.autoEnchancement == true {
-					self.currentCIImage = self.autoEnchance(ciInput: self.currentCIImage) ?? CIImage()
-				}
-				self.appleTuneSettings()
-			}
-		}
-	}
+	var outputSource: IImageProcessorOutputSource?
 
 	private var currentCIImage: CIImage?
+	private var currentPhotoFilter: CIFilter? { CIFilter(name: tuneSettings?.ciFilter ?? "") }
+	private let filtersChain = Filter.controlsChainFilters
 
-	var currentImage: UIImage?
+	var initialImage: UIImage?
 	var tunedImage: UIImage?
 
 	var tuneSettings: TuneSettings? {
 		didSet {
 			tuneSettings?.limitRotationAngle()
-			currentFilter = CIFilter(name: tuneSettings?.ciFilter ?? "")
+//			DispatchQueue.global(qos: .userInteractive).async {
+//				if self.tuneSettings?.autoEnchancement == true {
+//					self.currentCIImage = self.autoEnchance(ciInput: self.currentCIImage) ?? CIImage()
+//				}
+				self.appleTuneSettings()
+//			}
 		}
 	}
 
@@ -66,9 +71,11 @@ final class ImageProcessor
 		return photoFilter.outputImage
 	}
 
-	private func colorControls(ciInput: CIImage?) -> CIImage? {
+	private func colorControls() -> CIImage? {
+		guard let image = resizedImage else { return nil }
+		guard let ciImage = CIImage(image: image) else { return nil }
 		guard let colorFilter = Filter.colorControls.ciFilter else { return nil }
-		colorFilter.setValue(ciInput, forKey: kCIInputImageKey)
+		colorFilter.setValue(ciImage, forKey: kCIInputImageKey)
 		colorFilter.setValue(tuneSettings?.brightnessIntensity, forKey: kCIInputBrightnessKey)
 		colorFilter.setValue(tuneSettings?.saturationIntensity, forKey: kCIInputSaturationKey)
 		colorFilter.setValue(tuneSettings?.contrastIntensity, forKey: kCIInputContrastKey)
@@ -120,7 +127,12 @@ final class ImageProcessor
 
 	private func appleTuneSettings() {
 
-		currentCIImage = colorControls(ciInput: currentCIImage)
+		if currentCIImage == nil {
+			DispatchQueue.main.async {
+				self.currentCIImage = self.colorControls()
+			}
+		}
+
 		currentCIImage = rotateImage(ciImage: currentCIImage)
 		currentCIImage = vignette(ciInput: currentCIImage)
 		currentCIImage = sharpness(ciInput: currentCIImage)
@@ -140,6 +152,8 @@ final class ImageProcessor
 
 extension ImageProcessor: IImageProcessor
 {
+	var resizedImage: UIImage? { resizedImage(initialImage, for: outputSource?.size ?? .zero) }
+
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
 		var previews = [(title: String, image: UIImage?)]()
 		for index in 0..<Filter.photoFilters.count {
@@ -148,5 +162,17 @@ extension ImageProcessor: IImageProcessor
 			previews.append((preview.title, image))
 		}
 		return previews
+	}
+
+	func resizedImage(_ image: UIImage?, for size: CGSize) -> UIImage? {
+		guard let image = image else { return nil }
+		print(size)
+
+		let renderer = UIGraphicsImageRenderer(size: size)
+		let newImage = renderer.image { _ in
+			image.draw(in: CGRect(origin: .zero, size: size))
+		}
+		print(newImage.size)
+		return newImage
 	}
 }

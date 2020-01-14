@@ -11,6 +11,7 @@ import UIKit
 protocol IEditingScreen
 {
 	var currentImage: UIImage? { get }
+	var imageViewSize: CGSize { get }
 
 	func showFiltersTool()
 	func showTuneTools()
@@ -166,11 +167,12 @@ private extension EditingScreenViewController
 	// MARK: - IEditingScreen
 extension EditingScreenViewController: IEditingScreen
 {
+	var currentImage: UIImage? { editingView.currentImage }
+	var imageViewSize: CGSize { editingView.imageViewSize }
+
 	func updateImageView(image: UIImage?) {
 		editingView.setImage(image)
 	}
-
-	var currentImage: UIImage? { editingView.currentImage }
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
 		if toRoot {

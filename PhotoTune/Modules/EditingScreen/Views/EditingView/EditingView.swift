@@ -31,6 +31,7 @@ final class EditingView: UIView
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
 	var currentImage: UIImage? { imageView.image }
+	var imageViewSize: CGSize { imageView.bounds.size }
 
 	var heightForCell: CGFloat {
 		if toolCollectionViewDataSource?.editingType == .filters {
