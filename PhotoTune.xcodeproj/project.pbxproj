@@ -55,6 +55,7 @@
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
 		E98382F323CDB66300508D9E /* UIImageView+Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */; };
+		E98382F523CDCCD100508D9E /* ChangedInstrument.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98382F423CDCCD100508D9E /* ChangedInstrument.swift */; };
 		E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AD78623C4AD9D000E4655 /* StorageService.swift */; };
 		E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* AlertMessages.swift */; };
 		E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */; };
@@ -112,6 +113,7 @@
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
 		E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Scaling.swift"; sourceTree = "<group>"; };
+		E98382F423CDCCD100508D9E /* ChangedInstrument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangedInstrument.swift; sourceTree = "<group>"; };
 		E99AD78623C4AD9D000E4655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		E9AD494B23CA04B600D65B95 /* AlertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessages.swift; sourceTree = "<group>"; };
 		E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Constraints.swift"; sourceTree = "<group>"; };
@@ -380,10 +382,19 @@
 			path = Rotation;
 			sourceTree = "<group>";
 		};
-		E99AD78523C4AD72000E4655 /* Services */ = {
+		E98382F623CDCE4B00508D9E /* ImageProcessing */ = {
 			isa = PBXGroup;
 			children = (
 				E90288F023AE75D300F28FBA /* ImageProcessor.swift */,
+				E98382F423CDCCD100508D9E /* ChangedInstrument.swift */,
+			);
+			path = ImageProcessing;
+			sourceTree = "<group>";
+		};
+		E99AD78523C4AD72000E4655 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E98382F623CDCE4B00508D9E /* ImageProcessing */,
 				E99AD78623C4AD9D000E4655 /* StorageService.swift */,
 			);
 			path = Services;
@@ -504,6 +515,7 @@
 				E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */,
 				2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */,
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
+				E98382F523CDCCD100508D9E /* ChangedInstrument.swift in Sources */,
 				E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */,
 				E902890723AE75D400F28FBA /* FiltersCollectionViewCell.swift in Sources */,
 				D094AF9123C66AB400D863FF /* EditedImagesCollectionViewController.swift in Sources */,

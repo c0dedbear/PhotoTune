@@ -16,4 +16,5 @@ enum AlertMessages
 	static let noStoredData = "No stored data"
 	static let cancelTappedTitle = "Closing Editor"
 	static let cancelTappedMessage = "Do you really want close editor?\nIf you have unsaved settings, they will be lost. "
+	static let unknownInstrumentChanged = "Unknown Instrument Changed"
 }
