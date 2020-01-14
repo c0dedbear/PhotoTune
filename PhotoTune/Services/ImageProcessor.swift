@@ -10,52 +10,60 @@ import Foundation
 import CoreImage
 import UIKit
 
-protocol IImageProcessor
+protocol IImageProcessor: AnyObject
 {
 	var initialImage: UIImage? { get set }
-	var resizedImage: UIImage? { get }
 	var tunedImage: UIImage? { get set }
 
 	var tuneSettings: TuneSettings? { get set }
 	var outputSource: IImageProcessorOutputSource? { get set }
 
-	func resizedImage(_ image: UIImage?, for size: CGSize) -> UIImage?
+	func clearContexCache()
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 }
 
-protocol IImageProcessorOutputSource
+protocol IImageProcessorOutputSource: AnyObject
 {
-	var scaleFactor: CGFloat { get }
-	var scale: CGAffineTransform { get }
-	var size: CGSize { get }
-
 	func updateImage(image: UIImage?)
 }
 
 final class ImageProcessor
 {
-	var outputSource: IImageProcessorOutputSource?
-
+	private let context: CIContext
 	private var currentCIImage: CIImage?
-	private var currentPhotoFilter: CIFilter? { CIFilter(name: tuneSettings?.ciFilter ?? "") }
-	private let filtersChain = Filter.controlsChainFilters
+	private let throttler = Throttler(minimumDelay: 0.0125)
+	private let enhanceThrottler = Throttler(minimumDelay: 0.045)
 
+	weak var outputSource: IImageProcessorOutputSource?
 	var initialImage: UIImage?
-	var tunedImage: UIImage?
+	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.7) }
+	var tunedImage: UIImage? { didSet { outputSource?.updateImage(image: tunedImage) } }
 
 	var tuneSettings: TuneSettings? {
 		didSet {
-			tuneSettings?.limitRotationAngle()
-//			DispatchQueue.global(qos: .userInteractive).async {
-//				if self.tuneSettings?.autoEnchancement == true {
-//					self.currentCIImage = self.autoEnchance(ciInput: self.currentCIImage) ?? CIImage()
-//				}
+			print(tuneSettings?.autoEnchancement)
+			throttler.throttle {
 				self.appleTuneSettings()
-//			}
+			}
 		}
 	}
 
-	private let context = CIContext()
+	var flag = false
+
+	init() {
+		if let device = MTLCreateSystemDefaultDevice() {
+			//use Metal
+			context = CIContext(mtlDevice: device,
+								options: [
+				CIContextOption.highQualityDownsample: true,
+				CIContextOption.cacheIntermediates: true,
+			])
+		}
+		else {
+			// use CPU
+			context = CIContext()
+		}
+	}
 
 	private func filteredImageForPreview(image: UIImage, with filter: CIFilter?) -> UIImage? {
 		guard let filter = filter else { return image }
@@ -71,11 +79,9 @@ final class ImageProcessor
 		return photoFilter.outputImage
 	}
 
-	private func colorControls() -> CIImage? {
-		guard let image = resizedImage else { return nil }
-		guard let ciImage = CIImage(image: image) else { return nil }
+	private func colorControls(ciInput: CIImage?) -> CIImage? {
 		guard let colorFilter = Filter.colorControls.ciFilter else { return nil }
-		colorFilter.setValue(ciImage, forKey: kCIInputImageKey)
+		colorFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		colorFilter.setValue(tuneSettings?.brightnessIntensity, forKey: kCIInputBrightnessKey)
 		colorFilter.setValue(tuneSettings?.saturationIntensity, forKey: kCIInputSaturationKey)
 		colorFilter.setValue(tuneSettings?.contrastIntensity, forKey: kCIInputContrastKey)
@@ -113,7 +119,7 @@ final class ImageProcessor
 
 	private func autoEnchance(ciInput: CIImage?) -> CIImage? {
 		if var ciImage = ciInput {
-			let adjustments = ciImage.autoAdjustmentFilters(options: [.redEye: false])
+			let adjustments = ciImage.autoAdjustmentFilters(options: [.enhance: true])
 			for filter in adjustments {
 				filter.setValue(ciImage, forKey: kCIInputImageKey)
 				if let outputImage = filter.outputImage {
@@ -126,13 +132,13 @@ final class ImageProcessor
 	}
 
 	private func appleTuneSettings() {
+		print("Appling settings")
+		guard let imageData = jpegData else { return }
+		guard let resizedImage = UIImage(data: imageData)?.resized(withPercentage: 0.5) else { return }
 
-		if currentCIImage == nil {
-			DispatchQueue.main.async {
-				self.currentCIImage = self.colorControls()
-			}
-		}
+		currentCIImage = CIImage(image: resizedImage)
 
+		currentCIImage = colorControls(ciInput: currentCIImage)
 		currentCIImage = rotateImage(ciImage: currentCIImage)
 		currentCIImage = vignette(ciInput: currentCIImage)
 		currentCIImage = sharpness(ciInput: currentCIImage)
@@ -141,18 +147,31 @@ final class ImageProcessor
 			currentCIImage = photoFilterOutput
 		}
 
+//		enhanceThrottler.throttle {
+			if self.tuneSettings?.autoEnchancement == true && flag == true {
+				print("Appling autoenhance")
+				guard let ciOuput = self.autoEnchance(ciInput: self.currentCIImage) else { return }
+				currentCIImage = ciOuput
+				flag = false
+			}
+			else {
+					flag = true
+				}
+//		}
+
 		guard let ciOuput = currentCIImage else { return }
 		guard let cgImage = context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
-		DispatchQueue.main.async { [weak self] in
-			self?.tunedImage = UIImage(cgImage: cgImage)
-			self?.outputSource?.updateImage(image: self?.tunedImage)
-		}
+
+		tunedImage = UIImage(cgImage: cgImage)
+		print("Finished Appling settings")
 	}
 }
 
 extension ImageProcessor: IImageProcessor
 {
-	var resizedImage: UIImage? { resizedImage(initialImage, for: outputSource?.size ?? .zero) }
+	func clearContexCache() {
+		context.clearCaches()
+	}
 
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
 		var previews = [(title: String, image: UIImage?)]()
@@ -163,16 +182,21 @@ extension ImageProcessor: IImageProcessor
 		}
 		return previews
 	}
+}
 
-	func resizedImage(_ image: UIImage?, for size: CGSize) -> UIImage? {
-		guard let image = image else { return nil }
-		print(size)
-
-		let renderer = UIGraphicsImageRenderer(size: size)
-		let newImage = renderer.image { _ in
-			image.draw(in: CGRect(origin: .zero, size: size))
+extension UIImage
+{
+	func resized(withPercentage percentage: CGFloat) -> UIImage? {
+		let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
+		return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image { _ in
+			draw(in: CGRect(origin: .zero, size: canvas))
 		}
-		print(newImage.size)
-		return newImage
+	}
+	func resized(toWidth width: CGFloat) -> UIImage? {
+		let canvas = CGSize(width: width, height: CGFloat(ceil(width / size.width * size.height)))
+		return UIGraphicsImageRenderer(
+			size: canvas,
+			format: imageRendererFormat).image { _ in draw(in: CGRect(origin: .zero, size: canvas))
+		}
 	}
 }

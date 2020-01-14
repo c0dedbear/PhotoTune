@@ -32,7 +32,7 @@ protocol IEditingScreenPresenter
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
-	func onAutoEnchanceTapped()
+	func onAutoEnchanceTapped(value: Bool)
 }
 
 final class EditingScreenPresenter
@@ -43,7 +43,7 @@ final class EditingScreenPresenter
 	private var imageProcessor: IImageProcessor
 	private var previews: [(title: String, image: UIImage?)] = []
 
-	var editingScreen: IEditingScreen?
+	weak var editingScreen: IEditingScreen?
 
 	init(
 		image: UIImage?,
@@ -140,8 +140,8 @@ final class EditingScreenPresenter
 
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
-	func onAutoEnchanceTapped() {
-		imageProcessor.tuneSettings?.autoEnchancement.toggle()
+	func onAutoEnchanceTapped(value: Bool) {
+		imageProcessor.tuneSettings?.autoEnchancement = value
 	}
 
 	func onCancelTapped() {
@@ -155,6 +155,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		else {
 			saveExistingImage()
 		}
+		imageProcessor.clearContexCache()
 	}
 
 	func onShareTapped() {
@@ -167,7 +168,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 
 	func getInitialImage() -> UIImage? {
 		if let image = image { return image }
-		return imageProcessor.resizedImage
+		return imageProcessor.tunedImage
 	}
 
 	func getFilteredImageFor(filterIndex: Int) {
@@ -191,18 +192,16 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 
 	func onRotateAntiClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
+		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 
 	func onRotateClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
+		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 }
 
 extension EditingScreenPresenter: IImageProcessorOutputSource
 {
-	var scaleFactor: CGFloat { UIScreen.main.scale }
-	var scale: CGAffineTransform { CGAffineTransform(scaleX: scaleFactor, y: scaleFactor) }
-	var size: CGSize { editingScreen?.imageViewSize.applying(scale) ?? CGSize.zero }
-
 	func updateImage(image: UIImage?) { editingScreen?.updateImageView(image: image) }
 }

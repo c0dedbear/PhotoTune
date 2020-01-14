@@ -8,10 +8,9 @@
 
 import UIKit
 
-protocol IEditingScreen
+protocol IEditingScreen: AnyObject
 {
 	var currentImage: UIImage? { get }
-	var imageViewSize: CGSize { get }
 
 	func showFiltersTool()
 	func showTuneTools()
@@ -140,7 +139,7 @@ private extension EditingScreenViewController
 	@objc func saveTapped() { presenter.onSaveTapped() }
 	@objc func autoEnchanceTapped() {
 		autoEnchanceButton.isSelected.toggle()
-		presenter.onAutoEnchanceTapped()
+		presenter.onAutoEnchanceTapped(value: autoEnchanceButton.isSelected)
 	}
 
 	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
@@ -168,11 +167,8 @@ private extension EditingScreenViewController
 extension EditingScreenViewController: IEditingScreen
 {
 	var currentImage: UIImage? { editingView.currentImage }
-	var imageViewSize: CGSize { editingView.imageViewSize }
 
-	func updateImageView(image: UIImage?) {
-		editingView.setImage(image)
-	}
+	func updateImageView(image: UIImage?) { editingView.setImage(image) }
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
 		if toRoot {
@@ -227,7 +223,6 @@ extension EditingScreenViewController: IToolViewDelegate
 
 	func loadTuneSettings() -> TuneSettings? {
 		let settings = presenter.getTuneSettings()
-		autoEnchanceButton.isSelected = (settings?.autoEnchancement == true) ? true : false
 		return settings
 	}
 
@@ -262,6 +257,7 @@ extension EditingScreenViewController: IToolCollectionViewDataSource
 
 	func showChangesIndicator(for tuneTool: TuneTool?) -> Bool? {
 		guard let settings = presenter.getTuneSettings() else { return nil }
+		autoEnchanceButton.isSelected = settings.autoEnchancement
 		switch tuneTool {
 		case .brightness:
 			return settings.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity

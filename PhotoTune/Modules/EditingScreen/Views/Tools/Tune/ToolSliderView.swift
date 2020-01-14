@@ -16,6 +16,8 @@ final class ToolSliderView: UIStackView
 	private let cancel = UIButton(type: .system)
 	private let done = UIButton(type: .system)
 
+	private let throttler = Throttler(minimumDelay: 0.0125)
+
 	var savedTuneSettings: TuneSettings? {
 		didSet {
 			guard let settings = savedTuneSettings else {
@@ -101,21 +103,29 @@ final class ToolSliderView: UIStackView
 
 	@objc func intensityChanged() {
 		switch currentTuneTool {
+		case .vignette:
+			intensitySlider.updateLabel(convertValues: false)
+		default:
+			intensitySlider.updateLabel()
+		}
+
+		throttler.throttle {
+			self.changeSettings()
+		}
+	}
+
+	private func changeSettings() {
+		switch currentTuneTool {
 		case .brightness:
 			currentTuneSettings.brightnessIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
 		case .contrast:
 			currentTuneSettings.contrastIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
 		case .saturation:
 			currentTuneSettings.saturationIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
 		case .sharpness:
 			currentTuneSettings.sharpnessIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = intensitySlider.value
-			intensitySlider.updateLabel(convertValues: false)
 		case .none: break
 		}
 	}
