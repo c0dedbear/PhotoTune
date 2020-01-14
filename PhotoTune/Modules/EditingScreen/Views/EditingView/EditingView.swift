@@ -48,6 +48,7 @@ final class EditingView: UIView
 		setupView()
 		setConstraints()
 		addTools()
+		editingView.tag = 2
 	}
 
 	@available(*, unavailable)
@@ -118,6 +119,7 @@ private extension EditingView
 		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		addSubview(imageView)
 		addSubview(editingView)
+		imageView.enableZoom()
 	}
 
 	func setConstraints() {
