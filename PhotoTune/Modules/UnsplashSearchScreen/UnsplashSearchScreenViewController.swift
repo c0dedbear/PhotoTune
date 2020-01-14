@@ -1,5 +1,5 @@
 //
-//  GoogleSearchScreenViewController.swift
+//  UnsplashSearchScreenViewController.swift
 //  PhotoTune
 //
 //  Created by Саша Руцман on 08.01.2020.
@@ -8,21 +8,21 @@
 
 import UIKit
 
-protocol IGoogleSearchScreenViewController
+protocol IUnsplashSearchScreenViewController
 {
 	func updateCellImage(index: Int, image: UIImage)
-	func updatePhotosArray(photosInfo: [GoogleImage])
+	func updatePhotosArray(photosInfo: [UnsplashImage])
 	func checkResultOfRequest(isEmpty: Bool, errorText: String, searchTerm: String?)
 }
 
-final class GoogleSearchScreenViewController: UIViewController
+final class UnsplashSearchScreenViewController: UIViewController
 {
-	private let presenter: IGoogleSearchScreenPresenter
+	private let presenter: IUnsplashSearchScreenPresenter
 	private var timer: Timer?
 	private let searchController = UISearchController(searchResultsController: nil)
 	private var collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
 	private let layout = CustomCollectionViewLayout()
-	private var photos = [GoogleImage]()
+	private var photos = [UnsplashImage]()
 	private let searchStubLabel = UILabel()
 
 	override func viewDidLoad() {
@@ -35,7 +35,7 @@ final class GoogleSearchScreenViewController: UIViewController
 		presenter.getRandomImages()
 	}
 
-	init(presenter: IGoogleSearchScreenPresenter) {
+	init(presenter: IUnsplashSearchScreenPresenter) {
 		self.presenter = presenter
 		super.init(nibName: nil, bundle: nil)
 	}
@@ -99,7 +99,7 @@ final class GoogleSearchScreenViewController: UIViewController
 	}
 }
 
-extension GoogleSearchScreenViewController: UISearchBarDelegate
+extension UnsplashSearchScreenViewController: UISearchBarDelegate
 {
 	func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 		timer?.invalidate()
@@ -116,7 +116,7 @@ extension GoogleSearchScreenViewController: UISearchBarDelegate
 	}
 }
 
-extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
+extension UnsplashSearchScreenViewController: IUnsplashSearchScreenViewController
 {
 	func updateCellImage(index: Int, image: UIImage) {
 		guard let cell = self.collectionView.cellForItem(at: IndexPath(row: index,
@@ -124,7 +124,7 @@ extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 		cell.imageView.image = image
 	}
 
-	func updatePhotosArray(photosInfo: [GoogleImage]) {
+	func updatePhotosArray(photosInfo: [UnsplashImage]) {
 		self.photos = photosInfo
 		self.collectionView.reloadData()
 	}
@@ -147,7 +147,7 @@ extension GoogleSearchScreenViewController: IGoogleSearchScreenViewController
 	}
 }
 
-extension GoogleSearchScreenViewController: UICollectionViewDataSource
+extension UnsplashSearchScreenViewController: UICollectionViewDataSource
 {
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return photos.count
@@ -166,14 +166,14 @@ extension GoogleSearchScreenViewController: UICollectionViewDataSource
 	}
 }
 
-extension GoogleSearchScreenViewController: UICollectionViewDelegate
+extension UnsplashSearchScreenViewController: UICollectionViewDelegate
 {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		presentAlert(index: indexPath.item)
 	}
 }
 
-extension GoogleSearchScreenViewController: CustomCollectionViewLayoutDelegate
+extension UnsplashSearchScreenViewController: CustomCollectionViewLayoutDelegate
 {
 	func collectionView(_ layout: CustomCollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let photo = photos[indexPath.item]

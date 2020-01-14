@@ -11,19 +11,19 @@ import UIKit
 final class ModulesFactory
 {
 	private let storageService: IStorageService
+	private let networkService: INetworkService
 	private let storageRepository: IStorageRepository
-	private let networkRepository: INetworkRepository
 	private let imageProcessor: IImageProcessor
 
 	init(
 		storageService: IStorageService,
+		networkService: INetworkService,
 		storageRepository: IStorageRepository,
-		networkRepository: INetworkRepository,
 		imageProcessor: IImageProcessor
 	) {
 		self.storageService = storageService
+		self.networkService = networkService
 		self.storageRepository = storageRepository
-		self.networkRepository = networkRepository
 		self.imageProcessor = imageProcessor
 	}
 
@@ -51,13 +51,13 @@ final class ModulesFactory
 		return navController
 	}
 
-	func createGoogleSearchScreen() -> GoogleSearchScreenViewController {
-		let repository = NetworkRepository()
-		let router = GoogleSearchScreenRouter(factory: self)
-		let presenter = GoogleSearchScreenPresenter(repository: repository, router: router)
-		let googleSearchScreenVC = GoogleSearchScreenViewController(presenter: presenter)
+	func createUnsplashSearchScreen() -> UnsplashSearchScreenViewController {
+		let networkService = NetworkService()
+		let router = UnsplashSearchScreenRouter(factory: self)
+		let presenter = UnsplashSearchScreenPresenter(networkService: networkService, router: router)
+		let googleSearchScreenVC = UnsplashSearchScreenViewController(presenter: presenter)
 		router.viewController = googleSearchScreenVC
-		presenter.googleSearchScreen = googleSearchScreenVC
+		presenter.unsplashSearchScreen = googleSearchScreenVC
 		return googleSearchScreenVC
 	}
 }

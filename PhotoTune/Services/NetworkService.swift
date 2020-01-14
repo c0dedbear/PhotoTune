@@ -1,5 +1,5 @@
 //
-//  NetworkRepository.swift
+//  NetworkService.swift
 //  PhotoTune
 //
 //  Created by Саша Руцман on 11.01.2020.
@@ -8,18 +8,18 @@
 
 import UIKit
 
-typealias GoogleImageInfoResult = Result<[GoogleImage], NetworkError>
+typealias UnsplashImageInfoResult = Result<[UnsplashImage], NetworkError>
 typealias DataResult = Result<Data, NetworkError>
 typealias ImageResult = Result<UIImage, NetworkError>
 
-protocol INetworkRepository
+protocol INetworkService
 {
-	func getRandomGoogleImagesInfo(_ completion: @escaping (GoogleImageInfoResult) -> Void)
-	func getGoogleImagesInfo(with searchTerm: String, _ completion: @escaping (GoogleImageInfoResult) -> Void)
+	func getRandomUnsplashImagesInfo(_ completion: @escaping (UnsplashImageInfoResult) -> Void)
+	func getUnsplashImagesInfo(with searchTerm: String, _ completion: @escaping (UnsplashImageInfoResult) -> Void)
 	func loadImage(urlString: String, _ completion: @escaping (ImageResult) -> Void)
 }
 
-final class NetworkRepository
+final class NetworkService
 {
 	private let fetchDataQueue = DispatchQueue(label: "fetchDataQueue",
 											   qos: .userInteractive,
@@ -44,16 +44,16 @@ final class NetworkRepository
 	}
 }
 
-extension NetworkRepository: INetworkRepository
+extension NetworkService: INetworkService
 {
-	func getRandomGoogleImagesInfo(_ completion: @escaping (GoogleImageInfoResult) -> Void) {
+	func getRandomUnsplashImagesInfo(_ completion: @escaping (UnsplashImageInfoResult) -> Void) {
 		if let url = URL.with(string: "photos/random?count=10") {
 			fetchData(from: url) { dataResult in
 				switch dataResult {
 				case .success(let data):
 					do {
-						let googleImages = try JSONDecoder().decode([GoogleImage].self, from: data)
-						completion(.success(googleImages))
+						let unsplashImages = try JSONDecoder().decode([UnsplashImage].self, from: data)
+						completion(.success(unsplashImages))
 					}
 					catch {
 						completion(.failure(NetworkError.dataError))
@@ -66,14 +66,14 @@ extension NetworkRepository: INetworkRepository
 		}
 	}
 
-	func getGoogleImagesInfo(with searchTerm: String, _ completion: @escaping (GoogleImageInfoResult) -> Void) {
+	func getUnsplashImagesInfo(with searchTerm: String, _ completion: @escaping (UnsplashImageInfoResult) -> Void) {
 		if let url = URL.with(string: "search/photos?per_page=10&query=\(searchTerm)&page=1") {
 			fetchData(from: url) { dataResult in
 				switch dataResult {
 				case .success(let data):
 					do {
-						let googleImages = try JSONDecoder().decode(SearchResults.self, from: data)
-						completion(.success(googleImages.results))
+						let unsplashImages = try JSONDecoder().decode(SearchResults.self, from: data)
+						completion(.success(unsplashImages.results))
 					}
 					catch {
 						completion(.failure(NetworkError.dataError))
