@@ -7,17 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */; };
-		2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */; };
-		2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */; };
+		2247570623C61ED30030C9EE /* UnsplashSearchScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570523C61ED30030C9EE /* UnsplashSearchScreenViewController.swift */; };
+		2247570823C61EE00030C9EE /* UnsplashSearchScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570723C61EE00030C9EE /* UnsplashSearchScreenPresenter.swift */; };
+		2247570A23C61EED0030C9EE /* UnsplashSearchScreenRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247570923C61EED0030C9EE /* UnsplashSearchScreenRouter.swift */; };
 		2247571423C87A610030C9EE /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */; };
 		2247571623C87A710030C9EE /* PhotoCollectionViewLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */; };
 		2247571B23C9E2790030C9EE /* URLExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571A23C9E2790030C9EE /* URLExtension.swift */; };
-		2247571D23C9E8720030C9EE /* GoogleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571C23C9E8720030C9EE /* GoogleImage.swift */; };
+		2247571D23C9E8720030C9EE /* UnsplashImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571C23C9E8720030C9EE /* UnsplashImage.swift */; };
 		2247572023C9EC860030C9EE /* ServiceErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247571F23C9EC860030C9EE /* ServiceErrors.swift */; };
 		2247572223C9ECB30030C9EE /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572123C9ECB30030C9EE /* Constants.swift */; };
 		2247572423C9ED110030C9EE /* Urls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572323C9ED110030C9EE /* Urls.swift */; };
-		2247572C23CA332F0030C9EE /* NetworkRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572B23CA332F0030C9EE /* NetworkRepository.swift */; };
+		2247572C23CA332F0030C9EE /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2247572B23CA332F0030C9EE /* NetworkService.swift */; };
 		D04F2BCF23A960A8002DE17E /* EditedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D04F2BCE23A960A8002DE17E /* EditedImage.swift */; };
 		D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */; };
 		D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D094AF8C23C66A6C00D863FF /* StartingView.swift */; };
@@ -60,17 +60,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenViewController.swift; sourceTree = "<group>"; };
-		2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenPresenter.swift; sourceTree = "<group>"; };
-		2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSearchScreenRouter.swift; sourceTree = "<group>"; };
+		2247570523C61ED30030C9EE /* UnsplashSearchScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashSearchScreenViewController.swift; sourceTree = "<group>"; };
+		2247570723C61EE00030C9EE /* UnsplashSearchScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashSearchScreenPresenter.swift; sourceTree = "<group>"; };
+		2247570923C61EED0030C9EE /* UnsplashSearchScreenRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashSearchScreenRouter.swift; sourceTree = "<group>"; };
 		2247571323C87A610030C9EE /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		2247571523C87A710030C9EE /* PhotoCollectionViewLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewLayout.swift; sourceTree = "<group>"; };
 		2247571A23C9E2790030C9EE /* URLExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLExtension.swift; sourceTree = "<group>"; };
-		2247571C23C9E8720030C9EE /* GoogleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleImage.swift; sourceTree = "<group>"; };
+		2247571C23C9E8720030C9EE /* UnsplashImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsplashImage.swift; sourceTree = "<group>"; };
 		2247571F23C9EC860030C9EE /* ServiceErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceErrors.swift; sourceTree = "<group>"; };
 		2247572123C9ECB30030C9EE /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		2247572323C9ED110030C9EE /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
-		2247572B23CA332F0030C9EE /* NetworkRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRepository.swift; sourceTree = "<group>"; };
+		2247572B23CA332F0030C9EE /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D04F2BCE23A960A8002DE17E /* EditedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImage.swift; sourceTree = "<group>"; };
 		D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesScreenCell.swift; sourceTree = "<group>"; };
 		D094AF8C23C66A6C00D863FF /* StartingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingView.swift; sourceTree = "<group>"; };
@@ -125,15 +125,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2247570223C61E880030C9EE /* GoogleSearchScreen */ = {
+		2247570223C61E880030C9EE /* UnsplashSearchScreen */ = {
 			isa = PBXGroup;
 			children = (
 				2247571E23C9EC780030C9EE /* Enums */,
-				2247570523C61ED30030C9EE /* GoogleSearchScreenViewController.swift */,
-				2247570723C61EE00030C9EE /* GoogleSearchScreenPresenter.swift */,
-				2247570923C61EED0030C9EE /* GoogleSearchScreenRouter.swift */,
+				2247570523C61ED30030C9EE /* UnsplashSearchScreenViewController.swift */,
+				2247570723C61EE00030C9EE /* UnsplashSearchScreenPresenter.swift */,
+				2247570923C61EED0030C9EE /* UnsplashSearchScreenRouter.swift */,
 			);
-			path = GoogleSearchScreen;
+			path = UnsplashSearchScreen;
 			sourceTree = "<group>";
 		};
 		2247571223C87A380030C9EE /* CollectionView */ = {
@@ -166,7 +166,7 @@
 		D04F2BAA23A7FF79002DE17E /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				2247570223C61E880030C9EE /* GoogleSearchScreen */,
+				2247570223C61E880030C9EE /* UnsplashSearchScreen */,
 				E93BA17223AA20D500BD5656 /* EditingScreen */,
 				D094AF8823C669E900D863FF /* EditedImagesScreen */,
 			);
@@ -199,7 +199,7 @@
 				E90BACDA23CB99150004AC86 /* Repositories */,
 				D04F2BCE23A960A8002DE17E /* EditedImage.swift */,
 				E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */,
-				2247571C23C9E8720030C9EE /* GoogleImage.swift */,
+				2247571C23C9E8720030C9EE /* UnsplashImage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -311,7 +311,6 @@
 			isa = PBXGroup;
 			children = (
 				D0CA068823ABACF5006CB5AF /* StorageRepository.swift */,
-				2247572B23CA332F0030C9EE /* NetworkRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -379,6 +378,7 @@
 			isa = PBXGroup;
 			children = (
 				E99AD78623C4AD9D000E4655 /* StorageService.swift */,
+				2247572B23CA332F0030C9EE /* NetworkService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -478,7 +478,7 @@
 				E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */,
 				2247572423C9ED110030C9EE /* Urls.swift in Sources */,
 				E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */,
-				2247571D23C9E8720030C9EE /* GoogleImage.swift in Sources */,
+				2247571D23C9E8720030C9EE /* UnsplashImage.swift in Sources */,
 				E94D1ADA23B4E0EA007A4E86 /* TuneSettings.swift in Sources */,
 				E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */,
 				2247571623C87A710030C9EE /* PhotoCollectionViewLayout.swift in Sources */,
@@ -495,19 +495,19 @@
 				E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */,
 				E930355123ABADB900ADAF52 /* ModulesFactory.swift in Sources */,
 				E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */,
-				2247570A23C61EED0030C9EE /* GoogleSearchScreenRouter.swift in Sources */,
+				2247570A23C61EED0030C9EE /* UnsplashSearchScreenRouter.swift in Sources */,
 				E902890C23AE75D400F28FBA /* RotationView.swift in Sources */,
 				E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */,
 				E902890723AE75D400F28FBA /* FiltersCollectionViewCell.swift in Sources */,
 				D094AF9123C66AB400D863FF /* EditedImagesCollectionViewController.swift in Sources */,
 				E902890223AE75D400F28FBA /* ImageProcessor.swift in Sources */,
-				2247570823C61EE00030C9EE /* GoogleSearchScreenPresenter.swift in Sources */,
+				2247570823C61EE00030C9EE /* UnsplashSearchScreenPresenter.swift in Sources */,
 				E902890D23AE75D400F28FBA /* ToolBarButton.swift in Sources */,
 				E902890323AE75D400F28FBA /* EditingType.swift in Sources */,
 				2247571423C87A610030C9EE /* PhotoCollectionViewCell.swift in Sources */,
 				E902890A23AE75D400F28FBA /* ToolsCollectionView.swift in Sources */,
 				E902891123AE75F100F28FBA /* UIView+AnchorsExtension.swift in Sources */,
-				2247570623C61ED30030C9EE /* GoogleSearchScreenViewController.swift in Sources */,
+				2247570623C61ED30030C9EE /* UnsplashSearchScreenViewController.swift in Sources */,
 				D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */,
 				2247571B23C9E2790030C9EE /* URLExtension.swift in Sources */,
 				D094AF9323C66ACB00D863FF /* EditedImagesRouter.swift in Sources */,
@@ -517,7 +517,7 @@
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
 				E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */,
 				E910080A23C74CEE00A6A81A /* Float.swift in Sources */,
-				2247572C23CA332F0030C9EE /* NetworkRepository.swift in Sources */,
+				2247572C23CA332F0030C9EE /* NetworkService.swift in Sources */,
 				E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */,
 				E902891523AE88C600F28FBA /* UIView+AnimatedAppearing.swift in Sources */,
 				D094AF8B23C66A5400D863FF /* EditedImagesScreenCell.swift in Sources */,

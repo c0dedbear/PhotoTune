@@ -1,5 +1,5 @@
 //
-//  GoogleImage.swift
+//  UnsplashImage.swift
 //  PhotoTune
 //
 //  Created by Саша Руцман on 11.01.2020.
@@ -10,18 +10,18 @@ import Foundation
 struct SearchResults: Decodable
 {
 	let total: Int
-	let results: [GoogleImage]
+	let results: [UnsplashImage]
 }
 
-struct GoogleImage: Decodable
+struct UnsplashImage: Decodable
 {
 	let id: String
 	let width, height: Int
 	let color: String
-	let urls: GoogleImageUrls
+	let urls: UnsplashImageUrls
 }
 
-struct GoogleImageUrls: Decodable
+struct UnsplashImageUrls: Decodable
 {
 	let raw, full, regular, small: String
 	let thumb: String
