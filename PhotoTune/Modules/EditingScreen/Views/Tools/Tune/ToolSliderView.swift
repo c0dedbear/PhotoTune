@@ -16,7 +16,7 @@ final class ToolSliderView: UIStackView
 	private let cancel = UIButton(type: .system)
 	private let done = UIButton(type: .system)
 
-	private let throttler = Throttler(minimumDelay: 0.0115)
+	private let throttler = Throttler(minimumDelay: EditingScreenMetrics.sliderThrottlingDelay)
 
 	var savedTuneSettings: TuneSettings? {
 		didSet {

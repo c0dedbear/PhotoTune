@@ -10,6 +10,8 @@ import UIKit
 
 final class ToolSlider: UISlider
 {
+	private let throttler = Throttler(minimumDelay: EditingScreenMetrics.hapticThrottlingDelay)
+	private let haptics = UIImpactFeedbackGenerator(style: .light)
 	private let label = UILabel()
 	var tuneSettings: TuneSettings?
 
@@ -37,6 +39,11 @@ final class ToolSlider: UISlider
 		label.adjustsFontSizeToFitWidth = true
 		label.minimumScaleFactor = 0.75
 		setLabelText(convertValues: convertValues)
+		throttler.throttle {
+			if self.label.text == "0" {
+				self.haptics.impactOccurred()
+			}
+		}
 	}
 
 	private func setLabelText(convertValues: Bool) {

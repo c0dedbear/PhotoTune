@@ -15,7 +15,9 @@ enum EditingScreenMetrics
 	static let collectionViewRightInset: CGFloat = 20
 	static let filtersLineSpacing: CGFloat = 30
 	static let tuneToolLineSpacing: CGFloat = 40
-	static let tuneCellTapAnimationDuration = 0.2
+	static let tuneCellTapAnimationDuration = 0.1
 	static let filterSelectionDelay = 0.005
 	static let tuneToolIndicatorRadius: CGFloat = 6
+	static let sliderThrottlingDelay = 0.012
+	static let hapticThrottlingDelay = 0.015
 }
