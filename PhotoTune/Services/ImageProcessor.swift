@@ -10,6 +10,7 @@ import Foundation
 import CoreImage
 import UIKit
 
+// MARK: - Protocols
 protocol IImageProcessor: AnyObject
 {
 	var initialImage: UIImage? { get set }
@@ -27,45 +28,54 @@ protocol IImageProcessorOutputSource: AnyObject
 	func updateImage(image: UIImage?)
 }
 
+// MARK: - ImageProcessor
 final class ImageProcessor
 {
-	private let context: CIContext
-	private var currentCIImage: CIImage?
-	private let throttler = Throttler(minimumDelay: 0.0125)
-	private let enhanceThrottler = Throttler(minimumDelay: 0.045)
+	// MARK: Properties
+	var outputSource: IImageProcessorOutputSource?
 
-	weak var outputSource: IImageProcessorOutputSource?
-	var initialImage: UIImage?
-	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.7) }
+	var initialImage: UIImage? {
+		didSet {
+			if let image = initialImage {
+				autoEnhanceFilters = CIImage(image: image)?.autoAdjustmentFilters()
+			}
+		}
+	}
+
 	var tunedImage: UIImage? { didSet { outputSource?.updateImage(image: tunedImage) } }
 
 	var tuneSettings: TuneSettings? {
 		didSet {
-			print(tuneSettings?.autoEnchancement)
 			throttler.throttle {
 				self.appleTuneSettings()
 			}
 		}
 	}
 
-	var flag = false
+	// MARK: Private Properties
+	private let throttler: Throttler
+	private let context: CIContext
+	private var currentCIImage: CIImage?
+	private var autoEnhanceFilters: [CIFilter]?
+	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.8) }
+	private let screenSize = UIScreen.main.bounds
 
 	init() {
+		throttler = Throttler(minimumDelay: 0.0125)
 		if let device = MTLCreateSystemDefaultDevice() {
-			//use Metal
-			context = CIContext(mtlDevice: device,
-								options: [
-				CIContextOption.highQualityDownsample: true,
-				CIContextOption.cacheIntermediates: true,
-			])
+			//use Metal if possible
+			context = CIContext(mtlDevice: device)
 		}
 		else {
 			// use CPU
 			context = CIContext()
 		}
 	}
-
-	private func filteredImageForPreview(image: UIImage, with filter: CIFilter?) -> UIImage? {
+}
+// MARK: - Private Methods
+private extension ImageProcessor
+{
+	func filteredImageForPreview(image: UIImage, with filter: CIFilter?) -> UIImage? {
 		guard let filter = filter else { return image }
 		let ciInput = CIImage(image: image)
 		filter.setValue(ciInput, forKey: kCIInputImageKey)
@@ -73,13 +83,13 @@ final class ImageProcessor
 		return UIImage(ciImage: ciOutput)
 	}
 
-	private func photoFilter(ciInput: CIImage?) -> CIImage? {
+	func photoFilter(ciInput: CIImage?) -> CIImage? {
 		guard let photoFilter = CIFilter(name: tuneSettings?.ciFilter ?? "") else { return nil }
 		photoFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		return photoFilter.outputImage
 	}
 
-	private func colorControls(ciInput: CIImage?) -> CIImage? {
+	func colorControls(ciInput: CIImage?) -> CIImage? {
 		guard let colorFilter = Filter.colorControls.ciFilter else { return nil }
 		colorFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		colorFilter.setValue(tuneSettings?.brightnessIntensity, forKey: kCIInputBrightnessKey)
@@ -88,7 +98,7 @@ final class ImageProcessor
 		return colorFilter.outputImage
 	}
 
-	private func sharpness(ciInput: CIImage?) -> CIImage? {
+	func sharpness(ciInput: CIImage?) -> CIImage? {
 		guard let sharpFilter = Filter.sharpness.ciFilter else { return nil }
 		sharpFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		sharpFilter.setValue(tuneSettings?.sharpnessIntensity, forKey: kCIInputIntensityKey)
@@ -96,7 +106,7 @@ final class ImageProcessor
 		return sharpFilter.outputImage
 	}
 
-	private func vignette(ciInput: CIImage?) -> CIImage? {
+	func vignette(ciInput: CIImage?) -> CIImage? {
 		guard let vignetteFilter = Filter.vignette.ciFilter else { return nil }
 		vignetteFilter.setValue(ciInput, forKey: kCIInputImageKey)
 		vignetteFilter.setValue(tuneSettings?.vignetteIntensity, forKey: kCIInputIntensityKey)
@@ -117,26 +127,20 @@ final class ImageProcessor
 		return filter.outputImage
 	}
 
-	private func autoEnchance(ciInput: CIImage?) -> CIImage? {
-		if var ciImage = ciInput {
-			let adjustments = ciImage.autoAdjustmentFilters(options: [.enhance: true])
-			for filter in adjustments {
-				filter.setValue(ciImage, forKey: kCIInputImageKey)
-				if let outputImage = filter.outputImage {
-					ciImage = outputImage
-				}
+	func autoEnchance() {
+		if let filters = autoEnhanceFilters {
+			for filter in filters {
+				filter.setValue(currentCIImage, forKey: kCIInputImageKey)
+				currentCIImage = filter.outputImage
 			}
-			return ciImage
 		}
-		return nil
 	}
 
-	private func appleTuneSettings() {
-		print("Appling settings")
+	func appleTuneSettings() {
 		guard let imageData = jpegData else { return }
-		guard let resizedImage = UIImage(data: imageData)?.resized(withPercentage: 0.5) else { return }
+		guard let inputImage = UIImage(data: imageData) else { return }
 
-		currentCIImage = CIImage(image: resizedImage)
+		currentCIImage = CIImage(image: inputImage)
 
 		currentCIImage = colorControls(ciInput: currentCIImage)
 		currentCIImage = rotateImage(ciImage: currentCIImage)
@@ -147,26 +151,21 @@ final class ImageProcessor
 			currentCIImage = photoFilterOutput
 		}
 
-//		enhanceThrottler.throttle {
-			if self.tuneSettings?.autoEnchancement == true && flag == true {
-				print("Appling autoenhance")
-				guard let ciOuput = self.autoEnchance(ciInput: self.currentCIImage) else { return }
-				currentCIImage = ciOuput
-				flag = false
+		if self.tuneSettings?.autoEnchancement == true {
+			autoEnchance()
+		}
+
+		guard let ciOuput = self.currentCIImage else { return }
+
+		DispatchQueue.global(qos: .userInteractive).async {
+			guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
+			DispatchQueue.main.async {
+				self.tunedImage = UIImage(cgImage: cgImage)
 			}
-			else {
-					flag = true
-				}
-//		}
-
-		guard let ciOuput = currentCIImage else { return }
-		guard let cgImage = context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
-
-		tunedImage = UIImage(cgImage: cgImage)
-		print("Finished Appling settings")
+		}
 	}
 }
-
+// MARK: - IImageProcessor Methods
 extension ImageProcessor: IImageProcessor
 {
 	func clearContexCache() {
@@ -181,22 +180,5 @@ extension ImageProcessor: IImageProcessor
 			previews.append((preview.title, image))
 		}
 		return previews
-	}
-}
-
-extension UIImage
-{
-	func resized(withPercentage percentage: CGFloat) -> UIImage? {
-		let canvas = CGSize(width: size.width * percentage, height: size.height * percentage)
-		return UIGraphicsImageRenderer(size: canvas, format: imageRendererFormat).image { _ in
-			draw(in: CGRect(origin: .zero, size: canvas))
-		}
-	}
-	func resized(toWidth width: CGFloat) -> UIImage? {
-		let canvas = CGSize(width: width, height: CGFloat(ceil(width / size.width * size.height)))
-		return UIGraphicsImageRenderer(
-			size: canvas,
-			format: imageRendererFormat).image { _ in draw(in: CGRect(origin: .zero, size: canvas))
-		}
 	}
 }

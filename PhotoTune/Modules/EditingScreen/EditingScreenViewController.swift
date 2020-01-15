@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: Protocol IEditingScreen
 protocol IEditingScreen: AnyObject
 {
 	var currentImage: UIImage? { get }
@@ -21,23 +22,13 @@ protocol IEditingScreen: AnyObject
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
 	func updateImageView(image: UIImage?)
 }
-
+// MARK: - EditingScreenViewController
 final class EditingScreenViewController: UIViewController
 {
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	private var currentEditingType: EditingType = .filters {
-		didSet {
-			if currentEditingType == .tune {
-				navigationItem.titleView = autoEnchanceButton
-			}
-			else {
-				navigationItem.titleView = nil
-				title = currentEditingType.rawValue
-			}
-		}
-	}
+	private var currentEditingType: EditingType = .filters { didSet { setAutuEnhanceTool() } }
 
 	private let autoEnchanceButton = AutoEnchanceButton()
 	private let editingView = EditingView()
@@ -46,6 +37,7 @@ final class EditingScreenViewController: UIViewController
 	// MARK: Initialization
 	init(presenter: IEditingScreenPresenter) {
 		self.presenter = presenter
+		autoEnchanceButton.isSelected = presenter.getTuneSettings()?.autoEnchancement ?? false
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -74,6 +66,16 @@ final class EditingScreenViewController: UIViewController
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
+	func setAutuEnhanceTool() {
+		if currentEditingType == .tune {
+			navigationItem.titleView = autoEnchanceButton
+		}
+		else {
+			navigationItem.titleView = nil
+			title = currentEditingType.rawValue
+		}
+	}
+
 	func setupNavigationBar() {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
@@ -257,7 +259,6 @@ extension EditingScreenViewController: IToolCollectionViewDataSource
 
 	func showChangesIndicator(for tuneTool: TuneTool?) -> Bool? {
 		guard let settings = presenter.getTuneSettings() else { return nil }
-		autoEnchanceButton.isSelected = settings.autoEnchancement
 		switch tuneTool {
 		case .brightness:
 			return settings.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity

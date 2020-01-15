@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: - Protocol IEditingScreenPresenter
 protocol IEditingScreenPresenter
 {
 	func getInitialImage() -> UIImage?
@@ -34,16 +35,16 @@ protocol IEditingScreenPresenter
 	func onSaveTapped()
 	func onAutoEnchanceTapped(value: Bool)
 }
-
+// MARK: - EditingScreenPresenter
 final class EditingScreenPresenter
 {
+	weak var editingScreen: IEditingScreen?
+
 	private let storageService: IStorageService
 	private let image: UIImage?
 	private let editedImage: EditedImage?
 	private var imageProcessor: IImageProcessor
 	private var previews: [(title: String, image: UIImage?)] = []
-
-	weak var editingScreen: IEditingScreen?
 
 	init(
 		image: UIImage?,
@@ -57,8 +58,11 @@ final class EditingScreenPresenter
 		self.imageProcessor.outputSource = self
 		makePreviews()
 	}
-
-	private func makePreviews() {
+}
+// MARK: - Private Methods
+private extension EditingScreenPresenter
+{
+	func makePreviews() {
 		if let newImage = image {
 			imageProcessor.initialImage = newImage
 			imageProcessor.tuneSettings = TuneSettings()
@@ -79,7 +83,7 @@ final class EditingScreenPresenter
 		}
 	}
 
-	private func saveImageAsNew() {
+	func saveImageAsNew() {
 		guard let currentImage = imageProcessor.initialImage else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
@@ -108,7 +112,7 @@ final class EditingScreenPresenter
 		}
 	}
 
-	private func saveExistingImage() {
+	func saveExistingImage() {
 		guard var editedImage = editedImage else {
 			editingScreen?.showErrorAlert(
 				title: AlertMessages.error,
@@ -128,8 +132,8 @@ final class EditingScreenPresenter
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
 				for (index, item) in currentEditedImages.enumerated()
 					where item.imageFileName == editedImage.imageFileName {
-					currentEditedImages.remove(at: index)
-					currentEditedImages.insert(editedImage, at: index)
+						currentEditedImages.remove(at: index)
+						currentEditedImages.insert(editedImage, at: index)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
 				self?.editingScreen?.dismiss(toRoot: true, completion: nil)
@@ -138,6 +142,7 @@ final class EditingScreenPresenter
 	}
 }
 
+// MARK: - IEditingScreenPresenter Methods
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
 	func onAutoEnchanceTapped(value: Bool) {
@@ -186,6 +191,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	func getFiltersCount() -> Int { Filter.photoFilters.count }
 
 	func getTuneSettings() -> TuneSettings? { imageProcessor.tuneSettings }
+
 	func onSaveTuneSettingsTapped(save settings: TuneSettings) {
 		imageProcessor.tuneSettings = settings
 	}
@@ -201,6 +207,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 }
 
+// MARK: - IImageProcessorOutputSource Methods
 extension EditingScreenPresenter: IImageProcessorOutputSource
 {
 	func updateImage(image: UIImage?) { editingScreen?.updateImageView(image: image) }

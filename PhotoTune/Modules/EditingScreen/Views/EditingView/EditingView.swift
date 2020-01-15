@@ -8,6 +8,7 @@
 
 import UIKit
 
+// MARK: - Protocol
 protocol IToolViewDelegate: AnyObject
 {
 	func applyFilterToImageWith(index: Int)
@@ -17,16 +18,10 @@ protocol IToolViewDelegate: AnyObject
 	func rotateAntiClockwise()
 }
 
+// MARK: - EditingView Class
 final class EditingView: UIView
 {
-	private let imageView = UIImageView()
-	private let editingView = UIView()
-
-	private let filtersTools = ToolsCollectionView()
-	private let tuneTools = ToolsCollectionView()
-	private let rotationTool = RotationView()
-	private let slidersStack = ToolSliderView()
-
+	// MARK: Properties
 	weak var toolsDelegate: IToolViewDelegate?
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
@@ -40,6 +35,16 @@ final class EditingView: UIView
 			return imageView.bounds.height / 5
 		}
 	}
+
+	// MARK: Private Properties
+	private let imageView = UIImageView()
+	private let editingView = UIView()
+
+	// tools
+	private let filtersTools = ToolsCollectionView()
+	private let tuneTools = ToolsCollectionView()
+	private let rotationTool = RotationView()
+	private let slidersStack = ToolSliderView()
 
 	init() {
 		super.init(frame: .zero)
@@ -56,19 +61,7 @@ final class EditingView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	private func selectFilter() {
-		let actualFilter = toolsDelegate?.loadTuneSettings()?.ciFilter
-		for (index, filter) in Filter.photoFilters.enumerated() where actualFilter == filter.ciFilter?.name {
-			filtersTools.lastSelectedFilter = IndexPath(item: index, section: 0)
-		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.filterSelectionDelay) { [weak self] in
-			self?.filtersTools.selectItem(
-				at: self?.filtersTools.lastSelectedFilter,
-				animated: false,
-				scrollPosition: .centeredHorizontally)
-		}
-	}
-
+	// MARK: Methods
 	func setImage(_ image: UIImage?) {
 		imageView.image = image
 	}
@@ -102,6 +95,19 @@ final class EditingView: UIView
 	// MARK: - Private Methods
 private extension EditingView
 {
+	func selectFilter() {
+		let actualFilter = toolsDelegate?.loadTuneSettings()?.ciFilter
+		for (index, filter) in Filter.photoFilters.enumerated() where actualFilter == filter.ciFilter?.name {
+			filtersTools.lastSelectedFilter = IndexPath(item: index, section: 0)
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.filterSelectionDelay) { [weak self] in
+			self?.filtersTools.selectItem(
+				at: self?.filtersTools.lastSelectedFilter,
+				animated: false,
+				scrollPosition: .centeredHorizontally)
+		}
+	}
+
 	func setDelegateWithDataSource() {
 		filtersTools.delegate = self
 		filtersTools.dataSource = self
