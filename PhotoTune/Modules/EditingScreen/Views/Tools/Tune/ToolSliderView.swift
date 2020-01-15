@@ -16,7 +16,8 @@ final class ToolSliderView: UIStackView
 	private let cancel = UIButton(type: .system)
 	private let done = UIButton(type: .system)
 
-	private let throttler = Throttler(minimumDelay: 0.0115)
+	private let throttler = Throttler(minimumDelay: EditingScreenMetrics.sliderThrottlingDelay)
+	private let haptics = UIImpactFeedbackGenerator(style: .light)
 
 	var savedTuneSettings: TuneSettings? {
 		didSet {
@@ -111,6 +112,9 @@ final class ToolSliderView: UIStackView
 
 		throttler.throttle {
 			self.changeSettings()
+			if self.intensitySlider.isHapticsNeeded {
+				self.haptics.impactOccurred()
+			}
 		}
 	}
 

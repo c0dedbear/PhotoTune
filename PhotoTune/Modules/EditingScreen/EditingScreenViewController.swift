@@ -141,8 +141,12 @@ private extension EditingScreenViewController
 	@objc func saveTapped() { presenter.onSaveTapped() }
 	@objc func autoEnchanceTapped() {
 		autoEnchanceButton.isSelected.toggle()
-		presenter.onAutoEnchanceTapped(value: autoEnchanceButton.isSelected)
-	}
+		if autoEnchanceButton.isSelected {
+			let haptics = UIImpactFeedbackGenerator(style: .medium)
+			haptics.impactOccurred()
+		}
+	presenter.onAutoEnchanceTapped(value: autoEnchanceButton.isSelected)
+}
 
 	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }

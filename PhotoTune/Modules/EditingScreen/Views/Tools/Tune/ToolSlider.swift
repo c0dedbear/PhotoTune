@@ -10,8 +10,11 @@ import UIKit
 
 final class ToolSlider: UISlider
 {
+	private let zero = "0"
 	private let label = UILabel()
 	var tuneSettings: TuneSettings?
+
+	var isHapticsNeeded: Bool { label.text == zero }
 
 	init() {
 		super.init(frame: .zero)
