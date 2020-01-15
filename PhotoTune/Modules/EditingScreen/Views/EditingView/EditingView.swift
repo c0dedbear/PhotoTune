@@ -122,7 +122,6 @@ private extension EditingView
 		else { backgroundColor = .white }
 		imageView.clipsToBounds = true
 		imageView.contentMode = .scaleAspectFit
-		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		addSubview(imageView)
 		addSubview(editingView)
 		imageView.enableZoom()

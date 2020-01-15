@@ -14,7 +14,9 @@ final class ToolSlider: UISlider
 	private let label = UILabel()
 	var tuneSettings: TuneSettings?
 
-	var isHapticsNeeded: Bool { label.text == zero }
+	var labelObserver: NSKeyValueObservation?
+
+	var isHapticsNeeded = false
 
 	init() {
 		super.init(frame: .zero)
@@ -33,6 +35,15 @@ final class ToolSlider: UISlider
 			label.textColor = .gray
 		}
 		addSubview(label)
+
+		labelObserver = label.observe(\.text, options: [.old]) { lbl, change in
+			if lbl.text == self.zero && change.oldValue != self.zero {
+				self.isHapticsNeeded = true
+			}
+			else {
+				self.isHapticsNeeded = false
+			}
+		}
 	}
 
 	func updateLabel(convertValues: Bool = true) {

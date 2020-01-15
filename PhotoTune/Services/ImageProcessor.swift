@@ -57,7 +57,7 @@ final class ImageProcessor
 	private let context: CIContext
 	private var currentCIImage: CIImage?
 	private var autoEnhanceFilters: [CIFilter]?
-	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.8) }
+	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.7) }
 	private let screenSize = UIScreen.main.bounds
 
 	init() {
