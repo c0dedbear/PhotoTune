@@ -5,3 +5,41 @@
   Created by MacBook Air on 17.01.2020.
   Copyright © 2020 Mikhail Medvedev. All rights reserved.
 */
+
+"Add the image" = "Добавьте изображение";
+"Сlick button to add image" = "Нажмите кнопку, чтобы добавить изображение";
+"ADD" = "Добавить";
+"Delete" = "Удалить";
+"Cancel" = "Закрыть";
+"Back" = "Назад";
+"Select" = "Выбрать";
+"Done" = "Готово";
+"Choose image source" = "Выберите источник изображения";
+"Camera" = "Камера";
+"PhotoLibrary" = "Фотогалерея";
+"Find with Unsplash" = "Найти в Unsplash";
+"Search" = "Поиск";
+"Select an image" = "Выберите изображение";
+"By clicking on the \"Select\" button, you will enter the editing mode" = "Нажав кнопку \"Выбрать\", вы перейдете в режим редактирования";
+"Nothing found of query " = "Ничего не найдено по запросу ";
+"Filters" = "Фильтры";
+"Rotation" = "Повернуть";
+"Tune" = "Настройки";
+
+"Check your internet connection" = "Проверьте соединение с интернетом";
+"Error loading" = "Ошибка загрузки";
+"Status code %d" = "Статус код %d";
+"Error" = "Ошибка";
+"Trying to save new Image as Existing" = "Попытка сохранить новое изображение как существующее";
+"Nothing to save" = "Сохранить нечего";
+"No stored data" = "Нет сохраненных данных";
+"Closing Editor" = "Закрытие редактора";
+"Do you really want close editor?\nIf you have unsaved settings, they will be lost. " = "Вы действительно хотите закрыть редактор?\nЕсли у вас есть несохраненные изменения, они будут потеряны. ";
+
+"Brightness" = "Яркость";
+"Contrast" = "Контрастность";
+"Saturation" = "Насыщенность";
+"Vignette" = "Виньетка";
+"Sharpness" = "Четкость";
+"Yes" = "Да";
+"No" = "Нет";

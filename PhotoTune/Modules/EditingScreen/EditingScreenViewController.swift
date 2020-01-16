@@ -72,7 +72,7 @@ private extension EditingScreenViewController
 		}
 		else {
 			navigationItem.titleView = nil
-			title = currentEditingType.rawValue
+			title = currentEditingType.setTitle()
 		}
 	}
 
@@ -206,10 +206,10 @@ extension EditingScreenViewController: IEditingScreen
 
 	func showAttentionAlert(title: String?, message: String?) {
 		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let yesAction = UIAlertAction(title: "Yes", style: .destructive) { [weak self] _ in
+		let yesAction = UIAlertAction(title: "Yes".localized, style: .destructive) { [weak self] _ in
 			self?.dismiss(toRoot: false, completion: nil)
 		}
-		let cancelAction = UIAlertAction(title: "No", style: .cancel)
+		let cancelAction = UIAlertAction(title: "No".localized, style: .cancel)
 		ac.addAction(yesAction)
 		ac.addAction(cancelAction)
 		present(ac, animated: true)

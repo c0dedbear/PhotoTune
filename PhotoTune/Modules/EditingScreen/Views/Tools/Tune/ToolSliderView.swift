@@ -59,8 +59,8 @@ final class ToolSliderView: UIStackView
 	}
 
 	private func buttonConfigure() {
-		cancel.setTitle("Cancel", for: .normal)
-		done.setTitle("Done", for: .normal)
+		cancel.setTitle("Cancel".localized, for: .normal)
+		done.setTitle("Done".localized, for: .normal)
 		done.titleLabel?.font = .systemFont(ofSize: 17, weight: .semibold)
 		cancel.titleLabel?.font = .systemFont(ofSize: 17, weight: .regular)
 

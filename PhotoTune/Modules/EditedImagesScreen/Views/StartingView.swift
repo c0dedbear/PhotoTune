@@ -17,7 +17,7 @@ final class AddingView: UIView
 	private lazy var addingLabel: UILabel = {
 		let label = UILabel()
 		label.textAlignment = .center
-		label.text = "Add the image"
+		label.text = "Add the image".localized
 		label.font = label.font.withSize(sizeForAddingLabel)
 		label.textColor = UIColor(red: 0.231, green: 0.231, blue: 0.231, alpha: 1)
 		return label
@@ -26,7 +26,7 @@ final class AddingView: UIView
 	private lazy var descriptionLabel: UILabel = {
 		let label = UILabel()
 		label.textAlignment = .center
-		label.text = "Сlick button to add image"
+		label.text = "Сlick button to add image".localized
 		label.font = label.font.withSize(sizeForDescriptionLabel)
 		label.numberOfLines = 2
 		label.textColor = UIColor(red: 0.663, green: 0.663, blue: 0.69, alpha: 1)
@@ -35,7 +35,7 @@ final class AddingView: UIView
 
 	lazy var addingButton: UIButton = {
 		let button = UIButton()
-		button.setTitle("ADD", for: .normal)
+		button.setTitle("ADD".localized, for: .normal)
 		button.backgroundColor = UIColor(red: 0.475, green: 0.588, blue: 0.604, alpha: 1)
 		button.setTitleColor(.white, for: .normal)
 		button.layer.cornerRadius = 16

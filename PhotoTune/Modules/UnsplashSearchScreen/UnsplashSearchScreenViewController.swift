@@ -28,7 +28,7 @@ final class UnsplashSearchScreenViewController: UIViewController
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
-		self.title = "Search"
+		self.title = "Search".localized
 		setupSearchBar()
 		setupCollectionView()
 		setupSearchStubLabel()
@@ -86,13 +86,13 @@ final class UnsplashSearchScreenViewController: UIViewController
 	}
 
 	private func presentAlert(index: Int) {
-		let alert = UIAlertController(title: "Select an image",
-									  message: "By clicking on the \"Select\" button, you will enter the editing mode",
+		let alert = UIAlertController(title: "Select an image".localized,
+									  message: "By clicking on the \"Select\" button, you will enter the editing mode".localized,
 									  preferredStyle: .alert)
-		let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+		let selectAction = UIAlertAction(title: "Select".localized, style: .default) { _ in
 					self.presenter.loadImage(urlString: self.photos[index].urls.regular, cell: false) { _ in }
 		}
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 		alert.addAction(cancelAction)
 		alert.addAction(selectAction)
 		present(alert, animated: true)
@@ -134,7 +134,7 @@ extension UnsplashSearchScreenViewController: IUnsplashSearchScreenViewControlle
 			self.collectionView.isHidden = true
 			self.searchStubLabel.isHidden = false
 			if searchTerm != nil {
-				self.searchStubLabel.text = "Nothing found of query \"\(searchController.searchBar.text ?? "")\""
+				self.searchStubLabel.text = "Nothing found of query ".localized + String(searchController.searchBar.text ?? "")
 			}
 			else {
 				self.searchStubLabel.text = errorText

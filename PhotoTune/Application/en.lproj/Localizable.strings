@@ -5,3 +5,41 @@
   Created by MacBook Air on 17.01.2020.
   Copyright © 2020 Mikhail Medvedev. All rights reserved.
 */
+
+"Add the image" = "Add the image";
+"Сlick button to add image" = "Сlick button to add image";
+"ADD" = "ADD";
+"Delete" = "Delete";
+"Cancel" = "Cancel";
+"Back" = "Back";
+"Select" = "Select";
+"Done" = "Done";
+"Choose image source" = "Choose image source";
+"Camera" = "Camera";
+"PhotoLibrary" = "PhotoLibrary";
+"Find with Unsplash" = "Find with Unsplash";
+"Search" = "Search";
+"Select an image" = "Select an image";
+"By clicking on the \"Select\" button, you will enter the editing mode" = "By clicking on the \"Select\" button, you will enter the editing mode";
+"Nothing found of query " = "Nothing found of query ";
+"Filters" = "Filters";
+"Rotation" = "Rotation";
+"Tune" = "Tune";
+
+"Check your internet connection" = "Check your internet connection";
+"Error loading" = "Error loading";
+"Status code: %d" = "Status code: %d";
+"Error" = "Error";
+"Trying to save new Image as Existing" = "Trying to save new Image as Existing";
+"Nothing to save" = "Nothing to save";
+"No stored data" = "No stored data";
+"Closing Editor" = "Closing Editor";
+"Do you really want close editor?\nIf you have unsaved settings, they will be lost. " = "Do you really want close editor?\nIf you have unsaved settings, they will be lost. ";
+
+"Brightness" = "Brightness";
+"Contrast" = "Contrast";
+"Saturation" = "Saturation";
+"Vignette" = "Vignette";
+"Sharpness" = "Sharpness";
+"Yes" = "Yes";
+"No" = "No";
