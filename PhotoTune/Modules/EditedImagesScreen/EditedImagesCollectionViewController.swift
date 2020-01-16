@@ -134,7 +134,7 @@ extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate,
 {
 	func imagePickerController(_ picker: UIImagePickerController,
 							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-		guard let selectedImage = info[.originalImage] as? UIImage else { return }
+		guard let selectedImage = info[.editedImage] as? UIImage else { return }
 		dismiss(animated: true)
 		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
 	}
@@ -194,6 +194,7 @@ private extension EditedImagesCollectionViewController
 		let alert = UIAlertController(title: "Choose image source", message: nil, preferredStyle: .actionSheet)
 		let imagePicker = UIImagePickerController()
 		imagePicker.delegate = self
+		imagePicker.allowsEditing = true
 
 		if UIImagePickerController.isSourceTypeAvailable(.camera) {
 			let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
