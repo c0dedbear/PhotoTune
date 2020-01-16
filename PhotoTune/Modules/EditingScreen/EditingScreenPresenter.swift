@@ -41,18 +41,22 @@ final class EditingScreenPresenter
 	weak var editingScreen: IEditingScreen?
 
 	private let storageService: IStorageService
-	private let image: UIImage?
+	private let originalImage: UIImage?
+	private var resizedImage: UIImage?
 	private let editedImage: EditedImage?
 	private var imageProcessor: IImageProcessor
 	private var previews: [(title: String, image: UIImage?)] = []
+
+	private let screenSize = UIScreen.main.bounds
 
 	init(
 		image: UIImage?,
 		editedImage: EditedImage?,
 		imageProcessor: IImageProcessor,
 		storageService: IStorageService) {
-		self.image = image
+		self.originalImage = image
 		self.editedImage = editedImage
+		resizedImage = image?.resized(toWidth: screenSize.width)
 		self.imageProcessor = imageProcessor
 		self.storageService = storageService
 		self.imageProcessor.outputSource = self
@@ -63,7 +67,7 @@ final class EditingScreenPresenter
 private extension EditingScreenPresenter
 {
 	func makePreviews() {
-		if let newImage = image {
+		if let newImage = resizedImage {
 			imageProcessor.initialImage = newImage
 			imageProcessor.tuneSettings = TuneSettings()
 			previews = imageProcessor.filtersPreviews(image: newImage)
@@ -72,7 +76,7 @@ private extension EditingScreenPresenter
 
 		if let editedImage = editedImage {
 			storageService.loadImage(filename: editedImage.imageFileName) { image in
-				guard let storedImage = image else {
+				guard let storedImage = image?.resized(toWidth: screenSize.width) else {
 					assertionFailure(AlertMessages.noStoredData)
 					return
 				}
@@ -154,7 +158,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onSaveTapped() {
-		if image != nil {
+		if originalImage != nil {
 			saveImageAsNew()
 		}
 		else {
@@ -172,7 +176,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func getInitialImage() -> UIImage? {
-		if let image = image { return image }
+		if let image = originalImage { return image }
 		return imageProcessor.tunedImage
 	}
 
