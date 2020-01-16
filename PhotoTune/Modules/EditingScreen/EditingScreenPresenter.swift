@@ -8,10 +8,11 @@
 
 import UIKit
 
+// MARK: - Protocol IEditingScreenPresenter
 protocol IEditingScreenPresenter
 {
 	func getInitialImage() -> UIImage?
-	func getFilteredImageFor(filterIndex: Int) -> UIImage?
+	func getFilteredImageFor(filterIndex: Int)
 
 	func filtersToolPressed()
 	func tuneToolPressed()
@@ -24,25 +25,26 @@ protocol IEditingScreenPresenter
 	func getTuneToolCellDataFor(index: Int) -> TuneTool
 
 	func getTuneSettings() -> TuneSettings?
-	func onSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void)
+	func onSaveTuneSettingsTapped(save settings: TuneSettings)
 
-	func onRotateClockwiseTapped(image: (UIImage?) -> Void)
-	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void)
+	func onRotateClockwiseTapped()
+	func onRotateAntiClockwiseTapped()
 
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
+	func onAutoEnchanceTapped(value: Bool)
 }
-
+// MARK: - EditingScreenPresenter
 final class EditingScreenPresenter
 {
+	weak var editingScreen: IEditingScreen?
+
 	private let storageService: IStorageService
 	private let image: UIImage?
 	private let editedImage: EditedImage?
 	private var imageProcessor: IImageProcessor
 	private var previews: [(title: String, image: UIImage?)] = []
-
-	var editingScreen: IEditingScreen?
 
 	init(
 		image: UIImage?,
@@ -53,12 +55,16 @@ final class EditingScreenPresenter
 		self.editedImage = editedImage
 		self.imageProcessor = imageProcessor
 		self.storageService = storageService
+		self.imageProcessor.outputSource = self
 		makePreviews()
 	}
-
-	private func makePreviews() {
+}
+// MARK: - Private Methods
+private extension EditingScreenPresenter
+{
+	func makePreviews() {
 		if let newImage = image {
-			imageProcessor.currentImage = newImage
+			imageProcessor.initialImage = newImage
 			imageProcessor.tuneSettings = TuneSettings()
 			previews = imageProcessor.filtersPreviews(image: newImage)
 			return
@@ -70,15 +76,15 @@ final class EditingScreenPresenter
 					assertionFailure(AlertMessages.noStoredData)
 					return
 				}
-				imageProcessor.currentImage = storedImage
+				imageProcessor.initialImage = storedImage
 				imageProcessor.tuneSettings = editedImage.tuneSettings
 				previews = imageProcessor.filtersPreviews(image: storedImage)
 			}
 		}
 	}
 
-	private func saveImageAsNew() {
-		guard let currentImage = imageProcessor.currentImage else {
+	func saveImageAsNew() {
+		guard let currentImage = imageProcessor.initialImage else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
@@ -106,7 +112,7 @@ final class EditingScreenPresenter
 		}
 	}
 
-	private func saveExistingImage() {
+	func saveExistingImage() {
 		guard var editedImage = editedImage else {
 			editingScreen?.showErrorAlert(
 				title: AlertMessages.error,
@@ -126,8 +132,8 @@ final class EditingScreenPresenter
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
 				for (index, item) in currentEditedImages.enumerated()
 					where item.imageFileName == editedImage.imageFileName {
-					currentEditedImages.remove(at: index)
-					currentEditedImages.insert(editedImage, at: index)
+						currentEditedImages.remove(at: index)
+						currentEditedImages.insert(editedImage, at: index)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
 				self?.editingScreen?.dismiss(toRoot: true, completion: nil)
@@ -136,8 +142,13 @@ final class EditingScreenPresenter
 	}
 }
 
+// MARK: - IEditingScreenPresenter Methods
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func onAutoEnchanceTapped(value: Bool) {
+		imageProcessor.tuneSettings?.autoEnchancement = value
+	}
+
 	func onCancelTapped() {
 		editingScreen?.showAttentionAlert(title: AlertMessages.cancelTappedTitle, message: AlertMessages.cancelTappedMessage)
 	}
@@ -149,6 +160,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		else {
 			saveExistingImage()
 		}
+		imageProcessor.clearContexCache()
 	}
 
 	func onShareTapped() {
@@ -164,9 +176,8 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		return imageProcessor.tunedImage
 	}
 
-	func getFilteredImageFor(filterIndex: Int) -> UIImage? {
+	func getFilteredImageFor(filterIndex: Int) {
 		imageProcessor.tuneSettings?.ciFilter = Filter.photoFilters[filterIndex].ciFilter?.name
-		return imageProcessor.tunedImage
 	}
 
 	func filtersToolPressed() { editingScreen?.showFiltersTool() }
@@ -180,18 +191,24 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	func getFiltersCount() -> Int { Filter.photoFilters.count }
 
 	func getTuneSettings() -> TuneSettings? { imageProcessor.tuneSettings }
-	func onSaveTuneSettingsTapped(save settings: TuneSettings, image: (UIImage?) -> Void) {
+
+	func onSaveTuneSettingsTapped(save settings: TuneSettings) {
 		imageProcessor.tuneSettings = settings
-		image(imageProcessor.tunedImage)
 	}
 
-	func onRotateAntiClockwiseTapped(image: (UIImage?) -> Void) {
+	func onRotateAntiClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
-		image(imageProcessor.tunedImage)
+		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 
-	func onRotateClockwiseTapped(image: (UIImage?) -> Void) {
+	func onRotateClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
-		image(imageProcessor.tunedImage)
+		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
+}
+
+// MARK: - IImageProcessorOutputSource Methods
+extension EditingScreenPresenter: IImageProcessorOutputSource
+{
+	func updateImage(image: UIImage?) { editingScreen?.updateImageView(image: image) }
 }

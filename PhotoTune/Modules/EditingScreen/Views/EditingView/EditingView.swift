@@ -8,25 +8,20 @@
 
 import UIKit
 
+// MARK: - Protocol
 protocol IToolViewDelegate: AnyObject
 {
-	func imageWithFilter(index: Int) -> UIImage?
+	func applyFilterToImageWith(index: Int)
 	func applyTuneSettings(_ settings: TuneSettings)
 	func loadTuneSettings() -> TuneSettings?
 	func rotateClockwise()
 	func rotateAntiClockwise()
 }
 
+// MARK: - EditingView Class
 final class EditingView: UIView
 {
-	private let imageView = UIImageView()
-	private let editingView = UIView()
-
-	private let filtersTools = ToolsCollectionView()
-	private let tuneTools = ToolsCollectionView()
-	private let rotationTool = RotationView()
-	private let slidersStack = ToolSliderView()
-
+	// MARK: Properties
 	weak var toolsDelegate: IToolViewDelegate?
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
@@ -41,6 +36,16 @@ final class EditingView: UIView
 		}
 	}
 
+	// MARK: Private Properties
+	private let imageView = UIImageView()
+	private let editingView = UIView()
+
+	// tools
+	private let filtersTools = ToolsCollectionView()
+	private let tuneTools = ToolsCollectionView()
+	private let rotationTool = RotationView()
+	private let slidersStack = ToolSliderView()
+
 	init() {
 		super.init(frame: .zero)
 		slidersStack.parentView = self
@@ -48,6 +53,7 @@ final class EditingView: UIView
 		setupView()
 		setConstraints()
 		addTools()
+		editingView.tag = 2
 	}
 
 	@available(*, unavailable)
@@ -55,19 +61,7 @@ final class EditingView: UIView
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	private func selectFilter() {
-		let actualFilter = toolsDelegate?.loadTuneSettings()?.ciFilter
-		for (index, filter) in Filter.photoFilters.enumerated() where actualFilter == filter.ciFilter?.name {
-			filtersTools.lastSelectedFilter = IndexPath(item: index, section: 0)
-		}
-		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.filterSelectionDelay) { [weak self] in
-			self?.filtersTools.selectItem(
-				at: self?.filtersTools.lastSelectedFilter,
-				animated: false,
-				scrollPosition: .centeredHorizontally)
-		}
-	}
-
+	// MARK: Methods
 	func setImage(_ image: UIImage?) {
 		imageView.image = image
 	}
@@ -101,6 +95,19 @@ final class EditingView: UIView
 	// MARK: - Private Methods
 private extension EditingView
 {
+	func selectFilter() {
+		let actualFilter = toolsDelegate?.loadTuneSettings()?.ciFilter
+		for (index, filter) in Filter.photoFilters.enumerated() where actualFilter == filter.ciFilter?.name {
+			filtersTools.lastSelectedFilter = IndexPath(item: index, section: 0)
+		}
+		DispatchQueue.main.asyncAfter(deadline: .now() + EditingScreenMetrics.filterSelectionDelay) { [weak self] in
+			self?.filtersTools.selectItem(
+				at: self?.filtersTools.lastSelectedFilter,
+				animated: false,
+				scrollPosition: .centeredHorizontally)
+		}
+	}
+
 	func setDelegateWithDataSource() {
 		filtersTools.delegate = self
 		filtersTools.dataSource = self
@@ -115,9 +122,9 @@ private extension EditingView
 		else { backgroundColor = .white }
 		imageView.clipsToBounds = true
 		imageView.contentMode = .scaleAspectFit
-		imageView.layer.cornerRadius = EditingScreenMetrics.filterCellCornerRadius
 		addSubview(imageView)
 		addSubview(editingView)
+		imageView.enableZoom()
 	}
 
 	func setConstraints() {

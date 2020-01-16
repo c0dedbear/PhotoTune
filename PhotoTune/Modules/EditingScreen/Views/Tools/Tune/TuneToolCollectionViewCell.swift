@@ -58,7 +58,12 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 
 	private func configureIndicator() {
 		indicator.isHidden = true
-		indicator.backgroundColor = .systemGray
+		if #available(iOS 13.0, *) {
+			indicator.backgroundColor = .label
+		}
+		else {
+			indicator.backgroundColor = .systemGreen
+		}
 		indicator.layer.cornerRadius = EditingScreenMetrics.tuneToolIndicatorRadius / 2
 		addSubview(indicator)
 		indicator.translatesAutoresizingMaskIntoConstraints = false

@@ -16,6 +16,9 @@ final class ToolSliderView: UIStackView
 	private let cancel = UIButton(type: .system)
 	private let done = UIButton(type: .system)
 
+	private let throttler = Throttler(minimumDelay: EditingScreenMetrics.sliderThrottlingDelay)
+	private let haptics = UIImpactFeedbackGenerator(style: .light)
+
 	var savedTuneSettings: TuneSettings? {
 		didSet {
 			guard let settings = savedTuneSettings else {
@@ -90,6 +93,8 @@ final class ToolSliderView: UIStackView
 			intensitySlider.configureForContrast()
 		case .saturation:
 			intensitySlider.configureForSaturation()
+		case .sharpness:
+			intensitySlider.configureForSharpness()
 		case .vignette:
 			intensitySlider.configureForVignetteIntensity()
 			intensityChanged() //for immediately applying vignette effect
@@ -99,19 +104,32 @@ final class ToolSliderView: UIStackView
 
 	@objc func intensityChanged() {
 		switch currentTuneTool {
+		case .vignette:
+			intensitySlider.updateLabel(convertValues: false)
+		default:
+			intensitySlider.updateLabel()
+		}
+
+		throttler.throttle {
+			self.changeSettings()
+			if self.intensitySlider.isHapticsNeeded {
+				self.haptics.impactOccurred()
+			}
+		}
+	}
+
+	private func changeSettings() {
+		switch currentTuneTool {
 		case .brightness:
 			currentTuneSettings.brightnessIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
 		case .contrast:
 			currentTuneSettings.contrastIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
 		case .saturation:
 			currentTuneSettings.saturationIntensity = intensitySlider.value
-			intensitySlider.updateLabel()
+		case .sharpness:
+			currentTuneSettings.sharpnessIntensity = intensitySlider.value
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = intensitySlider.value
-			currentTuneSettings.vignetteRadius = intensitySlider.value + 1
-			intensitySlider.updateLabel(convertValues: false)
 		case .none: break
 		}
 	}
@@ -127,6 +145,9 @@ final class ToolSliderView: UIStackView
 		case .saturation:
 			currentTuneSettings.saturationIntensity = savedTuneSettings?.saturationIntensity
 				?? TuneSettingsDefaults.saturationIntensity
+		case .sharpness:
+			currentTuneSettings.sharpnessIntensity = savedTuneSettings?.sharpnessIntensity
+				?? TuneSettingsDefaults.sharpnessIntensity
 		case .vignette:
 			currentTuneSettings.vignetteIntensity = savedTuneSettings?.vignetteIntensity
 				?? TuneSettingsDefaults.vignetteIntensity

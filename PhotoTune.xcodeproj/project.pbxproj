@@ -54,9 +54,12 @@
 		E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
+		E98382F323CDB66300508D9E /* UIImageView+Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */; };
 		E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AD78623C4AD9D000E4655 /* StorageService.swift */; };
 		E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* AlertMessages.swift */; };
 		E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */; };
+		E9B580A523CBDB9D007AC6F9 /* AutoEnchanceButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B580A423CBDB9D007AC6F9 /* AutoEnchanceButton.swift */; };
+		E9DD388D23CE302A0065DA65 /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9DD388C23CE302A0065DA65 /* Throttler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -109,9 +112,12 @@
 		E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
+		E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Scaling.swift"; sourceTree = "<group>"; };
 		E99AD78623C4AD9D000E4655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		E9AD494B23CA04B600D65B95 /* AlertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessages.swift; sourceTree = "<group>"; };
 		E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Constraints.swift"; sourceTree = "<group>"; };
+		E9B580A423CBDB9D007AC6F9 /* AutoEnchanceButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoEnchanceButton.swift; sourceTree = "<group>"; };
+		E9DD388C23CE302A0065DA65 /* Throttler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +226,7 @@
 		E90288F623AE75D400F28FBA /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E9B580A423CBDB9D007AC6F9 /* AutoEnchanceButton.swift */,
 				E90288FF23AE75D400F28FBA /* ToolBarButton.swift */,
 				E90288FC23AE75D400F28FBA /* ToolsCollectionView.swift */,
 				E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */,
@@ -245,6 +252,7 @@
 				E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */,
 				E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */,
 				E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */,
+				E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -340,7 +348,6 @@
 				E902893823B1125700F28FBA /* Views */,
 				E90288F523AE75D400F28FBA /* EditingScreenViewController.swift */,
 				E90288EF23AE75D300F28FBA /* EditingScreenPresenter.swift */,
-				E90288F023AE75D300F28FBA /* ImageProcessor.swift */,
 			);
 			path = EditingScreen;
 			sourceTree = "<group>";
@@ -377,6 +384,8 @@
 		E99AD78523C4AD72000E4655 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E9DD388C23CE302A0065DA65 /* Throttler.swift */,
+				E90288F023AE75D300F28FBA /* ImageProcessor.swift */,
 				E99AD78623C4AD9D000E4655 /* StorageService.swift */,
 				2247572B23CA332F0030C9EE /* NetworkService.swift */,
 			);
@@ -476,9 +485,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */,
+				E9B580A523CBDB9D007AC6F9 /* AutoEnchanceButton.swift in Sources */,
 				2247572423C9ED110030C9EE /* Urls.swift in Sources */,
 				E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				2247571D23C9E8720030C9EE /* UnsplashImage.swift in Sources */,
+				E9DD388D23CE302A0065DA65 /* Throttler.swift in Sources */,
 				E94D1ADA23B4E0EA007A4E86 /* TuneSettings.swift in Sources */,
 				E902890523AE75D400F28FBA /* EditingScreenViewController.swift in Sources */,
 				2247571623C87A710030C9EE /* PhotoCollectionViewLayout.swift in Sources */,
@@ -510,6 +521,7 @@
 				2247570623C61ED30030C9EE /* UnsplashSearchScreenViewController.swift in Sources */,
 				D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */,
 				2247571B23C9E2790030C9EE /* URLExtension.swift in Sources */,
+				E98382F323CDB66300508D9E /* UIImageView+Scaling.swift in Sources */,
 				D094AF9323C66ACB00D863FF /* EditedImagesRouter.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* StorageRepository.swift in Sources */,
 				E94D1AD823B29147007A4E86 /* Filter.swift in Sources */,

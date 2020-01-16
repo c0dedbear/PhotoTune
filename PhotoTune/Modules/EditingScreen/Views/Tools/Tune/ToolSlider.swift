@@ -10,8 +10,13 @@ import UIKit
 
 final class ToolSlider: UISlider
 {
+	private let zero = "0"
 	private let label = UILabel()
 	var tuneSettings: TuneSettings?
+
+	var labelObserver: NSKeyValueObservation?
+
+	var isHapticsNeeded = false
 
 	init() {
 		super.init(frame: .zero)
@@ -30,6 +35,15 @@ final class ToolSlider: UISlider
 			label.textColor = .gray
 		}
 		addSubview(label)
+
+		labelObserver = label.observe(\.text, options: [.old]) { lbl, change in
+			if lbl.text == self.zero && change.oldValue != self.zero {
+				self.isHapticsNeeded = true
+			}
+			else {
+				self.isHapticsNeeded = false
+			}
+		}
 	}
 
 	func updateLabel(convertValues: Bool = true) {
@@ -68,6 +82,13 @@ final class ToolSlider: UISlider
 		minimumValue = TuneSettingsDefaults.minSaturationIntensity
 		maximumValue = TuneSettingsDefaults.maxSaturationIntensity
 		value = tuneSettings?.saturationIntensity ?? TuneSettingsDefaults.saturationIntensity
+		updateLabel()
+	}
+
+	func configureForSharpness() {
+		minimumValue = TuneSettingsDefaults.minSharpnessIntensity
+		maximumValue = TuneSettingsDefaults.maxSharpnessIntensity
+		value = tuneSettings?.sharpnessIntensity ?? TuneSettingsDefaults.sharpnessIntensity
 		updateLabel()
 	}
 

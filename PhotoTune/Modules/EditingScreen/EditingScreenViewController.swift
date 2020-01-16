@@ -8,7 +8,8 @@
 
 import UIKit
 
-protocol IEditingScreen
+// MARK: Protocol IEditingScreen
+protocol IEditingScreen: AnyObject
 {
 	var currentImage: UIImage? { get }
 
@@ -19,23 +20,24 @@ protocol IEditingScreen
 	func showErrorAlert(title: String?, message: String?, dismiss: Bool)
 	func showAttentionAlert(title: String?, message: String?)
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
+	func updateImageView(image: UIImage?)
 }
-
+// MARK: - EditingScreenViewController
 final class EditingScreenViewController: UIViewController
 {
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	private var currentEditingType: EditingType = .filters {
-		didSet { title = currentEditingType.rawValue }
-	}
+	private var currentEditingType: EditingType = .filters { didSet { setAutuEnhanceTool() } }
 
+	private let autoEnchanceButton = AutoEnchanceButton()
 	private let editingView = EditingView()
 	private var toolBarButtons = [ToolBarButton]()
 
 	// MARK: Initialization
 	init(presenter: IEditingScreenPresenter) {
 		self.presenter = presenter
+		autoEnchanceButton.isSelected = presenter.getTuneSettings()?.autoEnchancement ?? false
 		super.init(nibName: nil, bundle: nil)
 	}
 
@@ -49,6 +51,7 @@ final class EditingScreenViewController: UIViewController
 		view = editingView
 		editingView.toolsDelegate = self
 		editingView.toolCollectionViewDataSource = self
+		autoEnchanceButton.addTarget(self, action: #selector(autoEnchanceTapped), for: .touchUpInside)
 	}
 
 	override func viewDidLoad() {
@@ -57,11 +60,22 @@ final class EditingScreenViewController: UIViewController
 		setupToolBar()
 		editingView.hideAllToolsViews(except: currentEditingType)
 		editingView.setImage(presenter.getInitialImage())
+		currentEditingType = .filters
 	}
 }
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
+	func setAutuEnhanceTool() {
+		if currentEditingType == .tune {
+			navigationItem.titleView = autoEnchanceButton
+		}
+		else {
+			navigationItem.titleView = nil
+			title = currentEditingType.rawValue
+		}
+	}
+
 	func setupNavigationBar() {
 		navigationItem.leftBarButtonItem = UIBarButtonItem(
 			barButtonSystemItem: .cancel,
@@ -125,6 +139,14 @@ private extension EditingScreenViewController
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
+	@objc func autoEnchanceTapped() {
+		autoEnchanceButton.isSelected.toggle()
+		if autoEnchanceButton.isSelected {
+			let haptics = UIImpactFeedbackGenerator(style: .medium)
+			haptics.impactOccurred()
+		}
+	presenter.onAutoEnchanceTapped(value: autoEnchanceButton.isSelected)
+}
 
 	@objc func toolBarButtonTapped(_ sender: ToolBarButton) {
 		guard let editingType = sender.editingType else { return }
@@ -151,6 +173,8 @@ private extension EditingScreenViewController
 extension EditingScreenViewController: IEditingScreen
 {
 	var currentImage: UIImage? { editingView.currentImage }
+
+	func updateImageView(image: UIImage?) { editingView.setImage(image) }
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
 		if toRoot {
@@ -196,28 +220,23 @@ extension EditingScreenViewController: IEditingScreen
 extension EditingScreenViewController: IToolViewDelegate
 {
 	func rotateClockwise() {
-		presenter.onRotateClockwiseTapped { image in
-			editingView.setImage(image)
-		}
+		presenter.onRotateClockwiseTapped()
 	}
 
 	func rotateAntiClockwise() {
-		presenter.onRotateAntiClockwiseTapped { image in
-		editingView.setImage(image)
-		}
+		presenter.onRotateAntiClockwiseTapped()
 	}
 
 	func loadTuneSettings() -> TuneSettings? {
-		presenter.getTuneSettings()
+		let settings = presenter.getTuneSettings()
+		return settings
 	}
 
 	func applyTuneSettings(_ settings: TuneSettings) {
-		presenter.onSaveTuneSettingsTapped(save: settings) { image in
-			editingView.setImage(image)
-		}
+		presenter.onSaveTuneSettingsTapped(save: settings)
 	}
 
-	func imageWithFilter(index: Int) -> UIImage? {
+	func applyFilterToImageWith(index: Int ) {
 		presenter.getFilteredImageFor(filterIndex: index)
 	}
 }
@@ -243,15 +262,18 @@ extension EditingScreenViewController: IToolCollectionViewDataSource
 	}
 
 	func showChangesIndicator(for tuneTool: TuneTool?) -> Bool? {
+		guard let settings = presenter.getTuneSettings() else { return nil }
 		switch tuneTool {
 		case .brightness:
-			return presenter.getTuneSettings()?.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity
+			return settings.brightnessIntensity.roundToDecimal(3) != TuneSettingsDefaults.brightnessIntensity
 		case .contrast:
-			return presenter.getTuneSettings()?.contrastIntensity != TuneSettingsDefaults.contrastIntensity
+			return settings.contrastIntensity != TuneSettingsDefaults.contrastIntensity
 		case .saturation:
-			return presenter.getTuneSettings()?.saturationIntensity != TuneSettingsDefaults.saturationIntensity
+			return settings.saturationIntensity != TuneSettingsDefaults.saturationIntensity
+		case .sharpness:
+			return settings.sharpnessIntensity != TuneSettingsDefaults.sharpnessIntensity
 		case .vignette:
-			return presenter.getTuneSettings()?.vignetteIntensity != TuneSettingsDefaults.vignetteIntensity
+			return settings.vignetteIntensity != TuneSettingsDefaults.vignetteIntensity
 		case .none:
 			return nil
 		}
