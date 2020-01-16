@@ -15,6 +15,7 @@ protocol IImageProcessor: AnyObject
 {
 	var initialImage: UIImage? { get set }
 	var tunedImage: UIImage? { get set }
+	var transformedImage: UIImage? { get }
 
 	var tuneSettings: TuneSettings? { get set }
 	var outputSource: IImageProcessorOutputSource? { get set }
@@ -43,6 +44,8 @@ final class ImageProcessor
 	}
 
 	var tunedImage: UIImage? { didSet { outputSource?.updateImage(image: tunedImage) } }
+
+	var transformedImage: UIImage? { transformedImage(ciImage: currentCIImage) }
 
 	var tuneSettings: TuneSettings? {
 		didSet {
@@ -115,19 +118,22 @@ private extension ImageProcessor
 		return vignetteFilter.outputImage
 	}
 
-	private func rotateImage(ciImage: CIImage?) -> CIImage? {
+	private func transformedImage(ciImage: CIImage?) -> UIImage? {
 		guard let filter = Filter.transform.ciFilter else { return nil }
 		guard let angle = tuneSettings?.rotationAngle else { return nil }
 
-		let transform = CGAffineTransform(rotationAngle: angle)
+		let transform = CGAffineTransform(rotationAngle: -angle)
 
 		filter.setValue(ciImage, forKey: kCIInputImageKey)
 		filter.setValue(transform, forKey: kCIInputTransformKey)
 
-		return filter.outputImage
+		currentCIImage = filter.outputImage
+		guard let ciOuput = self.currentCIImage else { return nil }
+		guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return nil }
+		return UIImage(cgImage: cgImage)
 	}
 
-	func autoEnchance() {
+	private func autoEnchance() {
 		if let filters = autoEnhanceFilters {
 			for filter in filters {
 				filter.setValue(currentCIImage, forKey: kCIInputImageKey)
@@ -136,31 +142,27 @@ private extension ImageProcessor
 		}
 	}
 
-	func appleTuneSettings() {
-		guard let imageData = jpegData else { return }
-		guard let inputImage = UIImage(data: imageData) else { return }
-
-		currentCIImage = CIImage(image: inputImage)
-
-		currentCIImage = colorControls(ciInput: currentCIImage)
-		currentCIImage = rotateImage(ciImage: currentCIImage)
-		currentCIImage = vignette(ciInput: currentCIImage)
-		currentCIImage = sharpness(ciInput: currentCIImage)
-
-		if let photoFilterOutput = photoFilter(ciInput: currentCIImage) {
-			currentCIImage = photoFilterOutput
-		}
-
-		if self.tuneSettings?.autoEnchancement == true {
-			autoEnchance()
-		}
-
-		guard let ciOuput = self.currentCIImage else { return }
+	private func appleTuneSettings() {
+		guard let inputImage = initialImage else { return }
 
 		DispatchQueue.global(qos: .userInteractive).async {
-			guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
+			self.currentCIImage = CIImage(image: inputImage)
+			self.currentCIImage = self.colorControls(ciInput: self.currentCIImage)
+			self.currentCIImage = self.vignette(ciInput: self.currentCIImage)
+			self.currentCIImage = self.sharpness(ciInput: self.currentCIImage)
+
+			if let photoFilterOutput = self.photoFilter(ciInput: self.currentCIImage) {
+				self.currentCIImage = photoFilterOutput
+			}
+
+			if self.tuneSettings?.autoEnchancement == true {
+				self.autoEnchance()
+			}
+
+			guard let ciOuput = self.currentCIImage else { return }
+
 			DispatchQueue.main.async {
-				self.tunedImage = UIImage(cgImage: cgImage)
+				self.tunedImage = UIImage(ciImage: ciOuput, scale: inputImage.scale, orientation: .up)
 			}
 		}
 	}

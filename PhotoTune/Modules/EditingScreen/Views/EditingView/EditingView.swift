@@ -62,6 +62,10 @@ final class EditingView: UIView
 	}
 
 	// MARK: Methods
+	func setTransform(_ transform: CGAffineTransform) {
+		imageView.transform = transform
+	}
+
 	func setImage(_ image: UIImage?) {
 		imageView.image = image
 	}

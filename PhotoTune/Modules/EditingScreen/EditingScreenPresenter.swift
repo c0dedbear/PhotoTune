@@ -92,7 +92,7 @@ private extension EditingScreenPresenter
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
-		guard let previewImage = self.imageProcessor.tunedImage else {
+		guard let previewImage = self.imageProcessor.transformedImage?.resized(toWidth: screenSize.width / 2) else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
@@ -125,7 +125,7 @@ private extension EditingScreenPresenter
 			return
 		}
 
-		guard let previewImage = self.imageProcessor.tunedImage else {
+		guard let previewImage = self.imageProcessor.transformedImage?.resized(toWidth: screenSize.width / 2) else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
@@ -168,9 +168,15 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onShareTapped() {
-		guard let data = editingScreen?.currentImage?.pngData() else { return }
+		guard let data = imageProcessor.transformedImage?.pngData() else { return }
 
 		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+
+		activityVC.completionWithItemsHandler = { _, _, _, error in
+			if let error = error {
+				self.editingScreen?.showAttentionAlert(title: "Error", message: error.localizedDescription)
+			}
+		}
 
 		editingScreen?.showAcitivityVC(activityVC)
 	}
@@ -201,13 +207,13 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onRotateAntiClockwiseTapped() {
-		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
-		imageProcessor.tuneSettings?.limitRotationAngle()
+		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
+//		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 
 	func onRotateClockwiseTapped() {
-		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
-		imageProcessor.tuneSettings?.limitRotationAngle()
+		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
+//		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 }
 

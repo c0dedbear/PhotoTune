@@ -25,13 +25,6 @@ struct TuneSettings: Equatable, Codable
 	var sharpnessIntensity = TuneSettingsDefaults.sharpnessIntensity
 	var sharpnessRadius = TuneSettingsDefaults.sharpnessRadius
 
-	mutating func limitRotationAngle() {
-		if rotationAngle > TuneSettingsDefaults.rotationPositiveAngleLimit ||
-			rotationAngle < TuneSettingsDefaults.rotationNegativeAngleLimit {
-			rotationAngle = TuneSettingsDefaults.rotationAngle
-		}
-	}
-
 	mutating func resetToActualSettings() {
 		if brightnessIntensity < TuneSettingsDefaults.brightnessIntensityStep
 			&& brightnessIntensity > TuneSettingsDefaults.brightnessIntensity  {

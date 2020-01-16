@@ -28,7 +28,7 @@ final class EditingScreenViewController: UIViewController
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	private var currentEditingType: EditingType = .filters { didSet { setAutuEnhanceTool() } }
+	private var currentEditingType: EditingType = .filters { didSet { setAutoEnhanceTool() } }
 
 	private let autoEnchanceButton = AutoEnchanceButton()
 	private let editingView = EditingView()
@@ -58,15 +58,21 @@ final class EditingScreenViewController: UIViewController
 		super.viewDidLoad()
 		setupNavigationBar()
 		setupToolBar()
-		editingView.hideAllToolsViews(except: currentEditingType)
-		editingView.setImage(presenter.getInitialImage())
-		currentEditingType = .filters
+		setupEditingView()
 	}
 }
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
-	func setAutuEnhanceTool() {
+	func setupEditingView() {
+		editingView.hideAllToolsViews(except: currentEditingType)
+		editingView.setImage(presenter.getInitialImage())
+		if let angle = presenter.getTuneSettings()?.rotationAngle {
+			editingView.setTransform(CGAffineTransform(rotationAngle: angle))
+		}
+		currentEditingType = .filters
+	}
+	func setAutoEnhanceTool() {
 		if currentEditingType == .tune {
 			navigationItem.titleView = autoEnchanceButton
 		}
