@@ -37,6 +37,7 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 	}
 
 	private func configureCell() {
+		layer.cornerRadius = 20
 		layer.shadowRadius = 15
 		layer.shadowOpacity = 0.5
 		layer.shadowOffset = CGSize(width: 5, height: 5)
@@ -45,13 +46,13 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 		imageView.clipsToBounds = true
 		imageView.layer.cornerRadius = 20
 
-		dateView.backgroundColor = UIColor(white: 1, alpha: 0.3)
+		dateView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
 		addSubview(dateView)
-		dateView.layer.cornerRadius = 12
+		dateView.layer.cornerRadius = 20
 
 		dateLabel.textAlignment = .center
-		dateLabel.textColor = .black
-		dateLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+		dateLabel.textColor = .white
+		dateLabel.font = .systemFont(ofSize: 12, weight: .semibold)
 		dateLabel.minimumScaleFactor = 0.5
 		dateLabel.adjustsFontSizeToFitWidth = true
 		dateView.addSubview(dateLabel)
@@ -88,12 +89,12 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 
 			dateView.leftAnchor.constraint(equalTo: leftAnchor),
 			dateView.rightAnchor.constraint(equalTo: rightAnchor),
-			dateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
-			dateView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.15),
+			dateView.bottomAnchor.constraint(equalTo: bottomAnchor),
+			dateView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25),
 
 			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor),
-			dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor, constant: 3),
-			dateLabel.rightAnchor.constraint(equalTo: dateView.rightAnchor, constant: -3),
+			dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor, constant: 8),
+			dateLabel.rightAnchor.constraint(equalTo: dateView.rightAnchor, constant: -8),
 		])
 	}
 }

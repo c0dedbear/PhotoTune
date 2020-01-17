@@ -127,6 +127,7 @@ private extension EditingScreenPresenter
 		}
 
 		editedImage.tuneSettings = imageProcessor.tuneSettings
+		editedImage.editingDate = Date()
 
 		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
