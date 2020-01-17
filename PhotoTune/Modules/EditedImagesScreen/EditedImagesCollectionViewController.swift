@@ -134,7 +134,7 @@ extension EditedImagesCollectionViewController: UIImagePickerControllerDelegate,
 {
 	func imagePickerController(_ picker: UIImagePickerController,
 							   didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-		guard let selectedImage = info[.originalImage] as? UIImage else { return }
+		guard let selectedImage = info[.editedImage] as? UIImage else { return }
 		dismiss(animated: true)
 		presenter.transferImageForEditing(image: selectedImage, editedImage: nil)
 	}
