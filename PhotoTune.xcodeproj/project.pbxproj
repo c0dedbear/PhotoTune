@@ -77,10 +77,9 @@
 		2247572323C9ED110030C9EE /* Urls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Urls.swift; sourceTree = "<group>"; };
 		2247572B23CA332F0030C9EE /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		D04F2BCE23A960A8002DE17E /* EditedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImage.swift; sourceTree = "<group>"; };
-		D05552CA23D10C6E002BD77E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		D05552CE23D10CB1002BD77E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		D05552D023D10CB3002BD77E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D05552D123D10D66002BD77E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		D05552F923D133F1002BD77E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesScreenCell.swift; sourceTree = "<group>"; };
 		D094AF8C23C66A6C00D863FF /* StartingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingView.swift; sourceTree = "<group>"; };
 		D094AF8E23C66A8E00D863FF /* EditedImagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesPresenter.swift; sourceTree = "<group>"; };
@@ -556,7 +555,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				D05552CE23D10CB1002BD77E /* en */,
-				D05552D023D10CB3002BD77E /* ru */,
+				D05552F923D133F1002BD77E /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -565,7 +564,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				E906D76123A7F7D40010CD54 /* Base */,
-				D05552CA23D10C6E002BD77E /* ru */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";

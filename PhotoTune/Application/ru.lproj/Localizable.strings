@@ -31,7 +31,7 @@
 "Status code %d" = "Статус код %d";
 "Error" = "Ошибка";
 "Trying to save new Image as Existing" = "Попытка сохранить новое изображение как существующее";
-"Nothing to save" = "Сохранить нечего";
+"Nothing to save" = "Нет данных для сохранения";
 "No stored data" = "Нет сохраненных данных";
 "Closing Editor" = "Закрытие редактора";
 "Do you really want close editor?\nIf you have unsaved settings, they will be lost. " = "Вы действительно хотите закрыть редактор?\nЕсли у вас есть несохраненные изменения, они будут потеряны. ";
