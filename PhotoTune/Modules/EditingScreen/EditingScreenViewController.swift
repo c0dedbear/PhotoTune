@@ -11,6 +11,7 @@ import UIKit
 // MARK: Protocol IEditingScreen
 protocol IEditingScreen: AnyObject
 {
+	var currentEditingType: EditingType { get set }
 	var currentImage: UIImage? { get }
 
 	func showFiltersTool()
@@ -19,20 +20,21 @@ protocol IEditingScreen: AnyObject
 	func showAcitivityVC(_ vc: UIActivityViewController)
 	func showErrorAlert(title: String?, message: String?, dismiss: Bool)
 	func showAttentionAlert(title: String?, message: String?)
+	func showResetAlert(title: String?, message: String?, yesAction: UIAlertAction)
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
 	func updateImageView(image: UIImage?)
+	func unselectAutoEnhanceButton()
 }
 // MARK: - EditingScreenViewController
 final class EditingScreenViewController: UIViewController
 {
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
-
-	private var currentEditingType: EditingType = .filters
-
 	private let autoEnchanceButton = AutoEnchanceButton()
 	private let editingView = EditingView()
 	private var toolBarButtons = [ToolBarButton]()
+
+	var currentEditingType: EditingType = .filters
 
 	// MARK: Initialization
 	init(presenter: IEditingScreenPresenter) {
@@ -60,7 +62,6 @@ final class EditingScreenViewController: UIViewController
 		setupToolBar()
 		editingView.hideAllToolsViews(except: currentEditingType)
 		editingView.setImage(presenter.getInitialImage())
-		currentEditingType = .filters
 	}
 }
 	// MARK: - Private Methods
@@ -136,7 +137,9 @@ private extension EditingScreenViewController
 	}
 
 	// MARK: Objc Handling Methods
-	@objc func resetTapped() { presenter.onResetTapped() }
+	@objc func resetTapped() {
+		presenter.onResetTapped()
+	}
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
@@ -215,6 +218,18 @@ extension EditingScreenViewController: IEditingScreen
 		ac.addAction(yesAction)
 		ac.addAction(cancelAction)
 		present(ac, animated: true)
+	}
+
+	func showResetAlert(title: String?, message: String?, yesAction: UIAlertAction) {
+		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+		ac.addAction(yesAction)
+		ac.addAction(cancelAction)
+		present(ac, animated: true)
+	}
+
+	func unselectAutoEnhanceButton() {
+		autoEnchanceButton.isSelected = false
 	}
 }
 
