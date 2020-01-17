@@ -101,7 +101,7 @@ private extension EditingScreenPresenter
 		storageService.storeImage(currentImage, filename: filename) { [weak self] in
 			self?.storageService.storeImage(previewImage, filename: previewFileName) {
 				if var existingEditedImages = self?.storageService.loadEditedImages() {
-					existingEditedImages.append(editedImage)
+					existingEditedImages.insert(editedImage, at: 0)
 					self?.storageService.saveEditedImages(existingEditedImages)
 				}
 				else {
@@ -133,7 +133,7 @@ private extension EditingScreenPresenter
 				for (index, item) in currentEditedImages.enumerated()
 					where item.imageFileName == editedImage.imageFileName {
 						currentEditedImages.remove(at: index)
-						currentEditedImages.insert(editedImage, at: index)
+						currentEditedImages.insert(editedImage, at: 0)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
 				self?.editingScreen?.dismiss(toRoot: true, completion: nil)
