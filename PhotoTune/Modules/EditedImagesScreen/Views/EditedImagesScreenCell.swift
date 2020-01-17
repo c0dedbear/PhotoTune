@@ -45,13 +45,13 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 		imageView.clipsToBounds = true
 		imageView.layer.cornerRadius = 20
 
-		dateView.backgroundColor = UIColor(white: 1, alpha: 0.3)
+		dateView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
 		addSubview(dateView)
 		dateView.layer.cornerRadius = 12
 
 		dateLabel.textAlignment = .center
-		dateLabel.textColor = .black
-		dateLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+		dateLabel.textColor = .white
+		dateLabel.font = .systemFont(ofSize: 10, weight: .semibold)
 		dateLabel.minimumScaleFactor = 0.5
 		dateLabel.adjustsFontSizeToFitWidth = true
 		dateView.addSubview(dateLabel)
@@ -88,7 +88,7 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 
 			dateView.leftAnchor.constraint(equalTo: leftAnchor),
 			dateView.rightAnchor.constraint(equalTo: rightAnchor),
-			dateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
+			dateView.bottomAnchor.constraint(equalTo: bottomAnchor),
 			dateView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.15),
 
 			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor),

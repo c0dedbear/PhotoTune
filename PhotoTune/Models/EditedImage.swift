@@ -17,8 +17,10 @@ struct EditedImage: Codable, Equatable
 	var tuneSettings: TuneSettings?
 
 	var formattedDate: String {
-		let formatter = DateFormatter()
-		formatter.dateStyle = .medium
-		return formatter.string(from: editingDate)
+		let dateFormatter = DateFormatter()
+		dateFormatter.dateStyle = .long
+		dateFormatter.timeStyle = .short
+		dateFormatter.doesRelativeDateFormatting = true
+		return dateFormatter.string(from: editingDate)
 	}
 }
