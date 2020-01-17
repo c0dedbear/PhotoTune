@@ -71,7 +71,7 @@ final class AddingView: UIView
 			addingButton.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
 
 			descriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-			descriptionLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.5),
+			descriptionLabel.widthAnchor.constraint(equalTo: widthAnchor, multiplier: 0.6),
 			descriptionLabel.bottomAnchor.constraint(equalTo: addingButton.topAnchor, constant: -20),
 
 			addingLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
