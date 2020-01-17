@@ -55,7 +55,6 @@ final class EditingView: UIView
 		setupView()
 		setConstraints()
 		addTools()
-		enableImageZoom()
 	}
 
 	@available(*, unavailable)
@@ -122,8 +121,6 @@ private extension EditingView
 			backgroundColor = .systemBackground
 		}
 		else { backgroundColor = .white }
-		imageZoomView.clipsToBounds = true
-		imageZoomView.contentMode = .scaleAspectFit
 		addSubview(imageZoomView)
 		addSubview(editingView)
 	}
@@ -160,25 +157,5 @@ private extension EditingView
 		editingView.addSubview(rotationTool)
 		rotationTool.fillSuperview()
 		rotationTool.parentView = self
-	}
-
-	func enableImageZoom() {
-		isUserInteractionEnabled = true
-		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
-		doubleTap.numberOfTapsRequired = 2
-		addGestureRecognizer(doubleTap)
-	}
-
-	@objc private func doubleTapped() {
-		if imageZoomView.transform.xScale == CGAffineTransform.identity.xScale {
-			UIView.animate(withDuration: 0.25) {
-				self.imageZoomView.frame = UIScreen.main.bounds
-			}
-		}
-		else {
-			UIView.animate(withDuration: 0.25) {
-				self.imageZoomView.transform = self.imageZoomView.transform.inverted()
-			}
-		}
 	}
 }
