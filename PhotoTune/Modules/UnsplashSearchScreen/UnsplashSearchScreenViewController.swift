@@ -24,6 +24,8 @@ final class UnsplashSearchScreenViewController: UIViewController
 	private let layout = CustomCollectionViewLayout()
 	private var photos = [UnsplashImage]()
 	private let searchStubLabel = UILabel()
+	private var searchText = ""
+	private var page = 1
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -32,7 +34,7 @@ final class UnsplashSearchScreenViewController: UIViewController
 		setupSearchBar()
 		setupCollectionView()
 		setupSearchStubLabel()
-		presenter.getRandomImages()
+		presenter.getImages(with: nil, page: nil)
 	}
 
 	init(presenter: IUnsplashSearchScreenPresenter) {
@@ -105,12 +107,15 @@ extension UnsplashSearchScreenViewController: UISearchBarDelegate
 		timer?.invalidate()
 		timer = Timer.scheduledTimer(withTimeInterval: 0.5,
 									 repeats: false,
-									 block: { _ in
+									 block: { [weak self] _ in
 										if searchText.isEmpty {
 											return
 										}
 										else {
-											self.presenter.getImages(with: searchText)
+											guard let self = self else { return }
+											self.searchText = searchText
+											self.photos = []
+											self.presenter.getImages(with: searchText, page: 1)
 										}
 		})
 	}
@@ -125,12 +130,17 @@ extension UnsplashSearchScreenViewController: IUnsplashSearchScreenViewControlle
 	}
 
 	func updatePhotosArray(photosInfo: [UnsplashImage]) {
-		self.photos = photosInfo
-		self.collectionView.reloadData()
+		let photosCount = self.photos.count
+		self.photos += photosInfo
+		var indexPaths = [IndexPath]()
+		for item in photosCount..<photosCount + photosInfo.count - 1 {
+			indexPaths.append(IndexPath(item: item, section: 0))
+		}
+		collectionView.reloadData()
 	}
 
 	func checkResultOfRequest(isEmpty: Bool, errorText: String, searchTerm: String?) {
-		if isEmpty {
+		if isEmpty && photos.count == 0 {
 			self.collectionView.isHidden = true
 			self.searchStubLabel.isHidden = false
 			if searchTerm != nil {
@@ -170,6 +180,20 @@ extension UnsplashSearchScreenViewController: UICollectionViewDelegate
 {
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		presentAlert(index: indexPath.item)
+	}
+
+	func collectionView(_ collectionView: UICollectionView,
+						willDisplay cell: UICollectionViewCell,
+						forItemAt indexPath: IndexPath) {
+		if indexPath.item == photos.count - 10 {
+			if searchText.isEmpty {
+				presenter.getImages(with: nil, page: nil)
+			}
+			else {
+				page += 1
+				presenter.getImages(with: searchText, page: page)
+			}
+		}
 	}
 }
 
