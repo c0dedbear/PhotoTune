@@ -28,7 +28,7 @@ final class EditingScreenViewController: UIViewController
 	// MARK: Private Properties
 	private let presenter: IEditingScreenPresenter
 
-	private var currentEditingType: EditingType = .filters { didSet { setAutuEnhanceTool() } }
+	private var currentEditingType: EditingType = .filters
 
 	private let autoEnchanceButton = AutoEnchanceButton()
 	private let editingView = EditingView()
@@ -66,21 +66,18 @@ final class EditingScreenViewController: UIViewController
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
-	func setAutuEnhanceTool() {
-		if currentEditingType == .tune {
-			navigationItem.titleView = autoEnchanceButton
-		}
-		else {
-			navigationItem.titleView = nil
-			title = currentEditingType.rawValue
-		}
-	}
-
 	func setupNavigationBar() {
-		navigationItem.leftBarButtonItem = UIBarButtonItem(
-			barButtonSystemItem: .cancel,
+
+		let cancelButton = UIBarButtonItem(
+		barButtonSystemItem: .cancel,
+		target: self,
+		action: #selector(cancelTapped))
+
+		let resetButton = UIBarButtonItem(
+			image: UIImage(named: "reset"),
+			style: .plain,
 			target: self,
-			action: #selector(cancelTapped))
+			action: #selector(resetTapped))
 
 		let saveButton = UIBarButtonItem(
 			barButtonSystemItem: .save,
@@ -92,6 +89,9 @@ private extension EditingScreenViewController
 		target: self,
 		action: #selector(shareTapped))
 
+		navigationItem.titleView = autoEnchanceButton
+
+		navigationItem.leftBarButtonItems = [cancelButton, resetButton]
 		navigationItem.rightBarButtonItems = [saveButton, shareButton]
 	}
 
@@ -136,9 +136,11 @@ private extension EditingScreenViewController
 	}
 
 	// MARK: Objc Handling Methods
+	@objc func resetTapped() { presenter.onResetTapped() }
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
+
 	@objc func autoEnchanceTapped() {
 		autoEnchanceButton.isSelected.toggle()
 		if autoEnchanceButton.isSelected {
