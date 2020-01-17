@@ -25,19 +25,20 @@ final class EditingView: UIView
 	weak var toolsDelegate: IToolViewDelegate?
 	weak var toolCollectionViewDataSource: IToolCollectionViewDataSource?
 
-	var currentImage: UIImage? { imageView.image }
+	var currentImage: UIImage? { imageZoomView.currentImage }
 
 	var heightForCell: CGFloat {
 		if toolCollectionViewDataSource?.editingType == .filters {
-			return imageView.bounds.height / 3.5
+			return imageZoomView.bounds.height / 3.5
 		}
 		else {
-			return imageView.bounds.height / 5
+			return imageZoomView.bounds.height / 5
 		}
 	}
 
 	// MARK: Private Properties
-	private let imageView = UIImageView()
+	private let imageZoomView = ImageZoomView()
+	private var defaultImageViewTransform: CGAffineTransform
 	private let editingView = UIView()
 
 	// tools
@@ -47,13 +48,14 @@ final class EditingView: UIView
 	private let slidersStack = ToolSliderView()
 
 	init() {
+		defaultImageViewTransform = imageZoomView.transform
 		super.init(frame: .zero)
 		slidersStack.parentView = self
 		setDelegateWithDataSource()
 		setupView()
 		setConstraints()
 		addTools()
-		editingView.tag = 2
+		enableImageZoom()
 	}
 
 	@available(*, unavailable)
@@ -63,7 +65,7 @@ final class EditingView: UIView
 
 	// MARK: Methods
 	func setImage(_ image: UIImage?) {
-		imageView.image = image
+		imageZoomView.setImage(image)
 	}
 
 	func showSlider(type: TuneTool) {
@@ -120,28 +122,27 @@ private extension EditingView
 			backgroundColor = .systemBackground
 		}
 		else { backgroundColor = .white }
-		imageView.clipsToBounds = true
-		imageView.contentMode = .scaleAspectFit
-		addSubview(imageView)
+		imageZoomView.clipsToBounds = true
+		imageZoomView.contentMode = .scaleAspectFit
+		addSubview(imageZoomView)
 		addSubview(editingView)
-		imageView.enableZoom()
 	}
 
 	func setConstraints() {
-		imageView.translatesAutoresizingMaskIntoConstraints = false
+		imageZoomView.translatesAutoresizingMaskIntoConstraints = false
 		editingView.translatesAutoresizingMaskIntoConstraints = false
 
-		imageView.anchor(top: safeAreaLayoutGuide.topAnchor,
+		imageZoomView.anchor(top: safeAreaLayoutGuide.topAnchor,
 						 leading: leadingAnchor,
 						 bottom: nil,
 						 trailing: trailingAnchor,
 						 padding: .init(top: 8, left: 8, bottom: 8, right: 8))
 
-		imageView.heightAnchor.constraint(
+		imageZoomView.heightAnchor.constraint(
 			equalTo: safeAreaLayoutGuide.heightAnchor,
 			multiplier: 0.64).isActive = true
 
-		editingView.anchor(top: imageView.bottomAnchor,
+		editingView.anchor(top: imageZoomView.bottomAnchor,
 								  leading: leadingAnchor,
 								  bottom: safeAreaLayoutGuide.bottomAnchor,
 								  trailing: trailingAnchor,
@@ -159,5 +160,25 @@ private extension EditingView
 		editingView.addSubview(rotationTool)
 		rotationTool.fillSuperview()
 		rotationTool.parentView = self
+	}
+
+	func enableImageZoom() {
+		isUserInteractionEnabled = true
+		let doubleTap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+		doubleTap.numberOfTapsRequired = 2
+		addGestureRecognizer(doubleTap)
+	}
+
+	@objc private func doubleTapped() {
+		if imageZoomView.transform.xScale == CGAffineTransform.identity.xScale {
+			UIView.animate(withDuration: 0.25) {
+				self.imageZoomView.frame = UIScreen.main.bounds
+			}
+		}
+		else {
+			UIView.animate(withDuration: 0.25) {
+				self.imageZoomView.transform = self.imageZoomView.transform.inverted()
+			}
+		}
 	}
 }
