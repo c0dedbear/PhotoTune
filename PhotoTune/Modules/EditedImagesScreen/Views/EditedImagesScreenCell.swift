@@ -47,8 +47,8 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 		imageView.layer.cornerRadius = 20
 
 		dateView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
-		addSubview(dateView)
-		dateView.layer.cornerRadius = 20
+		imageView.addSubview(dateView)
+		dateView.layer.cornerRadius = 18
 
 		dateLabel.textAlignment = .center
 		dateLabel.textColor = .white
@@ -90,7 +90,7 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 			dateView.leftAnchor.constraint(equalTo: leftAnchor),
 			dateView.rightAnchor.constraint(equalTo: rightAnchor),
 			dateView.bottomAnchor.constraint(equalTo: bottomAnchor),
-			dateView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25),
+			dateView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.15),
 
 			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor),
 			dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor, constant: 8),
