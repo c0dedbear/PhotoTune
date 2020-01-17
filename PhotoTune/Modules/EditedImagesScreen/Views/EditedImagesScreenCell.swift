@@ -37,7 +37,6 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 	}
 
 	private func configureCell() {
-		layer.cornerRadius = 20
 		layer.shadowRadius = 15
 		layer.shadowOpacity = 0.5
 		layer.shadowOffset = CGSize(width: 5, height: 5)
