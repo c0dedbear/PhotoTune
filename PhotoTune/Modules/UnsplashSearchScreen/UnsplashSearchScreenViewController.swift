@@ -113,9 +113,10 @@ extension UnsplashSearchScreenViewController: UISearchBarDelegate
 										}
 										else {
 											guard let self = self else { return }
+											self.page = 1
 											self.searchText = searchText
 											self.photos = []
-											self.presenter.getImages(with: searchText, page: 1)
+											self.presenter.getImages(with: searchText, page: self.page)
 										}
 		})
 	}
