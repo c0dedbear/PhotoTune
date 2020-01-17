@@ -14,6 +14,8 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 {
 	let highlightIndicator = UIView()
 	let selectIndicator = UIImageView()
+	let dateView = UIView()
+	let dateLabel = UILabel()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -43,6 +45,18 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 		imageView.clipsToBounds = true
 		imageView.layer.cornerRadius = 20
 
+		dateView.backgroundColor = UIColor(white: 1, alpha: 0.3)
+		addSubview(dateView)
+		dateView.layer.cornerRadius = 12
+
+		dateLabel.textAlignment = .center
+		dateLabel.textColor = .black
+		dateLabel.font = .systemFont(ofSize: 14, weight: .semibold)
+		dateLabel.minimumScaleFactor = 0.5
+		dateLabel.adjustsFontSizeToFitWidth = true
+		dateView.addSubview(dateLabel)
+		dateLabel.clipsToBounds = true
+
 		highlightIndicator.clipsToBounds = true
 		highlightIndicator.isHidden = true
 		addSubview(highlightIndicator)
@@ -58,6 +72,8 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 	private func setupConstraints() {
 		selectIndicator.translatesAutoresizingMaskIntoConstraints = false
 		highlightIndicator.translatesAutoresizingMaskIntoConstraints = false
+		dateView.translatesAutoresizingMaskIntoConstraints = false
+		dateLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		NSLayoutConstraint.activate([
 			highlightIndicator.leftAnchor.constraint(equalTo: leftAnchor),
@@ -69,6 +85,15 @@ final class EditedImagesScreenCell: ImageCollectionViewCell
 			selectIndicator.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.15),
 			selectIndicator.rightAnchor.constraint(equalTo: rightAnchor, constant: -10),
 			selectIndicator.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+
+			dateView.leftAnchor.constraint(equalTo: leftAnchor),
+			dateView.rightAnchor.constraint(equalTo: rightAnchor),
+			dateView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -6),
+			dateView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.15),
+
+			dateLabel.centerYAnchor.constraint(equalTo: dateView.centerYAnchor),
+			dateLabel.leftAnchor.constraint(equalTo: dateView.leftAnchor, constant: 3),
+			dateLabel.rightAnchor.constraint(equalTo: dateView.rightAnchor, constant: -3),
 		])
 	}
 }
