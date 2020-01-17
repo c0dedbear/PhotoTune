@@ -22,6 +22,7 @@ protocol IImageProcessor: AnyObject
 
 	func clearContexCache()
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
+	func makeFullSizeTunedImage(from image: UIImage, output: @escaping ((UIImage?) -> Void))
 }
 
 protocol IImageProcessorOutputSource: AnyObject
@@ -45,7 +46,7 @@ final class ImageProcessor
 
 	var tunedImage: UIImage? { didSet { outputSource?.updateImage(image: tunedImage) } }
 
-	var transformedImage: UIImage? { transformedImage(ciImage: currentCIImage) }
+	var transformedImage: UIImage? { applyTransform(ciImage: currentCIImage) }
 
 	var tuneSettings: TuneSettings? {
 		didSet {
@@ -118,7 +119,11 @@ private extension ImageProcessor
 		return vignetteFilter.outputImage
 	}
 
-	private func transformedImage(ciImage: CIImage?) -> UIImage? {
+	private func applyTransform(ciImage: CIImage?) -> UIImage? {
+		/*
+		Call this method only when save or export image, because it's expensive for real time using.
+		RatherUse your's imageView .transform property for showing real time transformation to user.
+		*/
 		guard let filter = Filter.transform.ciFilter else { return nil }
 		guard let angle = tuneSettings?.rotationAngle else { return nil }
 
@@ -142,11 +147,18 @@ private extension ImageProcessor
 		}
 	}
 
-	private func appleTuneSettings() {
-		guard let inputImage = initialImage else { return }
+	private func appleTuneSettings(to image: UIImage? = nil,
+								   output: ((UIImage?) -> Void)? = nil) {
 
 		DispatchQueue.global(qos: .userInteractive).async {
-			self.currentCIImage = CIImage(image: inputImage)
+			if let image = image {
+				self.currentCIImage = CIImage(image: image)
+			}
+			else {
+				guard let inputImage = self.initialImage else { return }
+				self.currentCIImage = CIImage(image: inputImage)
+			}
+
 			self.currentCIImage = self.colorControls(ciInput: self.currentCIImage)
 			self.currentCIImage = self.vignette(ciInput: self.currentCIImage)
 			self.currentCIImage = self.sharpness(ciInput: self.currentCIImage)
@@ -161,8 +173,15 @@ private extension ImageProcessor
 
 			guard let ciOuput = self.currentCIImage else { return }
 
+			if output != nil {
+				if let image = self.transformedImage {
+				output?(image)
+				}
+				return
+			}
+
 			DispatchQueue.main.async {
-				self.tunedImage = UIImage(ciImage: ciOuput, scale: inputImage.scale, orientation: .up)
+				self.tunedImage = UIImage(ciImage: ciOuput, scale: self.initialImage?.scale ?? 0.5, orientation: .up)
 			}
 		}
 	}
@@ -170,6 +189,13 @@ private extension ImageProcessor
 // MARK: - IImageProcessor Methods
 extension ImageProcessor: IImageProcessor
 {
+	func makeFullSizeTunedImage(from image: UIImage, output: @escaping ((UIImage?) -> Void))  {
+
+		appleTuneSettings(to: image) { image in
+			output(image)
+		}
+	}
+
 	func clearContexCache() {
 		context.clearCaches()
 	}

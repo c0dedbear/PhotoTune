@@ -88,7 +88,7 @@ private extension EditingScreenPresenter
 	}
 
 	func saveImageAsNew() {
-		guard let currentImage = imageProcessor.initialImage else {
+		guard let currentImage = originalImage else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
@@ -144,6 +144,21 @@ private extension EditingScreenPresenter
 			}
 		}
 	}
+
+	func showActivityController(with dataItem: Data?) {
+		guard let imageData = dataItem else { return }
+
+		let activityVC = UIActivityViewController(activityItems: [imageData], applicationActivities: [])
+
+		activityVC.completionWithItemsHandler = { _, _, _, error in
+			if let error = error {
+				self.editingScreen?.showAttentionAlert(title: "Error", message: error.localizedDescription)
+			}
+		}
+		DispatchQueue.main.async { [weak self] in
+			self?.editingScreen?.showAcitivityVC(activityVC)
+		}
+	}
 }
 
 // MARK: - IEditingScreenPresenter Methods
@@ -168,17 +183,21 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onShareTapped() {
-		guard let data = imageProcessor.transformedImage?.pngData() else { return }
-
-		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
-
-		activityVC.completionWithItemsHandler = { _, _, _, error in
-			if let error = error {
-				self.editingScreen?.showAttentionAlert(title: "Error", message: error.localizedDescription)
+		if let original = originalImage {
+			imageProcessor.makeFullSizeTunedImage(from: original) { image in
+				self.showActivityController(with: image?.pngData())
 			}
 		}
-
-		editingScreen?.showAcitivityVC(activityVC)
+		else {
+			guard let editedImage = editedImage else { return }
+			storageService.loadImage(filename: editedImage.imageFileName) { image in
+				if let imageFromDisk = image {
+					imageProcessor.makeFullSizeTunedImage(from: imageFromDisk) { image in
+						self.showActivityController(with: image?.pngData())
+					}
+				}
+			}
+		}
 	}
 
 	func getInitialImage() -> UIImage? {
@@ -208,12 +227,10 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 
 	func onRotateAntiClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
-//		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 
 	func onRotateClockwiseTapped() {
 		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
-//		imageProcessor.tuneSettings?.limitRotationAngle()
 	}
 }
 
