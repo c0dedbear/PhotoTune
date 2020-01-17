@@ -80,6 +80,7 @@
 		D05552CE23D10CB1002BD77E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D05552D123D10D66002BD77E /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		D05552F923D133F1002BD77E /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		D05552FA23D13657002BD77E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		D094AF8A23C66A5400D863FF /* EditedImagesScreenCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesScreenCell.swift; sourceTree = "<group>"; };
 		D094AF8C23C66A6C00D863FF /* StartingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingView.swift; sourceTree = "<group>"; };
 		D094AF8E23C66A8E00D863FF /* EditedImagesPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditedImagesPresenter.swift; sourceTree = "<group>"; };
@@ -443,6 +444,7 @@
 				en,
 				Base,
 				ru,
+				ja,
 			);
 			mainGroup = E906D74923A7F7D00010CD54;
 			productRefGroup = E906D75323A7F7D10010CD54 /* Products */;
@@ -556,6 +558,7 @@
 			children = (
 				D05552CE23D10CB1002BD77E /* en */,
 				D05552F923D133F1002BD77E /* ru */,
+				D05552FA23D13657002BD77E /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
