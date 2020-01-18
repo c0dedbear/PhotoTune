@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum EditingType: String
+enum EditingType
 {
 	case filters
 	case tune

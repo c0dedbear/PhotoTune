@@ -21,10 +21,7 @@ final class ToolSliderView: UIStackView
 
 	var savedTuneSettings: TuneSettings? {
 		didSet {
-			guard let settings = savedTuneSettings else {
-				currentTuneSettings = TuneSettings()
-				return
-			}
+			guard let settings = savedTuneSettings else { return }
 			currentTuneSettings = settings
 		}
 	}

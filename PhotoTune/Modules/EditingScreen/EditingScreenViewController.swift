@@ -60,23 +60,17 @@ final class EditingScreenViewController: UIViewController
 		super.viewDidLoad()
 		setupNavigationBar()
 		setupToolBar()
-		editingView.hideAllToolsViews(except: currentEditingType)
-		editingView.setImage(presenter.getInitialImage())
+		setupEditingView()
 	}
 }
 	// MARK: - Private Methods
 private extension EditingScreenViewController
 {
-	func setAutuEnhanceTool() {
-		if currentEditingType == .tune {
-			navigationItem.titleView = autoEnchanceButton
-		}
-		else {
-			navigationItem.titleView = nil
-			title = currentEditingType.setTitle()
-		}
+	func setupEditingView() {
+		editingView.hideAllToolsViews(except: currentEditingType)
+		editingView.setImage(presenter.getInitialImage())
+		currentEditingType = .filters
 	}
-
 	func setupNavigationBar() {
 
 		let cancelButton = UIBarButtonItem(
@@ -147,9 +141,7 @@ private extension EditingScreenViewController
 	}
 
 	// MARK: Objc Handling Methods
-	@objc func resetTapped() {
-		presenter.onResetTapped()
-	}
+	@objc func resetTapped() { presenter.onResetTapped() }
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }

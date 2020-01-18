@@ -12,15 +12,8 @@ final class AutoEnchanceButton: UIButton
 {
 	init() {
 		super.init(frame: .zero)
-		if #available(iOS 13.0, *) {
-			setImage(UIImage(systemName: "bolt.badge.a"), for: .normal)
-			setImage(UIImage(systemName: "bolt.badge.a.fill"), for: .selected)
-		}
-		else {
 			setImage(UIImage(named: "autoEnchance"), for: .normal)
-		}
-		frame.size.width = 72
-		frame.size.height = 72
+			setImage(UIImage(named: "autoEnchance.filled"), for: .selected)
 	}
 
 	@available(*, unavailable)
