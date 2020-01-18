@@ -142,8 +142,8 @@ private extension ImageProcessor
 
 		currentCIImage = CIImage(image: inputImage)
 
-		currentCIImage = colorControls(ciInput: currentCIImage)
 		currentCIImage = rotateImage(ciImage: currentCIImage)
+		currentCIImage = colorControls(ciInput: currentCIImage)
 		currentCIImage = vignette(ciInput: currentCIImage)
 		currentCIImage = sharpness(ciInput: currentCIImage)
 
@@ -157,10 +157,12 @@ private extension ImageProcessor
 
 		guard let ciOuput = self.currentCIImage else { return }
 
-		DispatchQueue.global(qos: .userInteractive).async {
-			guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
-			DispatchQueue.main.async {
-				self.tunedImage = UIImage(cgImage: cgImage)
+		self.throttler.throttle {
+			DispatchQueue.global(qos: .userInteractive).async {
+				guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
+				DispatchQueue.main.async {
+					self.tunedImage = UIImage(cgImage: cgImage)
+				}
 			}
 		}
 	}
