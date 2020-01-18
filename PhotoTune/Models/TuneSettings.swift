@@ -55,14 +55,14 @@ struct TuneSettings: Equatable, Codable
 enum TuneSettingsDefaults
 {
 	static let brightnessIntensity: Float = 0
-	static let minBrightnessIntensity: Float = -0.3
-	static let maxBrightnessIntensity: Float = 0.3
-	static let brightnessIntensityStep: Float = 0.008
+	static let minBrightnessIntensity: Float = -0.2
+	static let maxBrightnessIntensity: Float = 0.2
+	static let brightnessIntensityStep: Float = 0.005
 
 	static let contrastIntensity: Float = 1
-	static let minContrastIntensity: Float = 0.25
-	static let maxContrastIntensity: Float = 1.75
-	static let contrastIntensityStep: Float = 1.016
+	static let minContrastIntensity: Float = 0.5
+	static let maxContrastIntensity: Float = 1.5
+	static let contrastIntensityStep: Float = 1.012
 
 	static let saturationIntensity: Float = 1
 	static let minSaturationIntensity: Float = 0.25
@@ -70,13 +70,11 @@ enum TuneSettingsDefaults
 	static let saturationIntensityStep: Float = 1.016
 
 	static let vignetteIntensity: Float = 0
-	static let minVignetteIntensity: Float = 0.25
-	static let maxVignetteIntensity: Float = 1.75
+	static let minVignetteIntensity: Float = 0
+	static let maxVignetteIntensity: Float = 1.5
 	static let vignetteRadius: Float = 2
 
 	static let rotationAngle: CGFloat = 0
-	static let rotationPositiveAngleLimit: CGFloat = 6.2
-	static let rotationNegativeAngleLimit: CGFloat = -6.2
 	static let rotationAngleStep: CGFloat = 90 * (.pi / 180)
 
 	static let sharpnessIntensity: Float = 0.5
