@@ -163,7 +163,6 @@ extension UnsplashSearchScreenViewController: UICollectionViewDataSource
 		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
-		cell.backgroundColor = .white
 		if let cacheImage = imagesCache.object(forKey: NSString(string: "\(indexPath.item)")) {
 			cell.imageView.image = cacheImage as? UIImage
 		}
