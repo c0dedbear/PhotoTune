@@ -26,7 +26,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "autoEnchance@2x.png",
+      "filename" : "autoEnchance.filled@2x.png",
       "scale" : "2x"
     },
     {
@@ -41,7 +41,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "white-autoEnchance@2x.png",
+      "filename" : "white-autoEnchance.filled@2x.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
@@ -52,7 +52,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "autoEnchance@3x.png",
+      "filename" : "autoEnchance.filled@3x.png",
       "scale" : "3x"
     },
     {
@@ -67,7 +67,7 @@
     },
     {
       "idiom" : "universal",
-      "filename" : "white-autoEnchance@3x.png",
+      "filename" : "white-autoEnchance.filled@3x.png",
       "appearances" : [
         {
           "appearance" : "luminosity",

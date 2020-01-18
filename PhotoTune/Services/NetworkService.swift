@@ -48,7 +48,7 @@ final class NetworkService
 	}
 
 	private func createUrl(searchTerm: String?, page: Int?) -> URL? {
-		if let page = page, let searchTerm = searchTerm {
+		if let page = page, let searchTerm = searchTerm?.addingPercentEncoding( withAllowedCharacters: .urlQueryAllowed) {
 			return URL.with(string: Urls.searchPhotosUrl + "\(searchTerm)" + "&page=" + "\(page)")
 		}
 		else {
