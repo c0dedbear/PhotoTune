@@ -13,7 +13,7 @@ final class AutoEnchanceButton: UIButton
 	init() {
 		super.init(frame: .zero)
 			setImage(UIImage(named: "autoEnchance"), for: .normal)
-			setImage(UIImage(named: "autoEnchance.filled"), for: .selected)
+			setImage(UIImage(named: "autoEnchancefill"), for: .selected)
 	}
 
 	@available(*, unavailable)

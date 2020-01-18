@@ -94,10 +94,17 @@ private extension EditingScreenViewController
 		target: self,
 		action: #selector(shareTapped))
 
-		navigationItem.titleView = autoEnchanceButton
-
 		navigationItem.leftBarButtonItems = [cancelButton, resetButton]
 		navigationItem.rightBarButtonItems = [saveButton, shareButton]
+
+		if EditingScreenMetrics.screenSize.width <= EditingScreenMetrics.smallScreenSizeWidth {
+			let attributes: [NSAttributedString.Key: Any]? = [.font: UIFont.systemFont(ofSize: 14, weight: .regular)]
+			cancelButton.setTitleTextAttributes(attributes, for: .normal)
+			saveButton.setTitleTextAttributes(attributes, for: .normal)
+			cancelButton.setTitleTextAttributes(attributes, for: .highlighted)
+			saveButton.setTitleTextAttributes(attributes, for: .highlighted)
+		}
+			navigationItem.titleView = autoEnchanceButton
 	}
 
 	func setupToolBar() {

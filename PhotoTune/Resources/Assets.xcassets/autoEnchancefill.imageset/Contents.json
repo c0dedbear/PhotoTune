@@ -31,13 +31,14 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "2x",
+      "filename" : "autoEnchance.filled@2x-1.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
           "value" : "light"
         }
-      ]
+      ],
+      "scale" : "2x"
     },
     {
       "idiom" : "universal",
@@ -57,13 +58,14 @@
     },
     {
       "idiom" : "universal",
-      "scale" : "3x",
+      "filename" : "autoEnchance.filled@3x-1.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
           "value" : "light"
         }
-      ]
+      ],
+      "scale" : "3x"
     },
     {
       "idiom" : "universal",
