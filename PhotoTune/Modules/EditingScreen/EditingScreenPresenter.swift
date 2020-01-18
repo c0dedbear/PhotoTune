@@ -30,6 +30,7 @@ protocol IEditingScreenPresenter
 	func onRotateClockwiseTapped()
 	func onRotateAntiClockwiseTapped()
 
+	func onResetTapped()
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
@@ -146,6 +147,27 @@ private extension EditingScreenPresenter
 // MARK: - IEditingScreenPresenter Methods
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func onResetTapped() {
+		guard let actualSettings = imageProcessor.tuneSettings else { return }
+		let defaults = TuneSettings()
+		if actualSettings != defaults {
+			let action = UIAlertAction(title: "Continue", style: .destructive) { [weak self ] _ in
+				self?.imageProcessor.tuneSettings = defaults
+				self?.editingScreen?.unselectAutoEnhanceButton()
+				switch self?.editingScreen?.currentEditingType {
+				case .filters: self?.editingScreen?.showFiltersTool()
+				case .tune: self?.editingScreen?.showTuneTools()
+				case .rotation: self?.editingScreen?.showRotationTool()
+				default: break
+				}
+			}
+			editingScreen?.showResetAlert(
+				title: AlertMessages.resetTitle,
+				message: AlertMessages.resetMessage,
+				yesAction: action)
+		}
+	}
+
 	func onAutoEnchanceTapped(value: Bool) {
 		imageProcessor.tuneSettings?.autoEnchancement = value
 	}
