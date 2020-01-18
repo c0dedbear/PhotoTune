@@ -54,7 +54,7 @@
 		E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
 		E97027FD23B12840000F6A0C /* ToolCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */; };
-		E98382F323CDB66300508D9E /* UIImageView+Scaling.swift in Sources */ = {isa = PBXBuildFile; fileRef = E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */; };
+		E981924023D244D500E5219B /* ImageZoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E981923F23D244D500E5219B /* ImageZoomView.swift */; };
 		E99AD78723C4AD9D000E4655 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99AD78623C4AD9D000E4655 /* StorageService.swift */; };
 		E9AD494C23CA04B600D65B95 /* AlertMessages.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9AD494B23CA04B600D65B95 /* AlertMessages.swift */; };
 		E9B580A323CBC3BC007AC6F9 /* UIAlertController+Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */; };
@@ -112,7 +112,7 @@
 		E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
 		E97027FC23B12840000F6A0C /* ToolCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolCollectionViewCell.swift; sourceTree = "<group>"; };
-		E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Scaling.swift"; sourceTree = "<group>"; };
+		E981923F23D244D500E5219B /* ImageZoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageZoomView.swift; sourceTree = "<group>"; };
 		E99AD78623C4AD9D000E4655 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		E9AD494B23CA04B600D65B95 /* AlertMessages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertMessages.swift; sourceTree = "<group>"; };
 		E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIAlertController+Constraints.swift"; sourceTree = "<group>"; };
@@ -252,7 +252,6 @@
 				E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */,
 				E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */,
 				E9B580A223CBC3BC007AC6F9 /* UIAlertController+Constraints.swift */,
-				E98382F223CDB66300508D9E /* UIImageView+Scaling.swift */,
 			);
 			path = UIExtensions;
 			sourceTree = "<group>";
@@ -356,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				E902893623B0DC7500F28FBA /* EditingView.swift */,
+				E981923F23D244D500E5219B /* ImageZoomView.swift */,
 				E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */,
 				E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */,
 				E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */,
@@ -521,10 +521,10 @@
 				2247570623C61ED30030C9EE /* UnsplashSearchScreenViewController.swift in Sources */,
 				D094AF8D23C66A6C00D863FF /* StartingView.swift in Sources */,
 				2247571B23C9E2790030C9EE /* URLExtension.swift in Sources */,
-				E98382F323CDB66300508D9E /* UIImageView+Scaling.swift in Sources */,
 				D094AF9323C66ACB00D863FF /* EditedImagesRouter.swift in Sources */,
 				D0CA068923ABACF5006CB5AF /* StorageRepository.swift in Sources */,
 				E94D1AD823B29147007A4E86 /* Filter.swift in Sources */,
+				E981924023D244D500E5219B /* ImageZoomView.swift in Sources */,
 				2247572223C9ECB30030C9EE /* Constants.swift in Sources */,
 				E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */,
 				E94D1A7223B13271007A4E86 /* TuneTool.swift in Sources */,
