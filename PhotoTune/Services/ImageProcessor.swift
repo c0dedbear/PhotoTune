@@ -61,11 +61,10 @@ final class ImageProcessor
 	private let context: CIContext
 	private var currentCIImage: CIImage?
 	private var autoEnhanceFilters: [CIFilter]?
-	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.7) }
 	private let screenSize = UIScreen.main.bounds
 
 	init() {
-		throttler = Throttler(minimumDelay: 0.0125)
+		throttler = Throttler(minimumDelay: EditingScreenMetrics.sliderThrottlingDelay)
 		if let device = MTLCreateSystemDefaultDevice() {
 			//use Metal if possible
 			context = CIContext(mtlDevice: device)
@@ -149,7 +148,6 @@ private extension ImageProcessor
 
 	private func appleTuneSettings(to image: UIImage? = nil,
 								   output: ((UIImage?) -> Void)? = nil) {
-
 		DispatchQueue.global(qos: .userInteractive).async {
 			if let image = image {
 				self.currentCIImage = CIImage(image: image)
