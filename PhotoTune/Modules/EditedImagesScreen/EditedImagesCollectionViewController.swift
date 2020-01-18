@@ -42,18 +42,18 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		  		}
 		  		dictionarySelectedIndexPaths.removeAll()
 				navigationItem.rightBarButtonItem = addBarButton
-				editBarButton.title = "Edit"
+				editBarButton.title = "Delete".localized
 				collectionView.allowsMultipleSelection = false
 			case .select:
 				navigationItem.rightBarButtonItem = deleteBarButton
-				editBarButton.title = "Cancel"
+				editBarButton.title = "Cancel".localized
 		  		collectionView.allowsMultipleSelection = true
 			}
 		}
 	}
 
 	private lazy var editBarButton: UIBarButtonItem = {
-		let barButtonItem = UIBarButtonItem(title: "Edit",
+		let barButtonItem = UIBarButtonItem(title: "Delete".localized,
 											style: .plain,
 											target: self,
 											action: #selector(editButtonTapped))
@@ -109,7 +109,7 @@ extension EditedImagesCollectionViewController
 													  for: indexPath) as? EditedImagesScreenCell
 		let editedImage = presenter.getImages()[indexPath.row]
 		cell?.imageView.image = presenter.getPreviewFor(editedImage)
-		cell?.dateLabel.text = "Edited: \(editedImage.formattedDate)"
+		cell?.dateLabel.text = "Edited: ".localized + editedImage.formattedDate
 		return cell ?? UICollectionViewCell()
 	}
 
@@ -154,7 +154,7 @@ private extension EditedImagesCollectionViewController
 		title = "PhotoTune"
 		navigationItem.rightBarButtonItem = addBarButton
 		navigationItem.leftBarButtonItem = editBarButton
-		let backButton = UIBarButtonItem(title: "Back", style: .plain, target: nil, action: nil)
+		let backButton = UIBarButtonItem(title: "Back".localized, style: .plain, target: nil, action: nil)
 		navigationItem.backBarButtonItem = backButton
 		deleteBarButton.tintColor = .red
 
@@ -179,7 +179,7 @@ private extension EditedImagesCollectionViewController
 	func checkNumberOfItems() {
 		if presenter.getImages().isEmpty {
 			addingView.isHidden = false
-			editBarButton.title = "Edit"
+			editBarButton.title = "Delete".localized
 			editBarButton.isEnabled = false
 			deleteBarButton.isEnabled = false
 			navigationItem.rightBarButtonItem = addBarButton
@@ -192,13 +192,13 @@ private extension EditedImagesCollectionViewController
 	}
 
 	@objc func addButtonTapped(_ sender: UIButton) {
-		let alert = UIAlertController(title: "Choose image source", message: nil, preferredStyle: .actionSheet)
+		let alert = UIAlertController(title: "Choose image source".localized, message: nil, preferredStyle: .actionSheet)
 		let imagePicker = UIImagePickerController()
 		imagePicker.delegate = self
 		imagePicker.allowsEditing = true
 
 		if UIImagePickerController.isSourceTypeAvailable(.camera) {
-			let cameraAction = UIAlertAction(title: "Camera", style: .default) { _ in
+			let cameraAction = UIAlertAction(title: "Camera".localized, style: .default) { _ in
 				imagePicker.sourceType = .camera
 				self.present(imagePicker, animated: true)
 			}
@@ -206,7 +206,7 @@ private extension EditedImagesCollectionViewController
 			alert.addAction(cameraAction)
 		}
 		if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
-			let photoLibraryAction = UIAlertAction(title: "PhotoLibrary", style: .default) { _ in
+			let photoLibraryAction = UIAlertAction(title: "PhotoLibrary".localized, style: .default) { _ in
 				imagePicker.sourceType = .photoLibrary
 				self.present(imagePicker, animated: true)
 			}
@@ -214,7 +214,7 @@ private extension EditedImagesCollectionViewController
 			alert.addAction(photoLibraryAction)
 		}
 
-		let findAction = UIAlertAction(title: "Find with Unsplash", style: .default) { _ in
+		let findAction = UIAlertAction(title: "Find with Unsplash".localized, style: .default) { _ in
 			self.presenter.transferToSearchScreen()
 		}
 		findAction.setValue(UIImage(named: "unsplash"), forKey: "image")
@@ -224,7 +224,7 @@ private extension EditedImagesCollectionViewController
 	}
 
 	func cancelAction(_ alert: UIAlertController, _ sender: UIButton) {
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 		alert.addAction(cancelAction)
 		alert.popoverPresentationController?.sourceView = sender
 		alert.pruneNegativeWidthConstraints()

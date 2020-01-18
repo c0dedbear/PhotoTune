@@ -10,8 +10,21 @@ import Foundation
 
 enum EditingType: String
 {
-	case filters = "Filters"
-	case tune = "Tune"
-	case rotation = "Rotation"
+	case filters
+	case tune
+	case rotation
 	case none
+
+	func setTitle() -> String {
+		switch self {
+		case .filters:
+			return "Filters".localized
+		case .tune:
+			return "Tune".localized
+		case .rotation:
+			return "Rotation".localized
+		case .none:
+			return ""
+		}
+	}
 }

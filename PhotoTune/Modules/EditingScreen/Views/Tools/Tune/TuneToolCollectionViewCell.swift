@@ -13,6 +13,7 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 	static let identifier = "TuneToolCollectionViewCell"
 
 	private let indicator = UIView()
+	private let screenSize = UIScreen.main.bounds.width
 
 	var tuneTool: TuneTool? {
 		didSet {
@@ -43,7 +44,12 @@ final class TuneToolCollectionViewCell: ToolCollectionViewCell
 	}
 
 	private func initialSetup() {
-		setFont(.systemFont(ofSize: 14, weight: .light))
+		let screenSizeOfiPhoneSe: CGFloat = 320
+		if screenSize <= screenSizeOfiPhoneSe  {
+			setFont(.systemFont(ofSize: 11, weight: .light))
+		}
+		else { setFont(.systemFont(ofSize: 14, weight: .light)) }
+
 		setImageViewContentMode(mode: .center)
 
 		if #available(iOS 13.0, *) {
