@@ -10,7 +10,6 @@ import UIKit
 
 protocol IUnsplashSearchScreenViewController
 {
-	func updateCellImage(index: Int, image: UIImage)
 	func updatePhotosArray(photosInfo: [UnsplashImage])
 	func checkResultOfRequest(isEmpty: Bool, errorText: String, searchTerm: String?)
 }
@@ -26,6 +25,7 @@ final class UnsplashSearchScreenViewController: UIViewController
 	private let searchStubLabel = UILabel()
 	private var searchText = ""
 	private var page = 1
+	private var imagesCache = NSCache<NSString, AnyObject>()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -113,6 +113,7 @@ extension UnsplashSearchScreenViewController: UISearchBarDelegate
 										}
 										else {
 											guard let self = self else { return }
+											self.imagesCache.removeAllObjects()
 											self.page = 1
 											self.searchText = searchText
 											self.photos = []
@@ -124,12 +125,6 @@ extension UnsplashSearchScreenViewController: UISearchBarDelegate
 
 extension UnsplashSearchScreenViewController: IUnsplashSearchScreenViewController
 {
-	func updateCellImage(index: Int, image: UIImage) {
-		guard let cell = self.collectionView.cellForItem(at: IndexPath(row: index,
-																	   section: 0)) as? ImageCollectionViewCell else { return }
-		cell.imageView.image = image
-	}
-
 	func updatePhotosArray(photosInfo: [UnsplashImage]) {
 		let photosCount = self.photos.count
 		self.photos += photosInfo
@@ -168,9 +163,18 @@ extension UnsplashSearchScreenViewController: UICollectionViewDataSource
 		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
-		presenter.loadImage(urlString: photos[indexPath.item].urls.small,
-							cell: true) { image in
-			cell.imageView.image = image
+		cell.backgroundColor = .white
+		if let cacheImage = imagesCache.object(forKey: NSString(string: "\(indexPath.item)")) {
+			cell.imageView.image = cacheImage as? UIImage
+		}
+		else {
+			presenter.loadImage(urlString: photos[indexPath.item].urls.small,
+								cell: true) { [weak self] image in
+									if let image = image, let self = self {
+										self.imagesCache.setObject(image, forKey: NSString(string: "\(indexPath.item)"))
+										cell.imageView.image = image
+									}
+			}
 		}
 		cell.layoutIfNeeded()
 		return cell
