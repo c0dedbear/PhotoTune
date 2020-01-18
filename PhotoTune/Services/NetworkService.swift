@@ -14,8 +14,9 @@ typealias ImageResult = Result<UIImage, NetworkError>
 
 protocol INetworkService
 {
-	func getRandomUnsplashImagesInfo(_ completion: @escaping (UnsplashImageInfoResult) -> Void)
-	func getUnsplashImagesInfo(with searchTerm: String, _ completion: @escaping (UnsplashImageInfoResult) -> Void)
+	func getUnsplashImagesInfo(with searchTerm: String?,
+							   page: Int?,
+							   _ completion: @escaping (UnsplashImageInfoResult) -> Void)
 	func loadImage(urlString: String, _ completion: @escaping (ImageResult) -> Void)
 }
 
@@ -42,32 +43,23 @@ final class NetworkService
 		}
 		task.resume()
 	}
+
+	private func createUrl(searchTerm: String?, page: Int?) -> URL? {
+		if let page = page, let searchTerm = searchTerm {
+			return URL.with(string: Urls.searchPhotosUrl + "\(searchTerm)" + "&page=" + "\(page)")
+		}
+		else {
+			return URL.with(string: "photos/random?count=20")
+		}
+	}
 }
 
 extension NetworkService: INetworkService
 {
-	func getRandomUnsplashImagesInfo(_ completion: @escaping (UnsplashImageInfoResult) -> Void) {
-		if let url = URL.with(string: "photos/random?count=10") {
-			fetchData(from: url) { dataResult in
-				switch dataResult {
-				case .success(let data):
-					do {
-						let unsplashImages = try JSONDecoder().decode([UnsplashImage].self, from: data)
-						completion(.success(unsplashImages))
-					}
-					catch {
-						completion(.failure(NetworkError.dataError))
-						return
-					}
-				case .failure(let error):
-					completion(.failure(error))
-				}
-			}
-		}
-	}
-
-	func getUnsplashImagesInfo(with searchTerm: String, _ completion: @escaping (UnsplashImageInfoResult) -> Void) {
-		if let url = URL.with(string: "search/photos?per_page=10&query=\(searchTerm)&page=1") {
+	func getUnsplashImagesInfo(with searchTerm: String?,
+							   page: Int?,
+							   _ completion: @escaping (UnsplashImageInfoResult) -> Void) {
+		if let url = createUrl(searchTerm: searchTerm, page: page) {
 			fetchData(from: url) { dataResult in
 				switch dataResult {
 				case .success(let data):
@@ -76,8 +68,14 @@ extension NetworkService: INetworkService
 						completion(.success(unsplashImages.results))
 					}
 					catch {
-						completion(.failure(NetworkError.dataError))
-						return
+						do {
+							let unsplashImages = try JSONDecoder().decode([UnsplashImage].self, from: data)
+							completion(.success(unsplashImages))
+						}
+						catch {
+							completion(.failure(NetworkError.dataError))
+							return
+						}
 					}
 				case .failure(let error):
 					completion(.failure(error))

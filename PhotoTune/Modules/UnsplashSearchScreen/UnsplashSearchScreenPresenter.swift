@@ -10,8 +10,7 @@ import UIKit
 
 protocol IUnsplashSearchScreenPresenter
 {
-	func getRandomImages()
-	func getImages(with searchTerm: String)
+	func getImages(with searchTerm: String?, page: Int?)
 	func loadImage(urlString: String, cell: Bool, _ completion: @escaping (UIImage?) -> Void)
 }
 
@@ -30,32 +29,8 @@ final class UnsplashSearchScreenPresenter
 
 extension UnsplashSearchScreenPresenter: IUnsplashSearchScreenPresenter
 {
-	func getRandomImages() {
-		self.networkService.getRandomUnsplashImagesInfo{ [weak self] unsplashImagesResult in
-			guard let self = self else { return }
-			switch unsplashImagesResult {
-			case .success(let data):
-				DispatchQueue.main.async {
-					if data.count == 0 {
-						self.unsplashSearchScreen?.checkResultOfRequest(isEmpty: true, errorText: "", searchTerm: nil)
-					}
-					else {
-						self.unsplashSearchScreen?.checkResultOfRequest(isEmpty: false, errorText: "", searchTerm: nil)
-						self.unsplashSearchScreen?.updatePhotosArray(photosInfo: data)
-					}
-				}
-			case .failure(let error):
-				DispatchQueue.main.async {
-					self.unsplashSearchScreen?.checkResultOfRequest(isEmpty: true,
-																  errorText: error.localizedDescription,
-																  searchTerm: nil)
-				}
-			}
-		}
-	}
-
-	func getImages(with searchTerm: String) {
-		self.networkService.getUnsplashImagesInfo(with: searchTerm) { [weak self] unsplashImagesResult in
+	func getImages(with searchTerm: String?, page: Int?) {
+		self.networkService.getUnsplashImagesInfo(with: searchTerm, page: page) { [weak self] unsplashImagesResult in
 			guard let self = self else { return }
 			switch unsplashImagesResult {
 			case .success(let data):
