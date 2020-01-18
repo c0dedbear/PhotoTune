@@ -128,7 +128,6 @@ private extension EditingView
 		imageView.contentMode = .scaleAspectFit
 		addSubview(imageView)
 		addSubview(editingView)
-		imageView.enableZoom()
 	}
 
 	func setConstraints() {
