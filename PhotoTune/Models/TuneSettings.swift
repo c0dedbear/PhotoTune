@@ -62,7 +62,7 @@ enum TuneSettingsDefaults
 	static let contrastIntensity: Float = 1
 	static let minContrastIntensity: Float = 0.5
 	static let maxContrastIntensity: Float = 1.5
-	static let contrastIntensityStep: Float = 1.012
+	static let contrastIntensityStep: Float = 1.016
 
 	static let saturationIntensity: Float = 1
 	static let minSaturationIntensity: Float = 0.25
