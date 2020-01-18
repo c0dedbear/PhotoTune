@@ -32,31 +32,36 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		return layout
 	}()
 
-	private var dictionarySelectedIndexPaths: [IndexPath: Bool] = [:]
+	private var selectedIndexPaths: [IndexPath: Bool] = [:]
 	private var mode: Mode = .view {
 		didSet {
 			switch mode {
 			case .view:
-				for (key, value) in dictionarySelectedIndexPaths where value {
+				for (key, value) in selectedIndexPaths where value {
 					collectionView.deselectItem(at: key, animated: true)
 		  		}
-		  		dictionarySelectedIndexPaths.removeAll()
+		  		selectedIndexPaths.removeAll()
 				navigationItem.rightBarButtonItem = addBarButton
-				editBarButton.title = "Delete".localized
+				navigationItem.leftBarButtonItem = selectBarButton
 				collectionView.allowsMultipleSelection = false
 			case .select:
 				navigationItem.rightBarButtonItem = deleteBarButton
-				editBarButton.title = "Cancel".localized
+				navigationItem.leftBarButtonItem = cancelBarButton
 		  		collectionView.allowsMultipleSelection = true
 			}
 		}
 	}
 
-	private lazy var editBarButton: UIBarButtonItem = {
-		let barButtonItem = UIBarButtonItem(title: "Delete".localized,
+	private lazy var selectBarButton: UIBarButtonItem = {
+		let barButtonItem = UIBarButtonItem(image: UIImage(named: "removeIcon"),
 											style: .plain,
 											target: self,
-											action: #selector(editButtonTapped))
+											action: #selector(selectButtonTapped))
+		return barButtonItem
+	}()
+
+	private lazy var cancelBarButton: UIBarButtonItem = {
+		let barButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(selectButtonTapped))
 		return barButtonItem
 	}()
 
@@ -64,6 +69,8 @@ final class EditedImagesCollectionViewController: UICollectionViewController
 		let barButtonItem = UIBarButtonItem(barButtonSystemItem: .trash,
 											target: self,
 											action: #selector(deleteButtonTapped))
+		barButtonItem.tintColor = .red
+
 		return barButtonItem
 	}()
 
@@ -120,13 +127,13 @@ extension EditedImagesCollectionViewController
 			let selectedImage = presenter.getImages()[indexPath.row]
 			presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
 		case .select:
-			dictionarySelectedIndexPaths[indexPath] = true
+			selectedIndexPaths[indexPath] = true
 		}
 	}
 
 	override func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
 		if mode == .select {
-			dictionarySelectedIndexPaths[indexPath] = false
+			selectedIndexPaths[indexPath] = false
 		}
 	}
 }
@@ -153,15 +160,15 @@ private extension EditedImagesCollectionViewController
 	func setupView() {
 		title = "PhotoTune"
 		navigationItem.rightBarButtonItem = addBarButton
-		navigationItem.leftBarButtonItem = editBarButton
+		navigationItem.leftBarButtonItem = selectBarButton
 		let backButton = UIBarButtonItem(title: "Back".localized, style: .plain, target: nil, action: nil)
 		navigationItem.backBarButtonItem = backButton
-		deleteBarButton.tintColor = .red
 
 		if #available(iOS 13.0, *) {
 			collectionView.backgroundColor = .systemBackground
 		}
 		else { collectionView.backgroundColor = .white }
+
 		collectionView.register(EditedImagesScreenCell.self, forCellWithReuseIdentifier: reuseIdentifier)
 		view.addSubview(addingView)
 		addingView.addingButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
@@ -179,15 +186,13 @@ private extension EditedImagesCollectionViewController
 	func checkNumberOfItems() {
 		if presenter.getImages().isEmpty {
 			addingView.isHidden = false
-			editBarButton.title = "Delete".localized
-			editBarButton.isEnabled = false
-			deleteBarButton.isEnabled = false
+			navigationItem.leftBarButtonItem = selectBarButton
+			selectBarButton.isEnabled = false
 			navigationItem.rightBarButtonItem = addBarButton
 		}
 		else {
 			addingView.isHidden = true
-			editBarButton.isEnabled = true
-			deleteBarButton.isEnabled = true
+			selectBarButton.isEnabled = true
 		}
 	}
 
@@ -230,7 +235,7 @@ private extension EditedImagesCollectionViewController
 		alert.pruneNegativeWidthConstraints()
 		present(alert, animated: true)
 	}
-	@objc func editButtonTapped() {
+	@objc func selectButtonTapped() {
 		if presenter.getImages().count > 0 {
 			if mode == .view {
 				mode = .select
@@ -240,7 +245,7 @@ private extension EditedImagesCollectionViewController
 	}
 	@objc func deleteButtonTapped() {
 		guard let selectedIndexPaths = self.collectionView.indexPathsForSelectedItems else { return }
-		presenter.deleteImagesFromStorage(selectedIndexPaths)
+		presenter.removeImagesFromStorage(selectedIndexPaths)
 		mode = .view
 		checkNumberOfItems()
 	}
