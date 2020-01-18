@@ -69,9 +69,6 @@ private extension EditingScreenViewController
 	func setupEditingView() {
 		editingView.hideAllToolsViews(except: currentEditingType)
 		editingView.setImage(presenter.getInitialImage())
-		if let angle = presenter.getTuneSettings()?.rotationAngle {
-			editingView.setTransform(CGAffineTransform(rotationAngle: angle))
-		}
 		currentEditingType = .filters
 	}
 	func setupNavigationBar() {
@@ -144,9 +141,7 @@ private extension EditingScreenViewController
 	}
 
 	// MARK: Objc Handling Methods
-	@objc func resetTapped() {
-		presenter.onResetTapped()
-	}
+	@objc func resetTapped() { presenter.onResetTapped() }
 	@objc func cancelTapped() { presenter.onCancelTapped() }
 	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }

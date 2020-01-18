@@ -8,10 +8,10 @@
 
 import Foundation
 
-enum EditingType: String
+enum EditingType
 {
-	case filters = "Filters"
-	case tune = "Tune"
-	case rotation = "Rotation"
+	case filters
+	case tune
+	case rotation
 	case none
 }

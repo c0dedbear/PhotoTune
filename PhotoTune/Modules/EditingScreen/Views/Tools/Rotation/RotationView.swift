@@ -61,13 +61,9 @@ final class RotationView: UIView
 
 	@objc private func rotateClockwisePressed() {
 		parentView?.toolsDelegate?.rotateClockwise()
-		guard let angle = parentView?.toolsDelegate?.loadTuneSettings()?.rotationAngle else { return }
-		parentView?.setTransform(CGAffineTransform(rotationAngle: angle))
 	}
 
 	@objc private func rotateAntiClockwisePressed() {
 		parentView?.toolsDelegate?.rotateAntiClockwise()
-		guard let angle = parentView?.toolsDelegate?.loadTuneSettings()?.rotationAngle else { return }
-		parentView?.setTransform(CGAffineTransform(rotationAngle: angle))
 	}
 }

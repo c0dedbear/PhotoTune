@@ -15,14 +15,12 @@ protocol IImageProcessor: AnyObject
 {
 	var initialImage: UIImage? { get set }
 	var tunedImage: UIImage? { get set }
-	var transformedImage: UIImage? { get }
 
 	var tuneSettings: TuneSettings? { get set }
 	var outputSource: IImageProcessorOutputSource? { get set }
 
 	func clearContexCache()
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
-	func makeFullSizeTunedImage(from image: UIImage, output: @escaping ((UIImage?) -> Void))
 }
 
 protocol IImageProcessorOutputSource: AnyObject
@@ -46,8 +44,6 @@ final class ImageProcessor
 
 	var tunedImage: UIImage? { didSet { outputSource?.updateImage(image: tunedImage) } }
 
-	var transformedImage: UIImage? { applyTransform(ciImage: currentCIImage) }
-
 	var tuneSettings: TuneSettings? {
 		didSet {
 			throttler.throttle {
@@ -61,10 +57,11 @@ final class ImageProcessor
 	private let context: CIContext
 	private var currentCIImage: CIImage?
 	private var autoEnhanceFilters: [CIFilter]?
+	private var jpegData: Data? { initialImage?.jpegData(compressionQuality: 0.8) }
 	private let screenSize = UIScreen.main.bounds
 
 	init() {
-		throttler = Throttler(minimumDelay: EditingScreenMetrics.sliderThrottlingDelay)
+		throttler = Throttler(minimumDelay: 0.0125)
 		if let device = MTLCreateSystemDefaultDevice() {
 			//use Metal if possible
 			context = CIContext(mtlDevice: device)
@@ -118,26 +115,19 @@ private extension ImageProcessor
 		return vignetteFilter.outputImage
 	}
 
-	private func applyTransform(ciImage: CIImage?) -> UIImage? {
-		/*
-		Call this method only when save or export image, because it's expensive for real time using.
-		RatherUse your's imageView .transform property for showing real time transformation to user.
-		*/
+	private func rotateImage(ciImage: CIImage?) -> CIImage? {
 		guard let filter = Filter.transform.ciFilter else { return nil }
 		guard let angle = tuneSettings?.rotationAngle else { return nil }
 
-		let transform = CGAffineTransform(rotationAngle: -angle)
+		let transform = CGAffineTransform(rotationAngle: angle)
 
 		filter.setValue(ciImage, forKey: kCIInputImageKey)
 		filter.setValue(transform, forKey: kCIInputTransformKey)
 
-		currentCIImage = filter.outputImage
-		guard let ciOuput = self.currentCIImage else { return nil }
-		guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return nil }
-		return UIImage(cgImage: cgImage)
+		return filter.outputImage
 	}
 
-	private func autoEnchance() {
+	func autoEnchance() {
 		if let filters = autoEnhanceFilters {
 			for filter in filters {
 				filter.setValue(currentCIImage, forKey: kCIInputImageKey)
@@ -146,40 +136,31 @@ private extension ImageProcessor
 		}
 	}
 
-	private func appleTuneSettings(to image: UIImage? = nil,
-								   output: ((UIImage?) -> Void)? = nil) {
+	func appleTuneSettings() {
+		guard let imageData = jpegData else { return }
+		guard let inputImage = UIImage(data: imageData) else { return }
+
+		currentCIImage = CIImage(image: inputImage)
+
+		currentCIImage = colorControls(ciInput: currentCIImage)
+		currentCIImage = rotateImage(ciImage: currentCIImage)
+		currentCIImage = vignette(ciInput: currentCIImage)
+		currentCIImage = sharpness(ciInput: currentCIImage)
+
+		if let photoFilterOutput = photoFilter(ciInput: currentCIImage) {
+			currentCIImage = photoFilterOutput
+		}
+
+		if self.tuneSettings?.autoEnchancement == true {
+			autoEnchance()
+		}
+
+		guard let ciOuput = self.currentCIImage else { return }
+
 		DispatchQueue.global(qos: .userInteractive).async {
-			if let image = image {
-				self.currentCIImage = CIImage(image: image)
-			}
-			else {
-				guard let inputImage = self.initialImage else { return }
-				self.currentCIImage = CIImage(image: inputImage)
-			}
-
-			self.currentCIImage = self.colorControls(ciInput: self.currentCIImage)
-			self.currentCIImage = self.vignette(ciInput: self.currentCIImage)
-			self.currentCIImage = self.sharpness(ciInput: self.currentCIImage)
-
-			if let photoFilterOutput = self.photoFilter(ciInput: self.currentCIImage) {
-				self.currentCIImage = photoFilterOutput
-			}
-
-			if self.tuneSettings?.autoEnchancement == true {
-				self.autoEnchance()
-			}
-
-			guard let ciOuput = self.currentCIImage else { return }
-
-			if output != nil {
-				if let image = self.transformedImage {
-				output?(image)
-				}
-				return
-			}
-
+			guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
 			DispatchQueue.main.async {
-				self.tunedImage = UIImage(ciImage: ciOuput, scale: self.initialImage?.scale ?? 0.5, orientation: .up)
+				self.tunedImage = UIImage(cgImage: cgImage)
 			}
 		}
 	}
@@ -187,13 +168,6 @@ private extension ImageProcessor
 // MARK: - IImageProcessor Methods
 extension ImageProcessor: IImageProcessor
 {
-	func makeFullSizeTunedImage(from image: UIImage, output: @escaping ((UIImage?) -> Void))  {
-
-		appleTuneSettings(to: image) { image in
-			output(image)
-		}
-	}
-
 	func clearContexCache() {
 		context.clearCaches()
 	}

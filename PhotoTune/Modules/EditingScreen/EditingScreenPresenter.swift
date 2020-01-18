@@ -48,8 +48,6 @@ final class EditingScreenPresenter
 	private var imageProcessor: IImageProcessor
 	private var previews: [(title: String, image: UIImage?)] = []
 
-	private let screenSize = UIScreen.main.bounds
-
 	init(
 		image: UIImage?,
 		editedImage: EditedImage?,
@@ -57,7 +55,7 @@ final class EditingScreenPresenter
 		storageService: IStorageService) {
 		self.originalImage = image
 		self.editedImage = editedImage
-		resizedImage = image?.resized(toWidth: screenSize.width)
+		resizedImage = image?.resized(toWidth: EditingScreenMetrics.scaleImageWidth)
 		self.imageProcessor = imageProcessor
 		self.storageService = storageService
 		self.imageProcessor.outputSource = self
@@ -68,22 +66,24 @@ final class EditingScreenPresenter
 private extension EditingScreenPresenter
 {
 	func makePreviews() {
-		if let newImage = resizedImage {
+		if let newImage = originalImage?.resized(toWidth: EditingScreenMetrics.scaleImageWidth) {
 			imageProcessor.initialImage = newImage
 			imageProcessor.tuneSettings = TuneSettings()
-			previews = imageProcessor.filtersPreviews(image: newImage)
+			previews = imageProcessor.filtersPreviews(image: newImage.resized(toWidth:
+				EditingScreenMetrics.previewImageSize) ?? newImage)
 			return
 		}
 
 		if let editedImage = editedImage {
 			storageService.loadImage(filename: editedImage.imageFileName) { image in
-				guard let storedImage = image?.resized(toWidth: screenSize.width) else {
+				guard let storedImage = image else {
 					assertionFailure(AlertMessages.noStoredData)
 					return
 				}
-				imageProcessor.initialImage = storedImage
+				imageProcessor.initialImage = storedImage.resized(toWidth: EditingScreenMetrics.scaleImageWidth)
 				imageProcessor.tuneSettings = editedImage.tuneSettings
-				previews = imageProcessor.filtersPreviews(image: storedImage)
+				previews = imageProcessor.filtersPreviews(image: storedImage.resized(toWidth:
+					EditingScreenMetrics.previewImageSize) ?? storedImage)
 			}
 		}
 	}
@@ -93,7 +93,8 @@ private extension EditingScreenPresenter
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
-		guard let previewImage = self.imageProcessor.transformedImage?.resized(toWidth: screenSize.width / 2) else {
+		guard let previewImage = self.imageProcessor.tunedImage?.resized(toWidth: EditingScreenMetrics.previewImageSize)
+			else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
@@ -106,7 +107,7 @@ private extension EditingScreenPresenter
 		storageService.storeImage(currentImage, filename: filename) { [weak self] in
 			self?.storageService.storeImage(previewImage, filename: previewFileName) {
 				if var existingEditedImages = self?.storageService.loadEditedImages() {
-					existingEditedImages.insert(editedImage, at: 0)
+					existingEditedImages.append(editedImage)
 					self?.storageService.saveEditedImages(existingEditedImages)
 				}
 				else {
@@ -126,20 +127,20 @@ private extension EditingScreenPresenter
 			return
 		}
 
-		guard let previewImage = self.imageProcessor.transformedImage?.resized(toWidth: screenSize.width / 2) else {
+		guard let previewImage = self.imageProcessor.tunedImage?.resized(toWidth: EditingScreenMetrics.previewImageSize)
+			else {
 			editingScreen?.showErrorAlert(title: AlertMessages.error, message: AlertMessages.nothingToSave, dismiss: true)
 			return
 		}
 
 		editedImage.tuneSettings = imageProcessor.tuneSettings
-		editedImage.editingDate = Date()
 
 		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
 				for (index, item) in currentEditedImages.enumerated()
 					where item.imageFileName == editedImage.imageFileName {
 						currentEditedImages.remove(at: index)
-						currentEditedImages.insert(editedImage, at: 0)
+						currentEditedImages.insert(editedImage, at: index)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
 				self?.editingScreen?.dismiss(toRoot: true, completion: nil)
@@ -206,21 +207,10 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onShareTapped() {
-		if let original = originalImage {
-			imageProcessor.makeFullSizeTunedImage(from: original) { image in
-				self.showActivityController(with: image?.pngData())
-			}
-		}
-		else {
-			guard let editedImage = editedImage else { return }
-			storageService.loadImage(filename: editedImage.imageFileName) { image in
-				if let imageFromDisk = image {
-					imageProcessor.makeFullSizeTunedImage(from: imageFromDisk) { image in
-						self.showActivityController(with: image?.pngData())
-					}
-				}
-			}
-		}
+		guard let data = editingScreen?.currentImage?.pngData() else { return }
+		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+
+		editingScreen?.showAcitivityVC(activityVC)
 	}
 
 	func getInitialImage() -> UIImage? {
@@ -249,11 +239,11 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onRotateAntiClockwiseTapped() {
-		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
+		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
 	}
 
 	func onRotateClockwiseTapped() {
-		imageProcessor.tuneSettings?.rotationAngle += TuneSettingsDefaults.rotationAngleStep
+		imageProcessor.tuneSettings?.rotationAngle -= TuneSettingsDefaults.rotationAngleStep
 	}
 }
 

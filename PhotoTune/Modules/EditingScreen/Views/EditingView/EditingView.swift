@@ -38,7 +38,6 @@ final class EditingView: UIView
 
 	// MARK: Private Properties
 	private let imageZoomView = ImageZoomView()
-	private var defaultImageViewTransform: CGAffineTransform
 	private let editingView = UIView()
 
 	// tools
@@ -48,7 +47,6 @@ final class EditingView: UIView
 	private let slidersStack = ToolSliderView()
 
 	init() {
-		defaultImageViewTransform = imageZoomView.transform
 		super.init(frame: .zero)
 		slidersStack.parentView = self
 		setDelegateWithDataSource()
@@ -63,10 +61,6 @@ final class EditingView: UIView
 	}
 
 	// MARK: Methods
-	func setTransform(_ transform: CGAffineTransform) {
-		imageZoomView.transform = transform
-	}
-
 	func setImage(_ image: UIImage?) {
 		imageZoomView.setImage(image)
 	}
@@ -110,6 +104,7 @@ private extension EditingView
 				at: self?.filtersTools.lastSelectedFilter,
 				animated: false,
 				scrollPosition: .centeredHorizontally)
+			self?.toolsDelegate?.applyFilterToImageWith(index: self?.filtersTools.lastSelectedFilter.item ?? 0)
 		}
 	}
 
