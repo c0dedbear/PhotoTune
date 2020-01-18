@@ -109,6 +109,7 @@ extension EditedImagesCollectionViewController
 													  for: indexPath) as? EditedImagesScreenCell
 		let editedImage = presenter.getImages()[indexPath.row]
 		cell?.imageView.image = presenter.getPreviewFor(editedImage)
+		cell?.dateLabel.text = "Edited: \(editedImage.formattedDate)"
 		return cell ?? UICollectionViewCell()
 	}
 

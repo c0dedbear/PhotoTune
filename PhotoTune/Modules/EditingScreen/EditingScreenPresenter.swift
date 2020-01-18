@@ -30,6 +30,7 @@ protocol IEditingScreenPresenter
 	func onRotateClockwiseTapped()
 	func onRotateAntiClockwiseTapped()
 
+	func onResetTapped()
 	func onShareTapped()
 	func onCancelTapped()
 	func onSaveTapped()
@@ -101,7 +102,7 @@ private extension EditingScreenPresenter
 		storageService.storeImage(currentImage, filename: filename) { [weak self] in
 			self?.storageService.storeImage(previewImage, filename: previewFileName) {
 				if var existingEditedImages = self?.storageService.loadEditedImages() {
-					existingEditedImages.append(editedImage)
+					existingEditedImages.insert(editedImage, at: 0)
 					self?.storageService.saveEditedImages(existingEditedImages)
 				}
 				else {
@@ -127,13 +128,14 @@ private extension EditingScreenPresenter
 		}
 
 		editedImage.tuneSettings = imageProcessor.tuneSettings
+		editedImage.editingDate = Date()
 
 		storageService.storeImage(previewImage, filename: editedImage.previewFileName) { [weak self] in
 			if var currentEditedImages = self?.storageService.loadEditedImages() {
 				for (index, item) in currentEditedImages.enumerated()
 					where item.imageFileName == editedImage.imageFileName {
 						currentEditedImages.remove(at: index)
-						currentEditedImages.insert(editedImage, at: index)
+						currentEditedImages.insert(editedImage, at: 0)
 				}
 				self?.storageService.saveEditedImages(currentEditedImages)
 				self?.editingScreen?.dismiss(toRoot: true, completion: nil)
@@ -145,6 +147,27 @@ private extension EditingScreenPresenter
 // MARK: - IEditingScreenPresenter Methods
 extension EditingScreenPresenter: IEditingScreenPresenter
 {
+	func onResetTapped() {
+		guard let actualSettings = imageProcessor.tuneSettings else { return }
+		let defaults = TuneSettings()
+		if actualSettings != defaults {
+			let action = UIAlertAction(title: "Continue", style: .destructive) { [weak self ] _ in
+				self?.imageProcessor.tuneSettings = defaults
+				self?.editingScreen?.unselectAutoEnhanceButton()
+				switch self?.editingScreen?.currentEditingType {
+				case .filters: self?.editingScreen?.showFiltersTool()
+				case .tune: self?.editingScreen?.showTuneTools()
+				case .rotation: self?.editingScreen?.showRotationTool()
+				default: break
+				}
+			}
+			editingScreen?.showResetAlert(
+				title: AlertMessages.resetTitle,
+				message: AlertMessages.resetMessage,
+				yesAction: action)
+		}
+	}
+
 	func onAutoEnchanceTapped(value: Bool) {
 		imageProcessor.tuneSettings?.autoEnchancement = value
 	}

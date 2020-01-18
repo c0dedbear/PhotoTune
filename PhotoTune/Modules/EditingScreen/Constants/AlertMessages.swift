@@ -17,4 +17,6 @@ enum AlertMessages
 	static let cancelTappedTitle = "Closing Editor".localized
 	static let cancelTappedMessage = "Do you really want close editor?\nIf you have unsaved settings, they will be lost. "
 		.localized
+	static let resetTitle = "Notice"
+	static let resetMessage = "This action will reset all settings, being applied to this image.\nDo you want to continue?"
 }

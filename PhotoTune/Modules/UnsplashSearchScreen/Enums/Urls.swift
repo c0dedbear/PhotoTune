@@ -11,4 +11,5 @@ import Foundation
 enum Urls
 {
 	static let baseUrl = "https://api.unsplash.com/"
+	static let searchPhotosUrl = "search/photos?per_page=20&query="
 }

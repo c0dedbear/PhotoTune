@@ -13,8 +13,8 @@ enum EditingScreenMetrics
 	static let filterCellCornerRadius: CGFloat = 20
 	static let collectionViewLeftInset: CGFloat = 20
 	static let collectionViewRightInset: CGFloat = 20
-	static let filtersLineSpacing: CGFloat = 30
-	static let tuneToolLineSpacing: CGFloat = 40
+	static let filtersLineSpacing: CGFloat = 36
+	static let tuneToolLineSpacing: CGFloat = 44
 	static let tuneCellTapAnimationDuration = 0.1
 	static let filterSelectionDelay = 0.005
 	static let tuneToolIndicatorRadius: CGFloat = 6
