@@ -18,6 +18,6 @@ enum EditingScreenMetrics
 	static let tuneCellTapAnimationDuration = 0.1
 	static let filterSelectionDelay = 0.005
 	static let tuneToolIndicatorRadius: CGFloat = 6
-	static let sliderThrottlingDelay = 0.012
-	static let hapticThrottlingDelay = 0.015
+	static let sliderThrottlingDelay = 0.007
+	static let hapticThrottlingDelay = 0.014
 }
