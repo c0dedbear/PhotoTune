@@ -24,7 +24,8 @@ extension NetworkError: LocalizedError
 		case .dataError:
 			return NSLocalizedString("Error loading", comment: "")
 		case .statusCode(let code):
-			return NSLocalizedString("Status code: \(code)", comment: "")
+			let message = NSLocalizedString("Status code: %d", comment: "")
+			return String.localizedStringWithFormat(message, code)
 		}
 	}
 }

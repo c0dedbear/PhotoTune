@@ -14,4 +14,17 @@ enum EditingType
 	case tune
 	case rotation
 	case none
+
+	func setTitle() -> String {
+		switch self {
+		case .filters:
+			return "Filters".localized
+		case .tune:
+			return "Tune".localized
+		case .rotation:
+			return "Rotation".localized
+		case .none:
+			return ""
+		}
+	}
 }

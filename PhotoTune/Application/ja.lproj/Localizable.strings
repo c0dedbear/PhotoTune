@@ -1,0 +1,49 @@
+/* 
+  Localizable.strings
+  PhotoTune
+
+  Created by MacBook Air on 17.01.2020.
+  Copyright © 2020 Mikhail Medvedev. All rights reserved.
+*/
+
+"Add the image" = "画像を追加する";
+"Сlick button to add image" = "画像を追加するためのクリックボタン";
+"ADD" = "追加";
+"Delete" = "削除する";
+"Cancel" = "キャンセル";
+"Back" = "バック";
+"Select" = "選択する";
+"Done" = "完了";
+"Choose image source" = "画像ソースを選択";
+"Camera" = "カメラ";
+"PhotoLibrary" = "フォトライブラリー";
+"Find with Unsplash" = "スプラッシュで検索";
+"Search" = "探す";
+"Select an image" = "画像を選択してください";
+"By clicking on the \"Select\" button, you will enter the editing mode" = "「選択」ボタンをクリックすると、編集モードに入ります";
+"Nothing found of query " = "クエリが見つかりません ";
+"Filters" = "フィルター";
+"Rotation" = "回転";
+"Tune" = "曲";
+
+"Check your internet connection" = "インターネット接続を確認してください";
+"Error loading" = "読み込みエラー";
+"Status code: %d" = "状態コード: %d";
+"Error" = "エラー";
+"Trying to save new Image as Existing" = "新しい画像を既存として保存しようとしています";
+"Nothing to save" = "保存するものはありません";
+"No stored data" = "保存データなし";
+"Closing Editor" = "エディターを閉じる";
+"Do you really want close editor?\nIf you have unsaved settings, they will be lost. " = "本当に近くのエディターが必要ですか\n未保存の設定がある場合、それらは失われます";
+
+"Brightness" = "輝度";
+"Contrast" = "コントラスト";
+"Saturation" = "飽和";
+"Vignette" = "ビネット";
+"Sharpness" = "シャープネス";
+"Yes" = "はい";
+"No" = "番号";
+"Notice" = "通知";
+"This action will reset all settings, being applied to this image.\nDo you want to continue?" = "この操作により、この画像に適用されているすべての設定がリセットされます\n続行しますか";
+"Continue" = "続ける";
+"Edited: " = "編集済み: ";

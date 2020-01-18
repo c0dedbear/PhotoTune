@@ -10,7 +10,6 @@ import UIKit
 
 protocol IUnsplashSearchScreenViewController
 {
-	func updateCellImage(index: Int, image: UIImage)
 	func updatePhotosArray(photosInfo: [UnsplashImage])
 	func checkResultOfRequest(isEmpty: Bool, errorText: String, searchTerm: String?)
 }
@@ -26,11 +25,12 @@ final class UnsplashSearchScreenViewController: UIViewController
 	private let searchStubLabel = UILabel()
 	private var searchText = ""
 	private var page = 1
+	private var imagesCache = NSCache<NSString, AnyObject>()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		view.backgroundColor = .white
-		self.title = "Search"
+		self.title = "Search".localized
 		setupSearchBar()
 		setupCollectionView()
 		setupSearchStubLabel()
@@ -88,13 +88,13 @@ final class UnsplashSearchScreenViewController: UIViewController
 	}
 
 	private func presentAlert(index: Int) {
-		let alert = UIAlertController(title: "Select an image",
-									  message: "By clicking on the \"Select\" button, you will enter the editing mode",
+		let alert = UIAlertController(title: "Select an image".localized,
+									  message: "By clicking on the \"Select\" button, you will enter the editing mode".localized,
 									  preferredStyle: .alert)
-		let selectAction = UIAlertAction(title: "Select", style: .default) { _ in
+		let selectAction = UIAlertAction(title: "Select".localized, style: .default) { _ in
 					self.presenter.loadImage(urlString: self.photos[index].urls.regular, cell: false) { _ in }
 		}
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 		alert.addAction(cancelAction)
 		alert.addAction(selectAction)
 		present(alert, animated: true)
@@ -113,6 +113,7 @@ extension UnsplashSearchScreenViewController: UISearchBarDelegate
 										}
 										else {
 											guard let self = self else { return }
+											self.imagesCache.removeAllObjects()
 											self.page = 1
 											self.searchText = searchText
 											self.photos = []
@@ -124,12 +125,6 @@ extension UnsplashSearchScreenViewController: UISearchBarDelegate
 
 extension UnsplashSearchScreenViewController: IUnsplashSearchScreenViewController
 {
-	func updateCellImage(index: Int, image: UIImage) {
-		guard let cell = self.collectionView.cellForItem(at: IndexPath(row: index,
-																	   section: 0)) as? ImageCollectionViewCell else { return }
-		cell.imageView.image = image
-	}
-
 	func updatePhotosArray(photosInfo: [UnsplashImage]) {
 		let photosCount = self.photos.count
 		self.photos += photosInfo
@@ -145,7 +140,7 @@ extension UnsplashSearchScreenViewController: IUnsplashSearchScreenViewControlle
 			self.collectionView.isHidden = true
 			self.searchStubLabel.isHidden = false
 			if searchTerm != nil {
-				self.searchStubLabel.text = "Nothing found of query \"\(searchController.searchBar.text ?? "")\""
+				self.searchStubLabel.text = "Nothing found of query ".localized + String(searchController.searchBar.text ?? "")
 			}
 			else {
 				self.searchStubLabel.text = errorText
@@ -168,9 +163,17 @@ extension UnsplashSearchScreenViewController: UICollectionViewDataSource
 		let photoCell = collectionView.dequeueReusableCell(withReuseIdentifier: "photoCell",
 														for: indexPath) as? ImageCollectionViewCell
 		guard let cell = photoCell else { return UICollectionViewCell() }
-		presenter.loadImage(urlString: photos[indexPath.item].urls.small,
-							cell: true) { image in
-			cell.imageView.image = image
+		if let cacheImage = imagesCache.object(forKey: NSString(string: "\(indexPath.item)")) {
+			cell.imageView.image = cacheImage as? UIImage
+		}
+		else {
+			presenter.loadImage(urlString: photos[indexPath.item].urls.small,
+								cell: true) { [weak self] image in
+									if let image = image, let self = self {
+										self.imagesCache.setObject(image, forKey: NSString(string: "\(indexPath.item)"))
+										cell.imageView.image = image
+									}
+			}
 		}
 		cell.layoutIfNeeded()
 		return cell
