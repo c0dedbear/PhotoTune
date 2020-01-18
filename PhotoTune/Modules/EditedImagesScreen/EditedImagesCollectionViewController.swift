@@ -15,11 +15,6 @@ protocol IEditedImagesCollectionViewController: AnyObject
 
 final class EditedImagesCollectionViewController: UICollectionViewController
 {
-	enum Mode
-	{
-		case view, select
-	}
-
 	private let presenter: IEditedImagesPresenter
 	private let reuseIdentifier = "Cell"
 	private let addingView = AddingView()
@@ -158,7 +153,7 @@ extension EditedImagesCollectionViewController: IEditedImagesCollectionViewContr
 private extension EditedImagesCollectionViewController
 {
 	func setupView() {
-		title = "PhotoTune"
+		title = CollectionView.title
 		navigationItem.rightBarButtonItem = addBarButton
 		navigationItem.leftBarButtonItem = selectBarButton
 		let backButton = UIBarButtonItem(title: "Back".localized, style: .plain, target: nil, action: nil)
