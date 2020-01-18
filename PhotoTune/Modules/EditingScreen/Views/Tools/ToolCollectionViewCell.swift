@@ -43,7 +43,7 @@ class ToolCollectionViewCell: UICollectionViewCell
 		title.translatesAutoresizingMaskIntoConstraints = false
 		imageView.fillSuperview()
 
-		title.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.2).isActive = true
+		title.widthAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: 1.5).isActive = true
 		title.centerXAnchor.constraint(equalTo: imageView.centerXAnchor).isActive = true
 		title.anchor(
 			top: nil,
