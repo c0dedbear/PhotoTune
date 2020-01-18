@@ -151,7 +151,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 		guard let actualSettings = imageProcessor.tuneSettings else { return }
 		let defaults = TuneSettings()
 		if actualSettings != defaults {
-			let action = UIAlertAction(title: "Continue", style: .destructive) { [weak self ] _ in
+			let action = UIAlertAction(title: "Continue".localized, style: .destructive) { [weak self ] _ in
 				self?.imageProcessor.tuneSettings = defaults
 				self?.editingScreen?.unselectAutoEnhanceButton()
 				switch self?.editingScreen?.currentEditingType {

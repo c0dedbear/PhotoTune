@@ -232,7 +232,7 @@ extension EditingScreenViewController: IEditingScreen
 
 	func showResetAlert(title: String?, message: String?, yesAction: UIAlertAction) {
 		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
-		let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel)
 		ac.addAction(yesAction)
 		ac.addAction(cancelAction)
 		present(ac, animated: true)

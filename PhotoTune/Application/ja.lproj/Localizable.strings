@@ -43,3 +43,7 @@
 "Sharpness" = "シャープネス";
 "Yes" = "はい";
 "No" = "番号";
+"Notice" = "通知";
+"This action will reset all settings, being applied to this image.\nDo you want to continue?" = "この操作により、この画像に適用されているすべての設定がリセットされます\n続行しますか";
+"Continue" = "続ける";
+"Edited: " = "編集済み: ";
