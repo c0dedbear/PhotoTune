@@ -12,6 +12,7 @@ protocol IUnsplashSearchScreenPresenter
 {
 	func getImages(with searchTerm: String?, page: Int?)
 	func loadImage(urlString: String, cell: Bool, _ completion: @escaping (UIImage?) -> Void)
+	func cancelFetchData(wirhUrl url: String)
 }
 
 final class UnsplashSearchScreenPresenter
@@ -69,5 +70,9 @@ extension UnsplashSearchScreenPresenter: IUnsplashSearchScreenPresenter
 		case .failure: break
 			}
 		}
+	}
+
+	func cancelFetchData(wirhUrl url: String) {
+		networkService.cancelFetchData(withUrl: url)
 	}
 }

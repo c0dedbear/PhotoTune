@@ -18,13 +18,15 @@ protocol INetworkService
 							   page: Int?,
 							   _ completion: @escaping (UnsplashImageInfoResult) -> Void)
 	func loadImage(urlString: String, _ completion: @escaping (ImageResult) -> Void)
+	func cancelFetchData(withUrl url: String)
 }
 
 final class NetworkService
 {
 	private let fetchDataQueue = DispatchQueue(label: "fetchDataQueue",
 											   qos: .userInteractive,
-	attributes: .concurrent)
+											   attributes: .concurrent)
+	private var dataTasks: [URLSessionDataTask] = []
 
 	private func fetchData(from url: URL, _ completion: @escaping(DataResult) -> Void) {
 		var urlRequest = URLRequest(url: url)
@@ -42,6 +44,7 @@ final class NetworkService
 			}
 		}
 		task.resume()
+		dataTasks.append(task)
 	}
 
 	private func createUrl(searchTerm: String?, page: Int?) -> URL? {
@@ -96,5 +99,19 @@ extension NetworkService: INetworkService
 				}
 			}
 		}
+	}
+
+	func cancelFetchData(withUrl url: String) {
+		guard let dataTaskIndex = dataTasks.firstIndex(where: { task in
+			if let taskUrl = task.originalRequest?.url {
+				if String(describing: taskUrl) == url {
+					return true
+				}
+			}
+			return false
+		}) else { return }
+		let dataTask = dataTasks[dataTaskIndex]
+		dataTask.cancel()
+		dataTasks.remove(at: dataTaskIndex)
 	}
 }

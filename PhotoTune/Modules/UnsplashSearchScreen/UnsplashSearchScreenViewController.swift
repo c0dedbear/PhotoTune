@@ -67,6 +67,7 @@ final class UnsplashSearchScreenViewController: UIViewController
 		collectionView.register(ImageCollectionViewCell.self, forCellWithReuseIdentifier: "photoCell")
 		collectionView.dataSource = self
 		collectionView.delegate = self
+		collectionView.prefetchDataSource = self
 		view.addSubview(collectionView)
 		collectionView.translatesAutoresizingMaskIntoConstraints = false
 		collectionView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -197,6 +198,29 @@ extension UnsplashSearchScreenViewController: UICollectionViewDelegate
 				page += 1
 				presenter.getImages(with: searchText, page: page)
 			}
+		}
+	}
+}
+
+extension UnsplashSearchScreenViewController: UICollectionViewDataSourcePrefetching
+{
+	func collectionView(_ collectionView: UICollectionView,
+						prefetchItemsAt indexPaths: [IndexPath]) {
+		for indexPath in indexPaths {
+			if imagesCache.object(forKey: NSString(string: "\(indexPath.item)")) == nil {
+				presenter.loadImage(urlString: photos[indexPath.item].urls.small,
+									cell: true) { [weak self] image in
+										if let image = image, let self = self {
+											self.imagesCache.setObject(image, forKey: NSString(string: "\(indexPath.item)"))
+										}
+				}
+			}
+		}
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
+		for indexPath in indexPaths {
+			presenter.cancelFetchData(wirhUrl: photos[indexPath.row].urls.small)
 		}
 	}
 }
