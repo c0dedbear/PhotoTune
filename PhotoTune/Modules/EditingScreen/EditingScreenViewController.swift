@@ -145,7 +145,10 @@ private extension EditingScreenViewController
 	// MARK: Objc Handling Methods
 	@objc func resetTapped() { presenter.onResetTapped() }
 	@objc func cancelTapped() { presenter.onCancelTapped() }
-	@objc func shareTapped() { presenter.onShareTapped() }
+	@objc func shareTapped() {
+		showActivityIndicator()
+		presenter.onShareTapped()
+	}
 	@objc func saveTapped() { presenter.onSaveTapped() }
 
 	@objc func autoEnchanceTapped() {

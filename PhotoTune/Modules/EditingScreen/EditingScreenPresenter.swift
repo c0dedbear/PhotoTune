@@ -211,6 +211,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 			guard let image = tunedImage else { return }
 			if let data = image.pngData() {
 				let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+				self?.editingScreen?.hideActivityIndicator()
 				self?.editingScreen?.showActivityVC(activityVC)
 			}
 		}

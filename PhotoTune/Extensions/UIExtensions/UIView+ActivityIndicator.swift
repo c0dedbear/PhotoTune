@@ -10,6 +10,7 @@ import UIKit
 
 extension UIView
 {
+	//don't use tag 111 in your project 
 	var isHasActivityIndicator: Bool {
 		for view in self.subviews where view.tag == 111  { return true }
 		return false
@@ -27,12 +28,15 @@ extension UIView
 			container.backgroundColor = UIColor.darkGray.withAlphaComponent(0.3)
 		}
 
-//		let label = UILabel()
-//		label.numberOfLines = 2
-//		label.font = .systemFont(ofSize: 10, weight: .ultraLight)
-//		label.text = "Processing full size image"
-//		label.minimumScaleFactor = 0.5
-//		label.clipsToBounds = true
+		let label = UILabel()
+		label.numberOfLines = 2
+		label.frame = CGRect(x: 0, y: 0, width: 80, height: 12)
+		label.font = .systemFont(ofSize: 12, weight: .thin)
+		label.textAlignment = .center
+		label.textColor = .white
+		label.text = "Processing"
+		label.clipsToBounds = true
+		label.minimumScaleFactor = 0.3
 
 		let loadingView = UIView()
 		loadingView.frame = CGRect(x: 0, y: 0, width: 80, height: 80)
@@ -46,9 +50,9 @@ extension UIView
 		actInd.style = .whiteLarge
 		actInd.center = CGPoint(x: loadingView.frame.size.width / 2,
 								y: loadingView.frame.size.height / 2)
+		loadingView.addSubview(label)
 		loadingView.addSubview(actInd)
 		container.addSubview(loadingView)
-		//container.addSubview(label)
 
 		self.addSubview(container)
 		actInd.startAnimating()
