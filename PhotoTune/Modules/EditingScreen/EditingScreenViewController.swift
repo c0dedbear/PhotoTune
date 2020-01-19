@@ -17,13 +17,15 @@ protocol IEditingScreen: AnyObject
 	func showFiltersTool()
 	func showTuneTools()
 	func showRotationTool()
-	func showAcitivityVC(_ vc: UIActivityViewController)
+	func showActivityVC(_ vc: UIActivityViewController)
 	func showErrorAlert(title: String?, message: String?, dismiss: Bool)
 	func showAttentionAlert(title: String?, message: String?)
 	func showResetAlert(title: String?, message: String?, yesAction: UIAlertAction)
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
 	func updateImageView(image: UIImage?)
 	func unselectAutoEnhanceButton()
+	func showActivityIndicator()
+	func hideActivityIndicator()
 }
 // MARK: - EditingScreenViewController
 final class EditingScreenViewController: UIViewController
@@ -182,6 +184,8 @@ extension EditingScreenViewController: IEditingScreen
 	var currentImage: UIImage? { editingView.currentImage }
 
 	func updateImageView(image: UIImage?) { editingView.setImage(image) }
+	func showActivityIndicator() { view.showActivityIndicator() }
+	func hideActivityIndicator() { view.removeActivityIndicator() }
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
 		if toRoot {
@@ -197,7 +201,7 @@ extension EditingScreenViewController: IEditingScreen
 		}
 	}
 
-	func showAcitivityVC(_ vc: UIActivityViewController) { present(vc, animated: true) }
+	func showActivityVC(_ vc: UIActivityViewController) { present(vc, animated: true) }
 	func showFiltersTool() { editingView.hideAllToolsViews(except: .filters) }
 	func showTuneTools() { editingView.hideAllToolsViews(except: .tune) }
 	func showRotationTool() { editingView.hideAllToolsViews(except: .rotation) }

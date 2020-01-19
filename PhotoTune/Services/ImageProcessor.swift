@@ -19,6 +19,7 @@ protocol IImageProcessor: AnyObject
 	var tuneSettings: TuneSettings? { get set }
 	var outputSource: IImageProcessorOutputSource? { get set }
 
+	func fullSizeTunedImage(_ image: @escaping (UIImage?) -> Void)
 	func clearContexCache()
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 }
@@ -26,6 +27,7 @@ protocol IImageProcessor: AnyObject
 protocol IImageProcessorOutputSource: AnyObject
 {
 	func updateImage(image: UIImage?)
+	func getOriginal(_ image: (UIImage?) -> Void)
 }
 
 // MARK: - ImageProcessor
@@ -171,6 +173,34 @@ extension ImageProcessor: IImageProcessor
 	func clearContexCache() {
 		context.clearCaches()
 	}
+
+	func fullSizeTunedImage(_ image: @escaping (UIImage?) -> Void) {
+		DispatchQueue.global(qos: .userInitiated).async {
+			self.outputSource?.getOriginal { original in
+				if let inputImage = original {
+					var ciImage = CIImage(image: inputImage)
+
+					ciImage = self.colorControls(ciInput: ciImage)
+					ciImage = self.rotateImage(ciImage: ciImage)
+					ciImage = self.vignette(ciInput: ciImage)
+					ciImage = self.sharpness(ciInput: ciImage)
+
+					if let photoFilterOutput = self.photoFilter(ciInput: ciImage) {
+						ciImage = photoFilterOutput
+					}
+
+					if self.tuneSettings?.autoEnchancement == true {
+						self.autoEnchance()
+					}
+
+					guard let ciOuput = ciImage else { return }
+					guard let cgImage = self.context.createCGImage(ciOuput, from: ciOuput.extent) else { return }
+					self.clearContexCache()
+					image(UIImage(cgImage: cgImage))
+				}
+			}
+		}
+}
 
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)] {
 		var previews = [(title: String, image: UIImage?)]()

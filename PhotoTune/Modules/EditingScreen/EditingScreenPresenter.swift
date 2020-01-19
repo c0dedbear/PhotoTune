@@ -159,7 +159,7 @@ private extension EditingScreenPresenter
 			}
 		}
 		DispatchQueue.main.async { [weak self] in
-			self?.editingScreen?.showAcitivityVC(activityVC)
+			self?.editingScreen?.showActivityVC(activityVC)
 		}
 	}
 }
@@ -207,10 +207,13 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onShareTapped() {
-		guard let data = editingScreen?.currentImage?.pngData() else { return }
-		let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
-
-		editingScreen?.showAcitivityVC(activityVC)
+		imageProcessor.fullSizeTunedImage { [weak self] tunedImage in
+			guard let image = tunedImage else { return }
+			if let data = image.pngData() {
+				let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+				self?.editingScreen?.showActivityVC(activityVC)
+			}
+		}
 	}
 
 	func getInitialImage() -> UIImage? {
@@ -250,5 +253,18 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 // MARK: - IImageProcessorOutputSource Methods
 extension EditingScreenPresenter: IImageProcessorOutputSource
 {
+	func getOriginal(_ image: (UIImage?) -> Void) {
+		if let originalImage = originalImage {
+			image(originalImage)
+			return
+		}
+
+		if let editedImage = editedImage {
+			storageService.loadImage(filename: editedImage.imageFileName) { storageImage in
+				image(storageImage)
+			}
+		}
+	}
+
 	func updateImage(image: UIImage?) { editingScreen?.updateImageView(image: image) }
 }
