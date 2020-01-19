@@ -13,7 +13,7 @@ protocol IEditedImagesPresenter
 	func getImages() -> [EditedImage]
 	func loadImages()
 	func getPreviewFor(_ editedImage: EditedImage) -> UIImage?
-	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath])
+	func removeImagesFromStorage(_ selectedIndexPaths: [IndexPath])
 	func transferImageForEditing(image: UIImage?, editedImage: EditedImage?)
 	func transferToSearchScreen()
 }
@@ -50,7 +50,7 @@ extension EditedImagesPresenter: IEditedImagesPresenter
 		viewController?.updateCollectionView()
 	}
 
-	func deleteImagesFromStorage(_ selectedIndexPaths: [IndexPath]) {
+	func removeImagesFromStorage(_ selectedIndexPaths: [IndexPath]) {
 		for indexPath in selectedIndexPaths.sorted(by: { $0.row > $1.row }) {
 			images.remove(at: indexPath.row)
 		}

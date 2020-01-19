@@ -9,7 +9,6 @@
 "Add the image" = "Добавьте изображение";
 "Сlick button to add image" = "Нажмите кнопку, чтобы добавить изображение";
 "ADD" = "Добавить";
-"Delete" = "Удалить";
 "Cancel" = "Закрыть";
 "Back" = "Назад";
 "Select" = "Выбрать";
@@ -22,9 +21,6 @@
 "Select an image" = "Выберите изображение";
 "By clicking on the \"Select\" button, you will enter the editing mode" = "Нажав кнопку \"Выбрать\", вы перейдете в режим редактирования";
 "Nothing found of query " = "Ничего не найдено по запросу ";
-"Filters" = "Фильтры";
-"Rotation" = "Повернуть";
-"Tune" = "Настройки";
 
 "Check your internet connection" = "Проверьте соединение с интернетом";
 "Error loading" = "Ошибка загрузки";
