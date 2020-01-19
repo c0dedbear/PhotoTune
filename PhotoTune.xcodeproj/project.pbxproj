@@ -56,6 +56,7 @@
 		E94D1AD423B2493D007A4E86 /* ToolSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD323B2493D007A4E86 /* ToolSlider.swift */; };
 		E94D1AD823B29147007A4E86 /* Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD723B29147007A4E86 /* Filter.swift */; };
 		E94D1ADA23B4E0EA007A4E86 /* TuneSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */; };
+		E95ECD0E23D3C61C00CCEA34 /* UIView+ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ECD0D23D3C61B00CCEA34 /* UIView+ActivityIndicator.swift */; };
 		E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */; };
 		E97027F723B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */; };
 		E97027F923B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */; };
@@ -122,6 +123,7 @@
 		E94D1AD323B2493D007A4E86 /* ToolSlider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolSlider.swift; sourceTree = "<group>"; };
 		E94D1AD723B29147007A4E86 /* Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Filter.swift; sourceTree = "<group>"; };
 		E94D1AD923B4E0EA007A4E86 /* TuneSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TuneSettings.swift; sourceTree = "<group>"; };
+		E95ECD0D23D3C61B00CCEA34 /* UIView+ActivityIndicator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+ActivityIndicator.swift"; sourceTree = "<group>"; };
 		E97027F423B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegateFlowLayout.swift"; sourceTree = "<group>"; };
 		E97027F623B11F6F000F6A0C /* EditingView+UICollectionViewDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDataSource.swift"; sourceTree = "<group>"; };
 		E97027F823B11FB7000F6A0C /* EditingView+UICollectionViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EditingView+UICollectionViewDelegate.swift"; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 		E902890F23AE75F100F28FBA /* UIExtensions */ = {
 			isa = PBXGroup;
 			children = (
+				E95ECD0D23D3C61B00CCEA34 /* UIView+ActivityIndicator.swift */,
 				E902891023AE75F100F28FBA /* UIView+AnchorsExtension.swift */,
 				E902891423AE88C500F28FBA /* UIView+AnimatedAppearing.swift */,
 				E91518BF23B91F6600F18218 /* UISlider+FrameAndBounds.swift */,
@@ -518,6 +521,7 @@
 				E902890B23AE75D400F28FBA /* TuneToolCollectionViewCell.swift in Sources */,
 				E9B580A523CBDB9D007AC6F9 /* AutoEnchanceButton.swift in Sources */,
 				2247572423C9ED110030C9EE /* Urls.swift in Sources */,
+				E95ECD0E23D3C61C00CCEA34 /* UIView+ActivityIndicator.swift in Sources */,
 				E97027F523B11F3C000F6A0C /* EditingView+UICollectionViewDelegateFlowLayout.swift in Sources */,
 				2247571D23C9E8720030C9EE /* UnsplashImage.swift in Sources */,
 				E9DD388D23CE302A0065DA65 /* Throttler.swift in Sources */,

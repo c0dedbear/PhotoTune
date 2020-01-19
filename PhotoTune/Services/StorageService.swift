@@ -47,7 +47,7 @@ extension StorageService: IStorageService
 	}
 
 	func storeImage(_ image: UIImage, filename: String, completion: (() -> Void)?) {
-		if let data = image.pngData() {
+		if let data = image.jpegData(compressionQuality: 1) {
 			let filePath = getDocumentsDirectory().appendingPathComponent(filename)
 			do {
 				try data.write(to: filePath)

@@ -43,3 +43,6 @@
 "This action will reset all settings, being applied to this image.\nDo you want to continue?" = "Это действие сбросит все настройки, примененные к этому изображению.\nПродолжить?";
 "Continue" = "Продолжить";
 "Edited: " = "Отредактировано: ";
+"Choose resolution:" = "Выберите разрешение:";
+"Optimized" = "Оптимизированное";
+"Full" = "Полное";
