@@ -211,7 +211,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 			self?.editingScreen?.showActivityIndicator()
 			self?.imageProcessor.makeFullSizeTunedImage { tunedImage in
 				guard let image = tunedImage else { return }
-				if let data = image.pngData() {
+				if let data = image.jpegData(compressionQuality: 1) {
 					let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
 					DispatchQueue.main.async {
 						self?.editingScreen?.hideActivityIndicator()
@@ -223,7 +223,7 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 
 		let optimizedAction = UIAlertAction(title: "Optimized".localized, style: .default) { [weak self] _ in
 			guard let image = self?.imageProcessor.tunedImage else { return }
-			if let data = image.pngData() {
+			if let data = image.jpegData(compressionQuality: 0.8) {
 				let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
 				DispatchQueue.main.async {
 					self?.editingScreen?.hideActivityIndicator()
