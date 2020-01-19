@@ -207,12 +207,14 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onShareTapped() {
-		imageProcessor.fullSizeTunedImage { [weak self] tunedImage in
+		imageProcessor.makeFullSizeTunedImage { [weak self] tunedImage in
 			guard let image = tunedImage else { return }
 			if let data = image.pngData() {
 				let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
-				self?.editingScreen?.hideActivityIndicator()
-				self?.editingScreen?.showActivityVC(activityVC)
+				DispatchQueue.main.async {
+					self?.editingScreen?.hideActivityIndicator()
+					self?.editingScreen?.showActivityVC(activityVC)
+				}
 			}
 		}
 	}

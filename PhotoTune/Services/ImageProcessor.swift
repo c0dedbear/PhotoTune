@@ -19,7 +19,7 @@ protocol IImageProcessor: AnyObject
 	var tuneSettings: TuneSettings? { get set }
 	var outputSource: IImageProcessorOutputSource? { get set }
 
-	func fullSizeTunedImage(_ image: @escaping (UIImage?) -> Void)
+	func makeFullSizeTunedImage(_ image: @escaping (UIImage?) -> Void)
 	func clearContexCache()
 	func filtersPreviews(image: UIImage) -> [(title: String, image: UIImage?)]
 }
@@ -176,7 +176,7 @@ extension ImageProcessor: IImageProcessor
 		context.clearCaches()
 	}
 
-	func fullSizeTunedImage(_ image: @escaping (UIImage?) -> Void) {
+	func makeFullSizeTunedImage(_ image: @escaping (UIImage?) -> Void) {
 		DispatchQueue.global(qos: .userInitiated).async {
 			self.outputSource?.getOriginal { original in
 				if let inputImage = original {
