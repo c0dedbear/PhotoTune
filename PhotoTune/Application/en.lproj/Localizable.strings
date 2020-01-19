@@ -43,3 +43,6 @@
 "This action will reset all settings, being applied to this image.\nDo you want to continue?" = "This action will reset all settings, being applied to this image.\nDo you want to continue?";
 "Continue" = "Continue";
 "Edited: " = "Edited: ";
+"Choose resolution:" = "Choose resolution:";
+"Optimized" = "Optimized";
+"Full" = "Full";

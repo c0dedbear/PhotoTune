@@ -20,6 +20,7 @@ protocol IEditingScreen: AnyObject
 	func showActivityVC(_ vc: UIActivityViewController)
 	func showErrorAlert(title: String?, message: String?, dismiss: Bool)
 	func showAttentionAlert(title: String?, message: String?)
+	func showExportAlert(title: String?, message: String?, fullSizeAction: UIAlertAction, optimizedAction: UIAlertAction)
 	func showResetAlert(title: String?, message: String?, yesAction: UIAlertAction)
 	func dismiss(toRoot: Bool, completion: (() -> Void)?)
 	func updateImageView(image: UIImage?)
@@ -152,10 +153,7 @@ private extension EditingScreenViewController
 	// MARK: Objc Handling Methods
 	@objc func resetTapped() { presenter.onResetTapped() }
 	@objc func cancelTapped() { presenter.onCancelTapped() }
-	@objc func shareTapped() {
-		showActivityIndicator()
-		presenter.onShareTapped()
-	}
+	@objc func shareTapped() { presenter.onShareTapped() }
 	@objc func saveTapped() { presenter.onSaveTapped() }
 
 	@objc func autoEnchanceTapped() {
@@ -240,6 +238,15 @@ extension EditingScreenViewController: IEditingScreen
 		let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
 		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel)
 		ac.addAction(yesAction)
+		ac.addAction(cancelAction)
+		present(ac, animated: true)
+	}
+
+	func showExportAlert(title: String?, message: String?, fullSizeAction: UIAlertAction, optimizedAction: UIAlertAction) {
+		let ac = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel)
+		ac.addAction(fullSizeAction)
+		ac.addAction(optimizedAction)
 		ac.addAction(cancelAction)
 		present(ac, animated: true)
 	}

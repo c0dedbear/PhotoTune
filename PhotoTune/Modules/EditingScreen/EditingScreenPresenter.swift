@@ -207,8 +207,22 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	}
 
 	func onShareTapped() {
-		imageProcessor.makeFullSizeTunedImage { [weak self] tunedImage in
-			guard let image = tunedImage else { return }
+		let fullSizedAction = UIAlertAction(title: "Full".localized, style: .default) { [weak self] _ in
+			self?.editingScreen?.showActivityIndicator()
+			self?.imageProcessor.makeFullSizeTunedImage { tunedImage in
+				guard let image = tunedImage else { return }
+				if let data = image.pngData() {
+					let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
+					DispatchQueue.main.async {
+						self?.editingScreen?.hideActivityIndicator()
+						self?.editingScreen?.showActivityVC(activityVC)
+					}
+				}
+			}
+		}
+
+		let optimizedAction = UIAlertAction(title: "Optimized".localized, style: .default) { [weak self] _ in
+			guard let image = self?.imageProcessor.tunedImage else { return }
 			if let data = image.pngData() {
 				let activityVC = UIActivityViewController(activityItems: [data], applicationActivities: [])
 				DispatchQueue.main.async {
@@ -217,6 +231,11 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 				}
 			}
 		}
+		editingScreen?.showExportAlert(
+			title: AlertMessages.exportTitle,
+			message: nil,
+			fullSizeAction: fullSizedAction,
+			optimizedAction: optimizedAction)
 	}
 
 	func getInitialImage() -> UIImage? {

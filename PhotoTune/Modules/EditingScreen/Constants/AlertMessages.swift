@@ -20,4 +20,5 @@ enum AlertMessages
 	static let resetTitle = "Notice".localized
 	static let resetMessage = "This action will reset all settings, being applied to this image.\nDo you want to continue?"
 		.localized
+	static let exportTitle = "Choose resolution:".localized
 }
