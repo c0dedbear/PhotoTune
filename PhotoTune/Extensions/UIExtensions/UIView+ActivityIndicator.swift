@@ -29,8 +29,8 @@ extension UIView
 		}
 
 		let label = UILabel()
-		label.numberOfLines = 2
-		label.frame = CGRect(x: 0, y: 0, width: 80, height: 12)
+		label.numberOfLines = 1
+		label.frame = CGRect(x: 0, y: 2, width: 80, height: 16)
 		label.font = .systemFont(ofSize: 12, weight: .thin)
 		label.textAlignment = .center
 		label.textColor = .white
