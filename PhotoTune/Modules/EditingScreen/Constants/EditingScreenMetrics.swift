@@ -21,6 +21,7 @@ enum EditingScreenMetrics
 	static let sliderThrottlingDelay = 0.0125
 	static let hapticThrottlingDelay = 0.15
 	static let screenSize = UIScreen.main.bounds
+	static let smallScreenSizeWidth: CGFloat = 320
 	static let scaleImageWidth = EditingScreenMetrics.screenSize.width
 	static let previewImageSize = EditingScreenMetrics.screenSize.width / 3
 }
