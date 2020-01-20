@@ -19,16 +19,24 @@ final class ImageZoomView: UIScrollView
 	}()
 
 	var currentImage: UIImage? { imageView?.image }
+	var previousImageSize: CGSize?
 
 	func setImage(_ image: UIImage?) {
 		guard let image = image else { return }
-		imageView?.removeFromSuperview()
-		imageView = nil
-		imageView = UIImageView(image: image)
+		if let prevImageSize = previousImageSize, prevImageSize == image.size {
+			imageView?.image = image
+			configureFor(imageSize: image.size, scale: zoomScale)
+		}
+		else {
+			imageView?.removeFromSuperview()
+			imageView = nil
+			imageView = UIImageView(image: image)
 
-		if let imageView = imageView {
-			addSubview(imageView)
-			configureFor(imageSize: image.size)
+			if let imageView = imageView {
+				addSubview(imageView)
+				configureFor(imageSize: image.size, scale: minimumZoomScale)
+				previousImageSize = image.size
+			}
 		}
 	}
 
@@ -50,10 +58,10 @@ final class ImageZoomView: UIScrollView
 // MARK: - Private Methods
 private extension ImageZoomView
 {
-	func configureFor(imageSize: CGSize) {
+	func configureFor(imageSize: CGSize, scale: CGFloat) {
 		contentSize = imageSize
 		setActualMaxAndMinZoonScaling()
-		zoomScale = minimumZoomScale
+		zoomScale = scale
 		imageView?.addGestureRecognizer(doubleTap)
 		imageView?.isUserInteractionEnabled = true
 	}
