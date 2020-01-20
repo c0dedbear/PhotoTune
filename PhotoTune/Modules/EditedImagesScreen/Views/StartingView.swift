@@ -10,7 +10,7 @@ import UIKit
 
 final class AddingView: UIView
 {
-	let addingButton = UIButton()
+	let addingButton = UIButton(type: .system)
 	private let descriptionLabel = UILabel()
 	private let imageView = UIImageView(image: UIImage(named: "StartView"))
 
@@ -32,15 +32,15 @@ final class AddingView: UIView
 		if #available(iOS 13.0, *) {
 			backgroundColor = .systemBackground
 			addingButton.backgroundColor = .darkGray
-			addingButton.setTitleColor(.systemBackground, for: .normal)
 			descriptionLabel.textColor = .label
 		}
 		else {
 			backgroundColor = .white
 			addingButton.backgroundColor = .darkGray
-			addingButton.setTitleColor(.white, for: .normal)
 			descriptionLabel.textColor = .darkGray
 		}
+		addingButton.setTitleColor(.white, for: .normal)
+
 		imageView.contentMode = .scaleAspectFit
 		imageView.alpha = 0.3
 
