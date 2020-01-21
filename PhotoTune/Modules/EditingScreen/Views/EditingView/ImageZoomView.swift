@@ -18,6 +18,8 @@ final class ImageZoomView: UIScrollView
 		return zoomingTap
 	}()
 
+	private var isFirstLaunch = true
+
 	var currentImage: UIImage? { imageView?.image }
 	var previousImageSize: CGSize?
 
@@ -34,8 +36,9 @@ final class ImageZoomView: UIScrollView
 
 			if let imageView = imageView {
 				addSubview(imageView)
-				configureFor(imageSize: image.size, scale: minimumZoomScale)
-				previousImageSize = image.size
+				configureFor(imageSize: image.size, scale: isFirstLaunch ? 0 : minimumZoomScale)
+				previousImageSize = isFirstLaunch ? nil : image.size
+				isFirstLaunch = false
 			}
 		}
 	}
