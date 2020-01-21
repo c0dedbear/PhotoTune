@@ -251,7 +251,10 @@ extension EditingScreenPresenter: IEditingScreenPresenter
 	func tuneToolPressed() { editingScreen?.showTuneTools() }
 	func rotationToolPressed() { editingScreen?.showRotationTool() }
 
-	func getTuneToolCellDataFor(index: Int) -> TuneTool { TuneTool.allCases[index] }
+	func getTuneToolCellDataFor(index: Int) -> TuneTool {
+		guard index < TuneTool.allCases.count else { return TuneTool.allCases[0] }
+		return TuneTool.allCases[index]
+	}
 	func getTuneToolsCount() -> Int { TuneTool.allCases.count }
 
 	func getFiltersPreview(index: Int) -> (title: String, image: UIImage?) { previews[index] }

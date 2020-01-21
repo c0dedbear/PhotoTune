@@ -18,7 +18,7 @@ struct EditedImage: Codable, Equatable
 
 	var formattedDate: String {
 		let dateFormatter = DateFormatter()
-		dateFormatter.dateStyle = .long
+		dateFormatter.dateStyle = .medium
 		dateFormatter.timeStyle = .short
 		dateFormatter.doesRelativeDateFormatting = true
 		return dateFormatter.string(from: editingDate)

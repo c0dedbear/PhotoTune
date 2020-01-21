@@ -28,6 +28,8 @@ extension UnsplashSearchScreenRouter: IUnsplashSearchScreenRouter
 	func goToTheEditingScreen(image: UIImage) {
 		let editingScreenViewController = factory.createEditingScreenModule(image: image, editedImage: nil)
 		editingScreenViewController.modalPresentationStyle = .fullScreen
-		viewController?.navigationController?.present(editingScreenViewController, animated: true)
+		viewController?.navigationController?.present(editingScreenViewController, animated: true) { [weak self] in
+			self?.viewController?.navigationController?.view.removeActivityIndicator()
+		}
 	}
 }

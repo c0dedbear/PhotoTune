@@ -93,7 +93,9 @@ final class UnsplashSearchScreenViewController: UIViewController
 									  message: "By clicking on the \"Select\" button, you will enter the editing mode".localized,
 									  preferredStyle: .alert)
 		let selectAction = UIAlertAction(title: "Select".localized, style: .default) { _ in
-					self.presenter.loadImage(urlString: self.photos[index].urls.regular, cell: false) { _ in }
+			self.navigationController?.view.showActivityIndicator()
+			self.presenter.loadImage(urlString: self.photos[index].urls.regular, cell: false) { _ in
+			}
 		}
 		let cancelAction = UIAlertAction(title: "Cancel".localized, style: .cancel, handler: nil)
 		alert.addAction(cancelAction)

@@ -34,7 +34,7 @@ extension UIView
 		label.font = .systemFont(ofSize: 12, weight: .thin)
 		label.textAlignment = .center
 		label.textColor = .white
-		label.text = "Processing"
+		label.text = "Processing".localized
 		label.clipsToBounds = true
 		label.minimumScaleFactor = 0.3
 

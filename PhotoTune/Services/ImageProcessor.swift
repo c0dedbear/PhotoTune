@@ -64,14 +64,7 @@ final class ImageProcessor
 
 	init() {
 		throttler = Throttler(minimumDelay: 0.0125)
-		if let device = MTLCreateSystemDefaultDevice() {
-			//use Metal if possible
-			context = CIContext(mtlDevice: device)
-		}
-		else {
-			// use CPU
-			context = CIContext()
-		}
+		context = CIContext()
 	}
 }
 // MARK: - Private Methods

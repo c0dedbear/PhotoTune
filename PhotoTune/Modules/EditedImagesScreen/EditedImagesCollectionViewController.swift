@@ -120,7 +120,10 @@ extension EditedImagesCollectionViewController
 		case .view:
 			collectionView.deselectItem(at: indexPath, animated: true)
 			let selectedImage = presenter.getImages()[indexPath.row]
-			presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+			navigationController?.view.showActivityIndicator()
+			DispatchQueue.main.asyncAfter(deadline: .now() + 0.001) {
+				self.presenter.transferImageForEditing(image: nil, editedImage: selectedImage)
+			}
 		case .select:
 			selectedIndexPaths[indexPath] = true
 		}
