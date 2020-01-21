@@ -192,8 +192,8 @@ extension EditingScreenViewController: IEditingScreen
 	var currentImage: UIImage? { editingView.currentImage }
 
 	func updateImageView(image: UIImage?) { editingView.setImage(image) }
-	func showActivityIndicator() { view.showActivityIndicator() }
-	func hideActivityIndicator() { view.removeActivityIndicator() }
+	func showActivityIndicator() { navigationController?.view.showActivityIndicator() }
+	func hideActivityIndicator() { navigationController?.view.removeActivityIndicator() }
 
 	func dismiss(toRoot: Bool, completion: (() -> Void)?) {
 		if toRoot {
