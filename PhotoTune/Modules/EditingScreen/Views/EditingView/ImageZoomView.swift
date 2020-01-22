@@ -18,8 +18,10 @@ final class ImageZoomView: UIScrollView
 		return zoomingTap
 	}()
 
+	private var isFirstAppearing = true
+	private var previousImageSize: CGSize?
+
 	var currentImage: UIImage? { imageView?.image }
-	var previousImageSize: CGSize?
 
 	func setImage(_ image: UIImage?) {
 		guard let image = image else { return }
@@ -34,10 +36,16 @@ final class ImageZoomView: UIScrollView
 
 			if let imageView = imageView {
 				addSubview(imageView)
-				configureFor(imageSize: image.size, scale: minimumZoomScale)
-				previousImageSize = image.size
+				configureFor(imageSize: image.size, scale: isFirstAppearing ? 0 : minimumZoomScale)
+				previousImageSize = isFirstAppearing ? nil : image.size
 			}
 		}
+
+		if isFirstAppearing {
+			animatedAppearing()
+		}
+
+		isFirstAppearing = false
 	}
 
 	override func layoutSubviews() {
